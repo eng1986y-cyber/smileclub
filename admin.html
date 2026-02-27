@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>관리자 페이지</title>
+
+<style>
+body{
+  margin:0;
+  padding:20px;
+  font-family:Arial;
+  background:#f5f5f5;
+}
+
+h2{ margin-top:40px; }
+
+input{
+  width:100%;
+  height:36px;
+  margin-bottom:6px;
+  padding:0 8px;
+  box-sizing:border-box;
+}
+
+button{
+  height:36px;
+  padding:0 12px;
+  border:none;
+  background:#87CEEB;
+  color:#fff;
+  cursor:pointer;
+  border-radius:6px;
+}
+
+button:hover{ background:#6bbfe0; }
+
+.section{
+  margin-bottom:30px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:10px;
+}
+
+.card{
+  background:#fff;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  cursor:grab;
+  position:relative;
+}
+
+.delete-btn{
+  position:absolute;
+  top:6px;
+  right:6px;
+  background:#ff5c5c;
+  height:24px;
+  font-size:12px;
+}
+
+.save-btn{
+  width:200px;
+  display:block;
+  margin:40px auto;
+  height:45px;
+  font-size:16px;
+}
+
+.admin-container{
+  width:1400px;
+  margin:0 auto;
+}
+
+@media (max-width:1400px){
+  .admin-container{
+    width:100%;
+    padding:0 20px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="admin-container">
+
+<h1>관리자 페이지</h1>
+
+<!-- ================== 상단 배너 ================== -->
+<div class="section">
+<h2>상단 배너 관리</h2>
+<input id="bannerImg" placeholder="배너 이미지 URL">
+<input id="bannerLink" placeholder="배너 클릭 링크">
+</div>
+
+<!-- ================== 소유자 정보 ================== -->
+<div class="section">
+<h2>소유자 정보 관리</h2>
+<input id="ownerNameInput" placeholder="소유자 이름">
+<input id="ownerInstagram" placeholder="인스타그램 URL">
+<input id="ownerYoutube" placeholder="유튜브 URL">
+<input id="ownerBlog" placeholder="블로그 URL">
+<h2>사이트 설명 관리</h2>
+<textarea id="siteDescriptionInput"
+  placeholder="사이트 설명 입력"
+  style="width:100%; height:100px; margin-bottom:10px; padding:10px;"></textarea>
+</div>
+
+<!-- ================== 이미지 광고 ================== -->
+<div class="section">
+<h2>상단 이미지 광고</h2>
+<button onclick="addImageAd()">추가 +</button>
+<div class="grid" id="imageAdmin"></div>
+</div>
+
+<!-- ================== 텍스트 광고 ================== -->
+<div class="section">
+<h2>텍스트 광고</h2>
+<button onclick="addTextAd()">추가 +</button>
+<div class="grid" id="textAdmin"></div>
+</div>
+
+<!-- ================== 정방형 광고 ================== -->
+<div class="section">
+<h2>하단 정방형 광고</h2>
+<button onclick="addSquareAd()">추가 +</button>
+<div class="grid" id="squareAdmin"></div>
+</div>
+
+<button class="save-btn" onclick="saveAll()">저장하기</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>
+
+const imageAdmin=document.getElementById("imageAdmin");
+const textAdmin=document.getElementById("textAdmin");
+const squareAdmin=document.getElementById("squareAdmin");
+
+const bannerImg=document.getElementById("bannerImg");
+const bannerLink=document.getElementById("bannerLink");
+
+const ownerNameInput=document.getElementById("ownerNameInput");
+const ownerInstagram=document.getElementById("ownerInstagram");
+const ownerYoutube=document.getElementById("ownerYoutube");
+const ownerBlog=document.getElementById("ownerBlog");
+
+let dragItem=null;
+
+/* ================= 공통 카드 생성 ================= */
+
+function createCard(innerHTML){
+  const div=document.createElement("div");
+  div.className="card";
+  div.draggable=true;
+  div.innerHTML=`
+    <button class="delete-btn" onclick="this.parentElement.remove()">삭제</button>
+    ${innerHTML}
+  `;
+
+  div.addEventListener("dragstart",()=>dragItem=div);
+  div.addEventListener("dragover",e=>e.preventDefault());
+  div.addEventListener("drop",function(){
+    if(dragItem!==div){
+      div.parentNode.insertBefore(dragItem,div);
+    }
+  });
+
+  return div;
+}
+
+/* ================= 추가 ================= */
+
+function addImageAd(main="", img="", link=""){
+  imageAdmin.appendChild(
+    createCard(`
+      <input value="${main}" placeholder="메인 명칭">
+      <input value="${img}" placeholder="이미지 URL">
+      <input value="${link}" placeholder="클릭 링크">
+    `)
+  );
+}
+
+function addTextAd(title="",link=""){
+  textAdmin.appendChild(
+    createCard(`
+      <input value="${title}" placeholder="광고 제목">
+      <input value="${link}" placeholder="클릭 링크">
+    `)
+  );
+}
+
+function addSquareAd(main="", img="", link=""){
+  squareAdmin.appendChild(
+    createCard(`
+      <input value="${main}" placeholder="메인 명칭">
+      <input value="${img}" placeholder="이미지 URL">
+      <input value="${link}" placeholder="클릭 링크">
+    `)
+  );
+}
+
+/* ================= 불러오기 ================= */
+
+async function loadData(){
+
+  const { data: ads } = await supabaseClient
+    .from("ads")
+    .select("*")
+    .order("id",{ascending:true});
+
+  if(ads){
+    ads.forEach(ad=>{
+      if(ad.type==="image")
+        addImageAd(ad.main_title, ad.image_url, ad.link_url);
+      if(ad.type==="text")
+        addTextAd(ad.title,ad.link_url);
+      if(ad.type==="square")
+        addSquareAd(ad.main_title, ad.image_url, ad.link_url);
+    });
+  }
+
+  const { data: settings } = await supabaseClient
+    .from("site_settings")
+    .select("*")
+    .limit(1);
+
+  if(settings && settings.length>0){
+
+    const s=settings[0];
+
+    bannerImg.value=s.banner_img||"";
+    bannerLink.value=s.banner_link||"";
+
+    ownerNameInput.value=s.owner_name||"";
+    ownerInstagram.value=s.owner_instagram||"";
+    ownerYoutube.value=s.owner_youtube||"";
+    ownerBlog.value=s.owner_blog||"";
+
+    // 🔥 여기로 이동
+    document.getElementById("siteDescriptionInput").value =
+      s.site_description || "";
+  }
+}
+
+/* ================= 저장 ================= */
+
+async function saveAll(){
+
+  await supabaseClient.from("ads").delete().neq("id",0);
+
+for(const block of imageAdmin.children){
+  const i=block.querySelectorAll("input");
+  if(i[1].value.trim()){
+    await supabaseClient.from("ads").insert([{
+      type:"image",
+      main_title:i[0].value.trim(),
+      image_url:i[1].value.trim(),
+      link_url:i[2].value.trim()
+    }]);
+  }
+}
+
+  for(const block of textAdmin.children){
+    const i=block.querySelectorAll("input");
+    if(i[0].value.trim()){
+      await supabaseClient.from("ads").insert([{
+        type:"text",
+        title:i[0].value.trim(),
+        link_url:i[1].value.trim()
+      }]);
+    }
+  }
+
+for(const block of squareAdmin.children){
+  const i=block.querySelectorAll("input");
+  if(i[1].value.trim()){
+    await supabaseClient.from("ads").insert([{
+      type:"square",
+      main_title:i[0].value.trim(),
+      image_url:i[1].value.trim(),
+      link_url:i[2].value.trim()
+    }]);
+  }
+}
+
+  await supabaseClient
+    .from("site_settings")
+    .upsert([{
+      id:1,
+site_description: document
+  .getElementById("siteDescriptionInput")
+  .value.trim(),
+      banner_img:bannerImg.value.trim(),
+      banner_link:bannerLink.value.trim(),
+      owner_name:ownerNameInput.value.trim(),
+      owner_instagram:ownerInstagram.value.trim(),
+      owner_youtube:ownerYoutube.value.trim(),
+      owner_blog:ownerBlog.value.trim()
+    }]);
+
+  alert("저장 완료 ✅");
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>

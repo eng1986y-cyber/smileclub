@@ -139,6 +139,8 @@ button:hover{ background:#6bbfe0; }
 
 <script>
 
+const ADMIN_PASSWORD = "1234"; // ← 여기서 비밀번호 변경
+
 const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
 const squareAdmin=document.getElementById("squareAdmin");
@@ -356,6 +358,28 @@ async function saveAll(){
 }
 
 loadData();
+
+checkLogin();
+
+function checkLogin(){
+
+  const saved = sessionStorage.getItem("adminLogin");
+
+  if(saved === "ok"){
+
+    return;
+  }
+
+  const input = prompt("관리자 비밀번호를 입력하세요");
+
+  if(input === ADMIN_PASSWORD){
+    sessionStorage.setItem("adminLogin","ok");
+    loadData();
+  }else{
+    alert("비밀번호가 틀렸습니다");
+    location.href="/";
+  }
+}
 
 </script>
 

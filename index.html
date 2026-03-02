@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-<title>정보공유 플랫폼</title>
+<title>링크공유 플랫폼</title>
 
 <style>
 body{
@@ -391,7 +391,7 @@ async function loadSite(){
   const { data: ads } = await supabaseClient
     .from("ads")
     .select("*")
-    .order("id",{ascending:true});
+    .order("display_order",{ascending:true});
 
   if(ads){
     ads.forEach(ad=>{

@@ -293,7 +293,11 @@ async function saveAll(){
     }
   }
 
-  /* 전체 교체 방식 */
+  /* 기존 광고 전체 삭제 */
+  const { error: deleteError } = await supabaseClient
+    .from("ads")
+    .delete()
+    .neq("id",0);
 
   if(deleteError){
     alert("삭제 실패");
@@ -301,6 +305,7 @@ async function saveAll(){
     return;
   }
 
+  /* 새 광고 저장 */
   if(newAds.length > 0){
     const { error: insertError } = await supabaseClient
       .from("ads")
@@ -313,7 +318,7 @@ async function saveAll(){
     }
   }
 
-  /* 사이트 설정 */
+  /* 사이트 설정 저장 */
   await supabaseClient
     .from("site_settings")
     .upsert([{

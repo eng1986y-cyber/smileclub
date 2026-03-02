@@ -294,10 +294,6 @@ async function saveAll(){
   }
 
   /* 전체 교체 방식 */
-  const { error: deleteError } = await supabaseClient
-    .from("ads")
-    .delete()
-    .neq("id",0);
 
   if(deleteError){
     alert("삭제 실패");

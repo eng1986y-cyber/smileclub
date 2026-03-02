@@ -253,6 +253,8 @@ async function loadData(){
 
 async function saveAll(){
 
+  console.log("저장 시작");
+
   const newAds=[];
 
   /* 이미지 광고 */
@@ -294,29 +296,35 @@ async function saveAll(){
   }
 
   /* 기존 광고 전체 삭제 */
-  const { error: deleteError } = await supabaseClient
-    .from("ads")
-    .delete()
-    .neq("id",0);
+const { data: deleteData, error: deleteError } = await supabaseClient
+  .from("ads")
+  .delete()
+  .neq("id",0);
 
-  if(deleteError){
-    alert("삭제 실패");
-    console.error(deleteError);
-    return;
-  }
+console.log("삭제 결과:", deleteData);
+console.log("삭제 에러:", deleteError);
+
+if(deleteError){
+  alert("삭제 실패");
+  console.error(deleteError);
+  return;
+}
 
   /* 새 광고 저장 */
-  if(newAds.length > 0){
-    const { error: insertError } = await supabaseClient
-      .from("ads")
-      .insert(newAds);
+if(newAds.length > 0){
+  const { data: insertData, error: insertError } = await supabaseClient
+    .from("ads")
+    .insert(newAds);
 
-    if(insertError){
-      alert("광고 저장 실패");
-      console.error(insertError);
-      return;
-    }
+  console.log("insert 데이터:", insertData);
+  console.log("insert 에러:", insertError);
+
+  if(insertError){
+    alert("광고 저장 실패");
+    console.error(insertError);
+    return;
   }
+}
 
   /* 사이트 설정 저장 */
   await supabaseClient

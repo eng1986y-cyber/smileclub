@@ -87,6 +87,10 @@ button:hover{ background:#6bbfe0; }
 
 <body>
 
+<style>
+  body { display:none; }
+</style>
+
 <div class="admin-container">
 
 <h1>관리자 페이지</h1>
@@ -218,25 +222,26 @@ async function adminLogin(){
 
   const { data: { session } } = await supabaseClient.auth.getSession();
 
-  if(session){
-    loadData();
-    return;
+  // 🔒 세션 없으면 화면 숨김
+  if(!session){
+
+    const email = prompt("관리자 이메일");
+    const password = prompt("관리자 비밀번호");
+
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if(error){
+      alert("로그인 실패");
+      location.href="/"; // 메인으로 강제 이동
+      return;
+    }
   }
 
-  const email = prompt("관리자 이메일");
-  const password = prompt("관리자 비밀번호");
-
-  const { error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if(error){
-    alert("로그인 실패");
-    location.href="/";
-  }else{
-    loadData();
-  }
+  // 로그인 성공 시에만 실행
+  loadData();
 }
 
 if(error){
@@ -391,6 +396,8 @@ async function saveAll(){
   alert("저장 완료 ✅");
   location.reload();
 }
+
+document.body.style.display = "block";
 
 adminLogin();
 

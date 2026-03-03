@@ -222,7 +222,6 @@ async function adminLogin(){
 
   const { data: { session } } = await supabaseClient.auth.getSession();
 
-  // 🔒 세션 없으면 화면 숨김
   if(!session){
 
     const email = prompt("관리자 이메일");
@@ -235,19 +234,15 @@ async function adminLogin(){
 
     if(error){
       alert("로그인 실패");
-      location.href="/"; // 메인으로 강제 이동
+      location.href="/";
       return;
     }
   }
 
-  // 로그인 성공 시에만 실행
-  loadData();
-}
+  // 로그인 성공했을 때만 화면 표시
+  document.body.style.display = "block";
 
-if(error){
-  console.error(error);
-  alert(error.message);
-  return;
+  loadData();
 }
 
 async function loadData(){
@@ -396,8 +391,6 @@ async function saveAll(){
   alert("저장 완료 ✅");
   location.reload();
 }
-
-document.body.style.display = "block";
 
 adminLogin();
 

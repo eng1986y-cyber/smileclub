@@ -234,6 +234,12 @@ async function adminLogin(){
   }
 }
 
+if(error){
+  console.error(error);
+  alert(error.message);
+  return;
+}
+
 async function loadData(){
 
   const { data: ads } = await supabaseClient

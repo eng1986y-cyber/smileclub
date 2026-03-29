@@ -5,6 +5,55 @@
 <title>관리자 페이지</title>
 
 <style>
+
+.ad-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.ad-title{
+  font-size:20px;
+  font-weight:bold;
+}
+
+.add-btn{
+  height:32px;
+  padding:0 14px;
+  background:#4CAF50;
+  border-radius:6px;
+}
+
+.add-btn:hover{
+  background:#3da444;
+}
+
+.admin-buttons button{
+  width:100px;
+}
+
+#boardAdminList{
+  max-height:800px;
+  overflow:auto;
+}
+
+.board-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+  margin-bottom:60px;
+  align-items:flex-start;
+}
+
+html,body{
+  height:100%;
+}
+
+body.login-mode{
+  overflow:hidden;
+}
+
 body{
   margin:0;
   padding:20px;
@@ -12,10 +61,12 @@ body{
   background:#f5f5f5;
 }
 
-h2{ margin-top:40px; }
+h2{
+  margin-top:0;
+}
 
 input{
-  width:100%;
+  width:99.8%;
   height:36px;
   margin-bottom:6px;
   padding:0 8px;
@@ -35,7 +86,7 @@ button{
 button:hover{ background:#6bbfe0; }
 
 .section{
-  margin-bottom:30px;
+  margin:40px 0;
 }
 
 .grid{
@@ -53,6 +104,17 @@ button:hover{ background:#6bbfe0; }
   position:relative;
 }
 
+/* 게시판 카드 간격 */
+#boardAdminList .card{
+  margin-bottom:10px;
+}
+
+#boardAdminList{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
 .delete-btn{
   position:absolute;
   top:6px;
@@ -62,13 +124,7 @@ button:hover{ background:#6bbfe0; }
   font-size:12px;
 }
 
-.save-btn{
-  width:200px;
-  display:block;
-  margin:40px auto;
-  height:45px;
-  font-size:16px;
-}
+
 
 .admin-container{
   width:1400px;
@@ -82,66 +138,359 @@ button:hover{ background:#6bbfe0; }
   }
 }
 
+.top-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.board-content{
+  flex:1;
+  overflow:auto;
+}
+
+.board-box{
+  background:white;
+  border:1px solid #ddd;
+  border-radius:8px;
+  padding:15px;
+  min-height:500px;
+  display:flex;
+  flex-direction:column;
+}
+
+.board-box input,
+.board-box textarea{
+  width:100%;
+  box-sizing:border-box;
+}
+
+.edit-btn{
+  position:absolute;
+  top:6px;
+  right:60px;
+  height:24px;
+  font-size:12px;
+  background:#4CAF50;
+}
+
+/* 게시판 페이지 버튼 */
+#boardPagination button{
+  background:white;
+  color:#333;
+  border:1px solid #ddd;
+  margin:0 3px;
+}
+
+/* 현재 페이지 */
+#boardPagination button.active{
+  background:#87CEEB;
+  color:white;
+}
+
+.admin-buttons{
+  position:fixed;
+  left:50%;
+  margin-left:720px;   /* 사이트폭(1400px) 기준 오른쪽 */
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  z-index:999;
+}
+
+.top-btn{
+  height:40px;
+  background:#e5e5e5;
+  color:#333;
+}
+
+.admin-main{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.admin-scroll{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  margin-top:15px;
+}
+
+#boardPagination{
+  margin-top:10px;
+  margin-bottom:40px;
+  text-align:center;
+}
+
+.board-box:last-child{
+  margin-bottom:40px;
+}
+
+#visitStats{
+  display:flex;
+  flex-wrap:nowrap;
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+#visitStats div::after{
+  content:"|";
+  margin:0 10px;
+}
+
+#visitStats div:last-child::after{
+  content:"";
+}
+
 </style>
+
 </head>
 
 <body>
 
-<div class="admin-container">
+<div id="loginPage" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100vh;
+background:#f5f5f5;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+">
 
-<h1>관리자 페이지</h1>
+<div style="
+width:320px;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+">
+
+<h2 style="text-align:center;margin-bottom:20px;">
+관리자 로그인
+</h2>
+
+<input id="loginEmail" placeholder="이메일">
+<input id="loginPassword" type="password" placeholder="비밀번호">
+
+<button onclick="adminLogin()" style="width:100%;margin-top:10px;">
+로그인
+</button>
+
+</div>
+</div>
+
+<div class="admin-container" id="adminPage" style="display:none;">
+
+<h1 style="text-align:center;">관리자 페이지</h1>
+
+<div class="section">
+<h2>방문자 통계</h2>
+
+<div id="visitSummary" style="
+display:flex;
+gap:20px;
+margin-bottom:15px;
+font-weight:bold;
+"></div>
+
+<div id="visitStats"></div>
+</div>
+
+<div class="top-grid">
 
 <!-- ================== 상단 배너 ================== -->
+
 <div class="section">
 <h2>상단 배너 관리</h2>
+
 <input id="bannerImg" placeholder="배너 이미지 URL">
+
+<input type="file" accept="image/*"
+  onchange="uploadBannerImage(this)">
+
+<button onclick="deleteBannerImage()" 
+style="background:#ff5c5c;margin-bottom:6px;">
+배너 삭제
+</button>
+
 <input id="bannerLink" placeholder="배너 클릭 링크">
 </div>
 
 <!-- ================== 소유자 정보 ================== -->
+
 <div class="section">
 <h2>소유자 정보 관리</h2>
 <input id="ownerNameInput" placeholder="소유자 이름">
 <input id="ownerInstagram" placeholder="인스타그램 URL">
 <input id="ownerYoutube" placeholder="유튜브 URL">
 <input id="ownerBlog" placeholder="블로그 URL">
+</div>
+
+</div>
+
+<!-- ================== 사이트 설명 ================== -->
+
+<div class="section">
 <h2>사이트 설명 관리</h2>
 <textarea id="siteDescriptionInput"
   placeholder="사이트 설명 입력"
-  style="width:100%; height:100px; margin-bottom:10px; padding:10px;"></textarea>
+  style="width:98.3%; height:100px; margin-bottom:10px; padding:10px;"></textarea>
 </div>
 
 <!-- ================== 이미지 광고 ================== -->
+
 <div class="section">
-<h2>상단 이미지 광고</h2>
-<button onclick="addImageAd()">추가 +</button>
+
+<div class="ad-header">
+<div class="ad-title">상단 이미지 광고</div>
+<button class="add-btn" onclick="addImageAd()">+ 추가</button>
+</div>
+
 <div class="grid" id="imageAdmin"></div>
+
 </div>
 
 <!-- ================== 텍스트 광고 ================== -->
+
 <div class="section">
-<h2>텍스트 광고</h2>
-<button onclick="addTextAd()">추가 +</button>
+
+<div class="ad-header">
+<div class="ad-title">텍스트 광고</div>
+<button class="add-btn" onclick="addTextAd()">+ 추가</button>
+</div>
+
 <div class="grid" id="textAdmin"></div>
+
 </div>
 
 <!-- ================== 정방형 광고 ================== -->
+
 <div class="section">
-<h2>하단 정방형 광고</h2>
-<button onclick="addSquareAd()">추가 +</button>
-<div class="grid" id="squareAdmin"></div>
+
+<div class="ad-header">
+<div class="ad-title">하단 정방형 광고</div>
+<button class="add-btn" onclick="addSquareAd()">+ 추가</button>
 </div>
 
+<div class="grid" id="squareAdmin"></div>
+
+</div>
+
+<!-- ================== SNS 영상 광고 ================== -->
+
+<div class="section">
+
+<div class="ad-header">
+<div class="ad-title">SNS 영상 광고</div>
+<button class="add-btn" onclick="addSnsVideo()">+ 추가</button>
+</div>
+
+<div class="grid" id="snsVideoAdmin"></div>
+
+</div>
+
+<!-- ================== 구글 애드센스 ================== -->
+
+<div class="section">
+
+<div class="ad-header">
+<div class="ad-title">구글 애드센스</div>
+<button class="add-btn" onclick="addAdsense()">+ 추가</button>
+</div>
+
+<div class="grid" id="adsenseAdmin"></div>
+
+</div>
+
+<!-- ================== 게시판 관리 ================== -->
+
+<div class="section board-section">
+<h2>게시판 관리</h2>
+
+<div class="board-grid">
+
+<!-- 왼쪽 : 글 작성 -->
+<div class="board-box">
+
+<select id="boardCategory" style="height:36px;margin-bottom:6px;width:100%;">
+<option value="소식">소식</option>
+<option value="연길">연길</option>
+<option value="훈춘">훈춘</option>
+<option value="화룡">화룡</option>
+<option value="룡정">룡정</option>
+<option value="왕청">왕청</option>
+</select>
+
+<input id="boardTitle" placeholder="글 제목">
+
+<textarea id="boardContent"
+placeholder="글 내용"
+style="width:100%; height:120px; margin-bottom:10px; padding:10px;"></textarea>
+
+<button onclick="addBoardPost()">글 추가</button>
+
+</div>
+
+
+<!-- 오른쪽 : 게시글 목록 -->
+<div class="board-box">
+
+<div class="board-content">
+
+<div id="boardAdminList"></div>
+
+</div>
+
+<div id="boardPagination"
+style="margin-top:10px; margin-bottom:40px; text-align:center;"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="admin-buttons">
+
+<div class="admin-main">
+
 <button class="save-btn" onclick="saveAll()">저장하기</button>
+
+<button onclick="adminLogout()" style="background:#ff5c5c;">
+로그아웃
+</button>
+
+</div>
+
+<div class="admin-scroll">
+
+<button class="top-btn" onclick="scrollToTop()">🔝</button>
+
+<button class="top-btn" onclick="scrollToBottom()">🔻</button>
+
+</div>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 
 <script>
 
+document.body.classList.add("login-mode");
+
 const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
 const squareAdmin=document.getElementById("squareAdmin");
+const snsVideoAdmin=document.getElementById("snsVideoAdmin");
+const adsenseAdmin=document.getElementById("adsenseAdmin");
 
 const bannerImg=document.getElementById("bannerImg");
 const bannerLink=document.getElementById("bannerLink");
@@ -153,6 +502,32 @@ const ownerBlog=document.getElementById("ownerBlog");
 
 let dragItem=null;
 
+async function adminLogin(){
+
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if(error){
+    alert("로그인 실패");
+    return;
+  }
+
+document.getElementById("loginPage").style.display="none";
+document.getElementById("adminPage").style.display="block";
+
+document.body.classList.remove("login-mode");
+
+loadData();
+loadBoardData();
+loadVisitStats();
+
+}
+
 /* ================= 공통 카드 생성 ================= */
 
 function createCard(innerHTML){
@@ -160,7 +535,7 @@ function createCard(innerHTML){
   div.className="card";
   div.draggable=true;
   div.innerHTML=`
-    <button class="delete-btn" onclick="this.parentElement.remove()">삭제</button>
+    <button class="delete-btn" onclick="deleteAd(this)">삭제</button>
     ${innerHTML}
   `;
 
@@ -168,7 +543,7 @@ function createCard(innerHTML){
   div.addEventListener("dragover",e=>e.preventDefault());
   div.addEventListener("drop",function(){
     if(dragItem!==div){
-      div.parentNode.insertBefore(dragItem,div);
+      div.parentNode.insertBefore(dragItem,div.nextSibling);
     }
   });
 
@@ -177,12 +552,19 @@ function createCard(innerHTML){
 
 /* ================= 추가 ================= */
 
-function addImageAd(main="", img="", link=""){
+function addImageAd(main="", img="", link="", video=""){
   imageAdmin.appendChild(
     createCard(`
       <input value="${main}" placeholder="메인 명칭">
+
       <input value="${img}" placeholder="이미지 URL">
+
+      <input type="file" accept="image/*"
+        onchange="uploadImage(this)">
+
       <input value="${link}" placeholder="클릭 링크">
+
+      <input value="${video}" placeholder="동영상 링크 (유튜브)">
     `)
   );
 }
@@ -196,12 +578,43 @@ function addTextAd(title="",link=""){
   );
 }
 
-function addSquareAd(main="", img="", link=""){
+function addSquareAd(main="", img="", link="", video=""){
   squareAdmin.appendChild(
     createCard(`
       <input value="${main}" placeholder="메인 명칭">
+
       <input value="${img}" placeholder="이미지 URL">
+
+      <input type="file" accept="image/*"
+        onchange="uploadImage(this)">
+
       <input value="${link}" placeholder="클릭 링크">
+
+      <input value="${video}" placeholder="동영상 링크 (유튜브)">
+    `)
+  );
+}
+
+function addSnsVideo(title="", thumb="", video=""){
+  snsVideoAdmin.appendChild(
+    createCard(`
+      <input value="${title}" placeholder="영상 제목">
+
+      <input value="${thumb}" placeholder="썸네일 이미지 URL">
+
+      <input type="file" accept="image/*"
+        onchange="uploadImage(this)">
+
+      <input value="${video}" placeholder="bilibili 영상 링크">
+    `)
+  );
+}
+
+function addAdsense(code=""){
+  adsenseAdmin.appendChild(
+    createCard(`
+      <textarea placeholder="구글 애드센스 코드"
+      style="height:120px;">${code}</textarea>
     `)
   );
 }
@@ -210,19 +623,29 @@ function addSquareAd(main="", img="", link=""){
 
 async function loadData(){
 
-  const { data: ads } = await supabaseClient
-    .from("ads")
-    .select("*")
-    .order("id",{ascending:true});
+imageAdmin.innerHTML="";
+textAdmin.innerHTML="";
+squareAdmin.innerHTML="";
+snsVideoAdmin.innerHTML="";
+adsenseAdmin.innerHTML="";
+
+const { data: ads } = await supabaseClient
+  .from("ads")
+  .select("*")
+  .order("sort",{ascending:true});
 
   if(ads){
     ads.forEach(ad=>{
       if(ad.type==="image")
-        addImageAd(ad.main_title, ad.image_url, ad.link_url);
+        addImageAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
       if(ad.type==="text")
         addTextAd(ad.title,ad.link_url);
       if(ad.type==="square")
-        addSquareAd(ad.main_title, ad.image_url, ad.link_url);
+        addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
+      if(ad.type==="sns")
+        addSnsVideo(ad.title, ad.image_url, ad.video_url);
+      if(ad.type==="adsense")
+        addAdsense(ad.code);
     });
   }
 
@@ -253,41 +676,103 @@ async function loadData(){
 
 async function saveAll(){
 
-  await supabaseClient.from("ads").delete().neq("id",0);
+await supabaseClient.from("ads").delete().eq("type","image");
+await supabaseClient.from("ads").delete().eq("type","text");
+await supabaseClient.from("ads").delete().eq("type","square");
+await supabaseClient.from("ads").delete().eq("type","sns");
+await supabaseClient.from("ads").delete().eq("type","adsense");
 
-for(const block of imageAdmin.children){
+for(const [index, block] of [...imageAdmin.children].entries()){
+
   const i=block.querySelectorAll("input");
+
   if(i[1].value.trim()){
+
     await supabaseClient.from("ads").insert([{
       type:"image",
       main_title:i[0].value.trim(),
       image_url:i[1].value.trim(),
-      link_url:i[2].value.trim()
+      link_url:i[3].value.trim(),
+      video_url:i[4].value.trim(),
+      sort:index
     }]);
+
   }
 }
 
-  for(const block of textAdmin.children){
-    const i=block.querySelectorAll("input");
-    if(i[0].value.trim()){
-      await supabaseClient.from("ads").insert([{
-        type:"text",
-        title:i[0].value.trim(),
-        link_url:i[1].value.trim()
-      }]);
-    }
-  }
+for(const [index, block] of [...textAdmin.children].entries()){
 
-for(const block of squareAdmin.children){
   const i=block.querySelectorAll("input");
+
+  if(i[0].value.trim()){
+
+    await supabaseClient.from("ads").insert([{
+      type:"text",
+      title:i[0].value.trim(),
+      link_url:i[1].value.trim(),
+      sort:index
+    }]);
+
+  }
+}
+
+for(const [index, block] of [...squareAdmin.children].entries()){
+
+  const i=block.querySelectorAll("input");
+
   if(i[1].value.trim()){
+
     await supabaseClient.from("ads").insert([{
       type:"square",
       main_title:i[0].value.trim(),
       image_url:i[1].value.trim(),
-      link_url:i[2].value.trim()
+      link_url:i[3].value.trim(),
+      video_url:i[4].value.trim(),
+      sort:index
     }]);
+
   }
+}
+
+for(const [index, block] of [...snsVideoAdmin.children].entries()){
+
+  const i=block.querySelectorAll("input");
+
+  if(i[1].value.trim()){
+
+    await supabaseClient.from("ads").insert([{
+      type:"sns",
+      title:i[0].value.trim(),
+      image_url:i[1].value.trim(),
+      video_url:i[3].value.trim(),
+      sort:index
+    }]);
+
+  }
+}
+
+for(const [index, block] of [...adsenseAdmin.children].entries()){
+
+  const textarea=block.querySelector("textarea");
+
+  if(textarea.value.trim()){
+
+    const { error } = await supabaseClient
+      .from("ads")
+      .insert([{
+        type:"adsense",
+        code:textarea.value,
+        sort:index
+      }]);
+
+    if(error){
+      console.log("애드센스 저장 오류:", error);
+      alert("애드센스 저장 실패");
+      return;
+    }
+
+  }
+
 }
 
   await supabaseClient
@@ -308,7 +793,440 @@ site_description: document
   alert("저장 완료 ✅");
 }
 
-loadData();
+async function init(){
+
+  const { data } = await supabaseClient.auth.getSession();
+
+  if(data.session){
+
+    document.getElementById("loginPage").style.display="none";
+    document.getElementById("adminPage").style.display="block";
+
+    document.body.classList.remove("login-mode");
+
+    loadData();
+    loadBoardData();
+    loadVisitStats();
+
+  }
+
+}
+
+init();
+
+const boardAdminList = document.getElementById("boardAdminList");
+const boardPagination = document.getElementById("boardPagination");
+
+let boardData = [];
+let currentPage = 1;
+let editingPostId = null;
+
+const rowsPerPage = 5;
+const maxPageButtons = 10;
+
+/* 게시판 데이터 불러오기 */
+
+async function loadBoardData(){
+
+  const { data } = await supabaseClient
+    .from("board_posts")
+    .select("*")
+    .order("id",{ascending:false});
+
+  boardData = data || [];
+  currentPage = 1;
+
+  renderBoard();
+}
+
+/* 게시판 출력 */
+
+function escapeHTML(str){
+
+  if(!str) return "";
+
+  return str
+   .replace(/&/g,"&amp;")
+   .replace(/</g,"&lt;")
+   .replace(/>/g,"&gt;");
+
+}
+
+function renderBoard(){
+
+  boardAdminList.innerHTML="";
+
+  const start = (currentPage-1)*rowsPerPage;
+  const end = start+rowsPerPage;
+
+  const pageItems = boardData.slice(start,end);
+
+  pageItems.forEach(post=>{
+
+    const div=document.createElement("div");
+    div.className="card";
+
+    div.innerHTML=`
+<button class="delete-btn"
+onclick="deleteBoardPost(${post.id})">삭제</button>
+
+<button class="edit-btn"
+onclick="editBoardPost(${post.id})">
+수정
+</button>
+
+<div style="font-size:12px;color:#888;margin-bottom:4px;">
+[${escapeHTML(post.category || "일반")}]
+</div>
+
+<strong>${escapeHTML(post.title)}</strong>
+    `;
+
+    boardAdminList.appendChild(div);
+
+  });
+
+  renderPagination();
+
+}
+
+/* 페이지 버튼 */
+
+function renderPagination(){
+
+  boardPagination.innerHTML="";
+
+  const totalPages=Math.ceil(boardData.length/rowsPerPage);
+
+  let startPage=Math.floor((currentPage-1)/maxPageButtons)*maxPageButtons+1;
+  let endPage=Math.min(startPage+maxPageButtons-1,totalPages);
+
+  if(currentPage>1){
+
+    const prev=document.createElement("button");
+    prev.textContent="◀";
+
+    prev.onclick=()=>{
+      currentPage--;
+      renderBoard();
+    };
+
+    boardPagination.appendChild(prev);
+
+  }
+
+  for(let i=startPage;i<=endPage;i++){
+
+    const btn=document.createElement("button");
+    btn.textContent=i;
+
+if(i===currentPage){
+  btn.classList.add("active");
+}
+
+    btn.onclick=()=>{
+      currentPage=i;
+      renderBoard();
+    };
+
+    boardPagination.appendChild(btn);
+
+  }
+
+  if(currentPage<totalPages){
+
+    const next=document.createElement("button");
+    next.textContent="▶";
+
+    next.onclick=()=>{
+      currentPage++;
+      renderBoard();
+    };
+
+    boardPagination.appendChild(next);
+
+  }
+
+}
+
+/* 글 추가 */
+
+async function addBoardPost(){
+
+  const title=document.getElementById("boardTitle").value.trim();
+  const content=document.getElementById("boardContent").value.trim();
+  const category=document.getElementById("boardCategory").value;
+
+  if(!title || !content){
+    alert("제목과 내용을 입력하세요");
+    return;
+  }
+
+  if(editingPostId){
+
+    await supabaseClient
+      .from("board_posts")
+      .update({
+  category:category,
+  title:title,
+  content:content
+})
+      .eq("id",editingPostId);
+
+    editingPostId=null;
+
+  }else{
+
+await supabaseClient.from("board_posts").insert([{
+  category:category,
+  title:title,
+  content:content
+}]);
+
+  }
+
+  document.getElementById("boardTitle").value="";
+  document.getElementById("boardContent").value="";
+
+  loadBoardData();
+
+document.querySelector("button[onclick='addBoardPost()']").textContent="글 추가";
+
+}
+
+/* 글 삭제 */
+
+async function deleteBoardPost(id){
+
+  await supabaseClient
+  .from("board_posts")
+  .delete()
+  .eq("id",id);
+
+  loadBoardData();
+
+}
+
+async function adminLogout(){
+
+  await supabaseClient.auth.signOut();
+
+  document.getElementById("loginPage").style.display="flex";
+  document.getElementById("adminPage").style.display="none";
+
+  document.body.classList.add("login-mode");
+
+}
+
+async function uploadImage(input){
+
+  const file = input.files[0];
+  if(!file) return;
+
+const safeName = file.name.replace(/\s+/g,"_");
+const fileName = crypto.randomUUID()+"_"+safeName;
+
+  const { data, error } = await supabaseClient
+    .storage
+    .from("yb365")
+    .upload(fileName, file);
+
+  if(error){
+    alert("업로드 실패");
+    return;
+  }
+
+  const { data: urlData } = supabaseClient
+    .storage
+    .from("yb365")
+    .getPublicUrl(fileName);
+
+  const imageUrl = urlData.publicUrl;
+
+  const urlInput = input.parentElement.querySelectorAll("input")[1];
+  urlInput.value = imageUrl;
+
+  alert("업로드 완료 ✅");
+}
+
+async function uploadBannerImage(input){
+
+  const file = input.files[0];
+  if(!file) return;
+
+  const fileName = "banner_"+crypto.randomUUID()+"_"+file.name;
+
+  const { data, error } = await supabaseClient
+    .storage
+    .from("yb365")
+    .upload(fileName, file);
+
+  if(error){
+    alert("배너 업로드 실패");
+    return;
+  }
+
+  const { data: urlData } = supabaseClient
+    .storage
+    .from("yb365")
+    .getPublicUrl(fileName);
+
+  const imageUrl = urlData.publicUrl;
+
+  document.getElementById("bannerImg").value = imageUrl;
+
+  alert("배너 업로드 완료 ✅");
+}
+
+async function deleteAd(btn){
+
+  const card = btn.parentElement;
+  const inputs = card.querySelectorAll("input");
+
+  let imageUrl = "";
+
+  if(inputs.length >= 2){
+    imageUrl = inputs[1].value.trim();
+  }
+
+  if(imageUrl){
+
+    const filePath = decodeURIComponent(
+  imageUrl.split("/storage/v1/object/public/yb365/")[1]
+);
+
+    const { error } = await supabaseClient
+      .storage
+      .from("yb365")
+      .remove([filePath]);
+
+    if(error){
+      console.log("삭제 에러:", error);
+      alert("삭제 실패 콘솔 확인");
+      return;
+    }
+
+  }
+
+  card.remove();
+}
+
+function editBoardPost(id){
+
+  const post = boardData.find(p => p.id === id);
+
+  if(!post) return;
+
+  document.getElementById("boardTitle").value = post.title;
+  document.getElementById("boardContent").value = post.content;
+  document.getElementById("boardCategory").value = post.category || "일반";
+
+  editingPostId = id;
+
+  document.querySelector("#boardTitle").scrollIntoView({
+    behavior:"smooth"
+  });
+
+document.querySelector("button[onclick='addBoardPost()']").textContent="수정 저장";
+
+}
+
+function scrollToTop(){
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+function scrollToBottom(){
+
+  window.scrollTo({
+    top:document.body.scrollHeight,
+    behavior:"smooth"
+  });
+
+}
+
+async function loadVisitStats(){
+
+  const { data } = await supabaseClient
+    .from("site_visits")
+    .select("*")
+    .order("date",{ascending:false})
+    .limit(7);
+
+  const box = document.getElementById("visitStats");
+  const summary = document.getElementById("visitSummary");
+
+  box.innerHTML="";
+  summary.innerHTML="";
+
+  if(!data || data.length === 0) return;
+
+  const today = new Date().toLocaleDateString("sv-SE");
+
+  const yesterdayDate = new Date();
+  yesterdayDate.setDate(yesterdayDate.getDate()-1);
+  const yesterday = yesterdayDate.toLocaleDateString("sv-SE");
+
+  let todayCount = 0;
+  let yesterdayCount = 0;
+  let total = 0;
+
+  data.forEach(v=>{
+
+    total += v.count;
+
+    if(v.date === today)
+      todayCount = v.count;
+
+    if(v.date === yesterday)
+      yesterdayCount = v.count;
+
+    const div=document.createElement("div");
+    div.innerText = v.date + " : " + v.count + "명";
+    box.appendChild(div);
+
+  });
+
+  summary.innerHTML = `
+오늘 방문자 : ${todayCount}명 |
+어제 방문자 : ${yesterdayCount}명 |
+총 방문자 : ${total}명
+  `;
+
+}
+
+async function deleteBannerImage(){
+
+  const imageUrl = bannerImg.value.trim();
+  if(!imageUrl) return;
+
+  const confirmDelete = confirm("배너 이미지를 삭제하시겠습니까?");
+  if(!confirmDelete) return;
+
+  const filePath = decodeURIComponent(
+    imageUrl.split("/storage/v1/object/public/yb365/")[1]
+  );
+
+  const { error } = await supabaseClient
+    .storage
+    .from("yb365")
+    .remove([filePath]);
+
+  if(error){
+    console.log(error);
+    alert("배너 삭제 실패");
+    return;
+  }
+
+  bannerImg.value = "";
+  bannerLink.value = "";
+
+  alert("배너 삭제 완료 ✅");
+}
 
 </script>
 

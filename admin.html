@@ -1023,16 +1023,17 @@ async function uploadImage(input){
   const file = input.files[0];
   if(!file) return;
 
-const safeName = file.name.replace(/\s+/g,"_");
-const fileName = crypto.randomUUID()+"_"+safeName;
+  const safeName = file.name.replace(/\s+/g,"_");
+  const fileName = crypto.randomUUID()+"_"+safeName;
 
   const { data, error } = await supabaseClient
     .storage
     .from("yb365")
-    .upload(fileName, file);
+    .upload(fileName, file, { upsert:true });
 
   if(error){
     alert("업로드 실패");
+    console.log(error);
     return;
   }
 
@@ -1059,7 +1060,7 @@ async function uploadBannerImage(input){
   const { data, error } = await supabaseClient
     .storage
     .from("yb365")
-    .upload(fileName, file);
+    .upload(fileName, file, { upsert: true });
 
   if(error){
     alert("배너 업로드 실패");

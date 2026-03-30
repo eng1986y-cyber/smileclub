@@ -1057,6 +1057,12 @@ body{
 
 <script>
 
+function getYoutubeEmbed(url){
+  const reg = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
+  const match = url.match(reg);
+  return match ? "https://www.youtube.com/embed/" + match[1] : url;
+}
+
 let captchaValue = 0;
 
 function generateCaptcha(){
@@ -1200,7 +1206,7 @@ function closeVideoModal(){
 const iframe = document.getElementById("modalVideo");
 
 if(iframe.tagName==="IFRAME"){
-iframe.src="";
+iframe.src = "";
 }
 
 document.getElementById("videoModal").style.display="none";

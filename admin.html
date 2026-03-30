@@ -1122,21 +1122,25 @@ async function deleteAd(btn){
 
   if(imageUrl){
 
-    const filePath = decodeURIComponent(
-  imageUrl.substring(imageUrl.indexOf("yb365/") + 6)
-);
+    try{
+      // URL → 파일명 변환 (확실한 방식)
+      const url = new URL(imageUrl);
+      const parts = url.pathname.split("/yb365/");
+      const filePath = decodeURIComponent(parts[1]);
 
-    const { error } = await supabaseClient
-      .storage
-      .from("yb365")
-      .remove([filePath]);
+      const { error } = await supabaseClient
+        .storage
+        .from("yb365")
+        .remove([filePath]);
 
-    if(error){
-      console.log("삭제 에러:", error);
-      alert("삭제 실패 콘솔 확인");
-      return;
+      if(error){
+        console.log("삭제 에러:", error);
+        alert("스토리지 삭제 실패");
+      }
+
+    }catch(e){
+      console.log("URL 파싱 실패:", e);
     }
-
   }
 
   card.remove();

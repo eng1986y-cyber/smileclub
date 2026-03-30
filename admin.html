@@ -484,6 +484,34 @@ style="margin-top:10px; margin-bottom:40px; text-align:center;"></div>
 
 <script>
 
+async function deleteImage(btn){
+
+  const card = btn.closest(".card");
+  const urlInput = card.querySelector("input");
+  const imageUrl = urlInput.value;
+
+  if(!imageUrl) {
+    card.remove();
+    return;
+  }
+
+  // 파일명 추출
+  const fileName = imageUrl.split("/").pop();
+
+  const { error } = await supabaseClient
+    .storage
+    .from("yb365")
+    .remove([fileName]);
+
+  if(error){
+    console.log("삭제 실패:", error);
+    alert("이미지 삭제 실패");
+    return;
+  }
+
+  card.remove();
+}
+
 document.body.classList.add("login-mode");
 
 const imageAdmin=document.getElementById("imageAdmin");
@@ -1095,7 +1123,7 @@ async function deleteAd(btn){
   if(imageUrl){
 
     const filePath = decodeURIComponent(
-  imageUrl.split("/storage/v1/object/public/yb365/")[1]
+  imageUrl.substring(imageUrl.indexOf("yb365/") + 6)
 );
 
     const { error } = await supabaseClient
@@ -1211,8 +1239,8 @@ async function deleteBannerImage(){
   if(!confirmDelete) return;
 
   const filePath = decodeURIComponent(
-    imageUrl.split("/storage/v1/object/public/yb365/")[1]
-  );
+  imageUrl.substring(imageUrl.indexOf("yb365/") + 6)
+);
 
   const { error } = await supabaseClient
     .storage

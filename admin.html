@@ -344,17 +344,6 @@ style="background:#ff5c5c;margin-bottom:6px;">
   style="width:98.3%; height:100px; margin-bottom:10px; padding:10px;"></textarea>
 </div>
 
-<!-- ================== 상품 관리 ================== -->
-
-<div class="section">
-  <div class="ad-header">
-    <div class="ad-title">상품 관리</div>
-    <button class="add-btn" onclick="addProduct()">+ 추가</button>
-  </div>
-
-  <div class="grid" id="productAdmin"></div>
-</div>
-
 <!-- ================== 이미지 광고 ================== -->
 
 <div class="section">
@@ -738,18 +727,6 @@ for(const [index, block] of [...imageAdmin.children].entries()){
 
   }
 }
-
-// 상품 저장
-document.querySelectorAll("#productAdmin .card").forEach(card=>{
-  const inputs = card.querySelectorAll("input");
-
-  ads.push({
-    type:"product",
-    title:inputs[0].value,
-    img:inputs[1].value,
-    price:inputs[3].value
-  });
-});
 
 for(const [index, block] of [...textAdmin.children].entries()){
 
@@ -1284,21 +1261,6 @@ async function deleteBannerImage(){
   bannerLink.value = "";
 
   alert("배너 삭제 완료 ✅");
-}
-
-const productAdmin = document.getElementById("productAdmin");
-
-function addProduct(name="", img="", price=""){
-  const div = document.createElement("div");
-  div.className = "card";
-  div.innerHTML = `
-    <button class="delete-btn" onclick="this.parentElement.remove()">삭제</button>
-    <input value="${name}" placeholder="상품명">
-    <input value="${img}" placeholder="이미지 URL">
-    <input type="file" accept="image/*" onchange="uploadImage(this)">
-    <input value="${price}" placeholder="가격">
-  `;
-  productAdmin.appendChild(div);
 }
 
 </script>

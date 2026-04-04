@@ -1301,6 +1301,39 @@ function addProduct(name="", img="", price=""){
   productAdmin.appendChild(div);
 }
 
+/* ================= 상품 저장 ================= */
+
+for(const [index, block] of [...productAdmin.children].entries()){
+
+  const inputs = block.querySelectorAll("input");
+
+  const title = inputs[0].value.trim();
+  const price = inputs[1].value.trim();
+  const image = inputs[2].value.trim();
+  const link  = inputs[3].value.trim();
+
+  if(title){
+
+    const { error } = await supabaseClient
+      .from("ads")
+      .insert([{
+        type:"product",
+        title:title,
+        price:price,
+        image_url:image,
+        link_url:link,
+        sort:index
+      }]);
+
+    if(error){
+      alert("상품 저장 실패");
+      return;
+    }
+
+  }
+
+}
+
 </script>
 
 </body>

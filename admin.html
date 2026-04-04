@@ -739,6 +739,18 @@ for(const [index, block] of [...imageAdmin.children].entries()){
   }
 }
 
+// 상품 저장
+document.querySelectorAll("#productAdmin .card").forEach(card=>{
+  const inputs = card.querySelectorAll("input");
+
+  ads.push({
+    type:"product",
+    title:inputs[0].value,
+    img:inputs[1].value,
+    price:inputs[3].value
+  });
+});
+
 for(const [index, block] of [...textAdmin.children].entries()){
 
   const i=block.querySelectorAll("input");

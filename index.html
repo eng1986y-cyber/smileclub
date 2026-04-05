@@ -628,12 +628,6 @@ body{
   align-items: center; /* 자식 요소들 수평 중앙 정렬 */
 }
 
-.ad-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .ad-title {
   margin-top: 10px;
   font-family: 'HYGraphicM', Arial, sans-serif;
@@ -641,9 +635,12 @@ body{
   font-weight: 500;
   letter-spacing: 1px;
   color: #222;
-  text-align: center;
+  text-align: center;  /* 텍스트 자체 중앙 정렬 */
+}
+
   width:100%;
   display:block;
+  text-align:center;
 }
 
 @keyframes glow{
@@ -1411,24 +1408,6 @@ if(ad.type==="sns"){
   snsBox.appendChild(wrap);
 }
 
-if(ad.type==="product"){
-
-  const wrap=document.createElement("div");
-  wrap.style.textAlign="center";
-  wrap.style.margin="30px 0";
-
-  wrap.innerHTML=`
-    <img src="${ad.image_url}" style="width:300px;border-radius:10px">
-    <br><br>
-    <button onclick="naverPay('${ad.title}','${ad.price}')"
-    style="background:#03C75A;color:white;border:none;padding:12px 24px;border-radius:8px;">
-    네이버페이 안전결제
-    </button>
-  `;
-
-  imgBox.appendChild(wrap);
-}
-
     });
   }
 
@@ -1803,33 +1782,6 @@ if(parseInt(answer) !== captchaValue){
   closeWritePost();
   loadBoard();
 
-}
-
-function naverPay(title, price){
-  alert(title + " 결제 준비");
-}
-
-const productContainer = document.getElementById("product-container");
-
-function renderProducts(data){
-  const products = data.filter(a=>a.type==="product");
-
-  productContainer.innerHTML = products.map(p=>`
-    <div style="text-align:center;margin:30px 0;">
-      <img src="${p.img}" style="width:300px;border-radius:10px">
-      <br><br>
-      <button onclick="pay('${p.title}',${p.price})"
-      style="
-      background:#03C75A;
-      color:white;
-      border:none;
-      padding:12px 24px;
-      border-radius:8px;
-      cursor:pointer;">
-      네이버페이 안전결제
-      </button>
-    </div>
-  `).join("");
 }
 
 </script>

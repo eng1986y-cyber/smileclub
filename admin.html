@@ -740,24 +740,6 @@ for(const [index, block] of [...imageAdmin.children].entries()){
   }
 }
 
-for(const [index, block] of [...document.querySelectorAll("#productAdmin .card")].entries()){
-
-  const inputs = block.querySelectorAll("input");
-
-  if(inputs[0].value.trim()){
-
-    await supabaseClient.from("ads").insert([{
-      type:"product",
-      title:inputs[0].value.trim(),
-      image_url:inputs[1].value.trim(),
-      price:inputs[3].value.trim(),
-      sort:index
-    }]);
-
-  }
-
-}
-
 for(const [index, block] of [...textAdmin.children].entries()){
 
   const i=block.querySelectorAll("input");
@@ -830,24 +812,6 @@ for(const [index, block] of [...adsenseAdmin.children].entries()){
     }
 
   }
-
-for(const [index, block] of [...document.querySelectorAll("#productAdmin .card")].entries()){
-
-  const inputs = block.querySelectorAll("input");
-
-  if(inputs[0].value.trim()){
-
-    await supabaseClient.from("ads").insert([{
-      type:"product",
-      title:inputs[0].value.trim(),
-      image_url:inputs[1].value.trim(),
-      price:inputs[3].value.trim(),
-      sort:index
-    }]);
-
-  }
-
-}
 
   await supabaseClient
     .from("site_settings")

@@ -824,6 +824,22 @@ for(const [index, block] of [...adsenseAdmin.children].entries()){
 
   }
 
+for(const [index, block] of [...document.querySelectorAll("#productAdmin .card")].entries()){
+
+  const inputs = block.querySelectorAll("input");
+
+  if(inputs[0].value.trim()){
+
+    await supabaseClient.from("ads").insert([{
+      type:"product",
+      title:inputs[0].value.trim(),
+      image_url:inputs[1].value.trim(),
+      price:inputs[3].value.trim(),
+      sort:index
+    }]);
+
+  }
+
 }
 
   await supabaseClient
@@ -1286,8 +1302,6 @@ async function deleteBannerImage(){
   alert("배너 삭제 완료 ✅");
 }
 
-const productAdmin = document.getElementById("productAdmin");
-
 function addProduct(name="", img="", price=""){
   const div = document.createElement("div");
   div.className = "card";
@@ -1299,39 +1313,6 @@ function addProduct(name="", img="", price=""){
     <input value="${price}" placeholder="가격">
   `;
   productAdmin.appendChild(div);
-}
-
-/* ================= 상품 저장 ================= */
-
-for(const [index, block] of [...productAdmin.children].entries()){
-
-  const inputs = block.querySelectorAll("input");
-
-  const title = inputs[0].value.trim();
-  const price = inputs[1].value.trim();
-  const image = inputs[2].value.trim();
-  const link  = inputs[3].value.trim();
-
-  if(title){
-
-    const { error } = await supabaseClient
-      .from("ads")
-      .insert([{
-        type:"product",
-        title:title,
-        price:price,
-        image_url:image,
-        link_url:link,
-        sort:index
-      }]);
-
-    if(error){
-      alert("상품 저장 실패");
-      return;
-    }
-
-  }
-
 }
 
 </script>

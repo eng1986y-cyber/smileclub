@@ -409,6 +409,18 @@ style="background:#ff5c5c;margin-bottom:6px;">
 
 </div>
 
+<!-- ================== 상품 (네이버페이) ================== -->
+<div class="section">
+
+<div class="ad-header">
+<div class="ad-title">상품 (네이버페이)</div>
+<button class="add-btn" onclick="addProduct()">+ 추가</button>
+</div>
+
+<div class="grid" id="productAdmin"></div>
+
+</div>
+
 <!-- ================== 게시판 관리 ================== -->
 
 <div class="section board-section">
@@ -520,6 +532,8 @@ const squareAdmin=document.getElementById("squareAdmin");
 const snsVideoAdmin=document.getElementById("snsVideoAdmin");
 const adsenseAdmin=document.getElementById("adsenseAdmin");
 
+const productAdmin=document.getElementById("productAdmin");
+
 const bannerImg=document.getElementById("bannerImg");
 const bannerLink=document.getElementById("bannerLink");
 
@@ -593,6 +607,23 @@ function addImageAd(main="", img="", link="", video=""){
       <input value="${link}" placeholder="클릭 링크">
 
       <input value="${video}" placeholder="동영상 링크 (유튜브)">
+    `)
+  );
+}
+
+function addProduct(name="", img="", pay="", detail=""){
+  productAdmin.appendChild(
+    createCard(`
+      <input value="${name}" placeholder="상품명">
+
+      <input value="${img}" placeholder="상품 이미지 URL">
+
+      <input type="file" accept="image/*"
+        onchange="uploadImage(this)">
+
+      <input value="${pay}" placeholder="네이버페이 결제 링크">
+
+      <input value="${detail}" placeholder="상세페이지 링크">
     `)
   );
 }
@@ -674,6 +705,8 @@ const { data: ads } = await supabaseClient
         addSnsVideo(ad.title, ad.image_url, ad.video_url);
       if(ad.type==="adsense")
         addAdsense(ad.code);
+      if(ad.type==="product")
+        addProduct(ad.title, ad.image_url, ad.link_url, ad.detail_url);
     });
   }
 
@@ -704,11 +737,16 @@ const { data: ads } = await supabaseClient
 
 async function saveAll(){
 
-await supabaseClient.from("ads").delete().eq("type","image");
-await supabaseClient.from("ads").delete().eq("type","text");
-await supabaseClient.from("ads").delete().eq("type","square");
-await supabaseClient.from("ads").delete().eq("type","sns");
-await supabaseClient.from("ads").delete().eq("type","adsense");
+const { error } = await supabaseClient
+  .from("ads")
+  .delete()
+  .neq("id",0);
+
+if(error){
+  console.log(error);
+  alert("기존 데이터 삭제 실패");
+  return;
+}
 
 for(const [index, block] of [...imageAdmin.children].entries()){
 
@@ -779,6 +817,24 @@ for(const [index, block] of [...snsVideoAdmin.children].entries()){
   }
 }
 
+for(const [index, block] of [...productAdmin.children].entries()){
+
+  const i=block.querySelectorAll("input");
+
+  if(i[1].value.trim()){
+
+    await supabaseClient.from("ads").insert([{
+      type:"product",
+      title:i[0].value.trim(),
+      image_url:i[1].value.trim(),
+      link_url:i[3].value.trim(),   // 네이버페이
+      detail_url:i[4].value.trim(),
+      sort:index
+    }]);
+
+  }
+}
+
 for(const [index, block] of [...adsenseAdmin.children].entries()){
 
   const textarea=block.querySelector("textarea");
@@ -818,7 +874,8 @@ site_description: document
       owner_blog:ownerBlog.value.trim()
     }]);
 
-  alert("저장 완료 ✅");
+alert("저장 완료 ✅");
+loadData();
 }
 
 async function init(){

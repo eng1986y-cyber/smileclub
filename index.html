@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-<title>정보공유 플랫폼</title>
+<title>링크공유 플랫폼</title>
 
 <style>
 
@@ -1391,6 +1391,27 @@ const link = ad.link_url
 
         bottomBox.appendChild(wrap);
       }
+
+if(ad.type==="product"){
+
+  const wrap=document.createElement("div");
+  wrap.className="ad-item";
+
+  wrap.innerHTML=`
+    <div class="square-ad">
+      <a href="${ad.link_url}" target="_blank">
+        <img src="${ad.image_url}">
+      </a>
+    </div>
+    <div class="ad-title">
+      <a href="${ad.detail_url}" target="_blank">
+        ${ad.title||""}
+      </a>
+    </div>
+  `;
+
+  bottomBox.appendChild(wrap);
+}
 
 if(ad.type==="sns"){
   const wrap=document.createElement("div");

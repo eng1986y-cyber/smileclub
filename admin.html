@@ -740,6 +740,8 @@ const { data: ads } = await supabaseClient
 
 async function saveAll(){
 
+const scrollY = window.scrollY;
+
 const { error } = await supabaseClient
   .from("ads")
   .delete()
@@ -880,6 +882,7 @@ site_description: document
 
 alert("저장 완료 ✅");
 loadData();
+window.scrollTo(0, scrollY);
 }
 
 async function init(){

@@ -611,7 +611,7 @@ function addImageAd(main="", img="", link="", video=""){
   );
 }
 
-function addProduct(name="", img="", pay="", detail=""){
+function addProduct(name="", img="", price="", pay="", detail=""){
   productAdmin.appendChild(
     createCard(`
       <input value="${name}" placeholder="상품명">
@@ -620,6 +620,8 @@ function addProduct(name="", img="", pay="", detail=""){
 
       <input type="file" accept="image/*"
         onchange="uploadImage(this)">
+
+      <input value="${price}" placeholder="상품 가격 (예: 29,900원)">
 
       <input value="${pay}" placeholder="네이버페이 결제 링크">
 
@@ -828,7 +830,8 @@ for(const [index, block] of [...productAdmin.children].entries()){
       type:"product",
       title:i[0].value.trim(),
       image_url:i[1].value.trim(),
-      link_url:i[3].value.trim(),   // 네이버페이
+      price:i[2].value.trim(),
+      link_url:i[3].value.trim(),
       detail_url:i[4].value.trim(),
       sort:index
     }]);

@@ -16,6 +16,14 @@
 
 <style>
 
+.product-price{
+  font-size:14px;
+  font-weight:bold;
+  color:#111;
+  margin-top:4px;
+  text-align:center;
+}
+
 .naver-pay-btn{
   display:block;
   background:#03C75A;
@@ -1437,6 +1445,22 @@ if(ad.type==="product"){
         ${ad.title||""}
       </a>
     </div>
+
+    ${ad.price ? `
+    <div class="product-price">
+      ${ad.price}
+    </div>
+    ` : ""}
+
+    ${ad.link_url ? `
+    <a href="${ad.link_url}" target="_blank" class="naver-pay-btn">
+      네이버페이 구매하기
+    </a>
+    ` : ""}
+  `;
+
+  bottomBox.appendChild(wrap);
+}
 
     ${ad.link_url ? `
     <a href="${ad.link_url}" target="_blank" class="naver-pay-btn">

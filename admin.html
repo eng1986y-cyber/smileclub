@@ -709,7 +709,7 @@ const { data: ads } = await supabaseClient
       if(ad.type==="adsense")
         addAdsense(ad.code);
       if(ad.type==="product")
-        addProduct(ad.title, ad.image_url, ad.link_url, ad.detail_url);
+        addProduct(ad.title, ad.image_url, ad.price, ad.link_url, ad.detail_url);
     });
   }
 
@@ -830,9 +830,9 @@ for(const [index, block] of [...productAdmin.children].entries()){
       type:"product",
       title:i[0].value.trim(),
       image_url:i[1].value.trim(),
-      price:i[2].value.trim(),
-      link_url:i[3].value.trim(),
-      detail_url:i[4].value.trim(),
+      price:i[3].value.trim(),
+      link_url:i[4].value.trim(),
+      detail_url:i[5].value.trim(),
       sort:index
     }]);
 

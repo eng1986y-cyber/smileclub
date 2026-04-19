@@ -1866,7 +1866,7 @@ if(!banner) return;
 banner.classList.remove("rain","snow","thunder","wind");
 
   try{
-    const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
+    const res = await fetch("https://wttr.in/37.1498,127.0772?format=j1");
     const data = await res.json();
 
     const current = data.current_condition[0];
@@ -1923,7 +1923,7 @@ else if(current.windspeedKmph > 20){
 // 출력
 box.innerHTML = `
   <div>
-    연변조선족자치주 ${temp}°C
+    경기도 오산시 ${temp}°C
     <div style="font-size:11px;color:#ddd;">
       체감 ${feels}°C · ${desc}
     </div>

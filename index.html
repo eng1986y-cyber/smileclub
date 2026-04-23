@@ -1,33 +1,50 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="renderer" content="webkit">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="applicable-device" content="pc,mobile">
 
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<title>스마일클럽 링크공유 플랫폼</title>
-
-<!-- SEO -->
-<meta name="keywords" content="延边信息搜索,延边生活信息,延边招聘,延边房产,延边二手市场,延边网站导航,延边朝鲜族信息平台">
-<meta name="description" content="延边信息搜索网 제공. 연변 생활정보, 구인구직, 부동산, 중고거래, 광고홍보, 지역게시판, 연길 훈춘 도문 룡정 왕청 돈화 안도 지역정보 제공 플랫폼.">
-<meta name="robots" content="index,follow">
-<meta name="author" content="yb365.info">
-<meta http-equiv="content-language" content="zh-CN,ko-KR">
-
-<!-- Open Graph -->
-<meta property="og:title" content="延边信息搜索网">
-<meta property="og:description" content="延边生活信息, 招聘, 房产, 二手市场, 地区交流平台">
-<meta property="og:image" content="https://puevyaupeytllaquecoc.supabase.co/storage/v1/object/public/yb365/banner_09d95650-0a7c-4262-b553-5119a5d82751_YB365INFO_BANER_B.jpg">
-<meta property="og:url" content="https://yb365.info">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="ko_KR">
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<title>링크공유 플랫폼</title>
 
 <style>
+
+.naver-pay-btn{
+  display:block;
+  background:#03C75A;
+  color:#fff;
+  text-align:center;
+  padding:10px 0;
+  border-radius:6px;
+  text-decoration:none;
+  font-weight:bold;
+  margin-top:8px;
+  font-size:14px;
+}
+
+.naver-pay-btn:hover{
+  opacity:0.9;
+}
+
+.ad-title a{
+  text-decoration:none;
+  color:#000;
+}
+
+.ad-title a:visited{
+  color:#000;
+}
+
+.ad-title a:hover{
+  color:#000;
+}
 
 .video-modal-box .modal-close{
   position:absolute;
@@ -181,25 +198,19 @@
   box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
+/* 모바일에서는 하단 가로 정렬 */
 @media(max-width:768px){
   .floating-right{
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    top:auto;
-    transform:none;
-
-    flex-direction:row;
-    justify-content:space-around;
-    align-items:center;
-
-    width:100%;
-    padding:6px 0;
-
-    background:#111;
-    box-shadow:0 -4px 10px rgba(0,0,0,0.2);
-    z-index:9999;
+    right:10px;
+    left:auto;
+    top:50%;
+    bottom:auto;
+    transform:translateY(-50%);
+    flex-direction:column;
+    background:transparent;
+    padding:0;
+    box-shadow:none;
+    gap:10px;
   }
 }
 
@@ -222,32 +233,44 @@
   color:#fff;
 }
 
+html{
+  scrollbar-gutter: stable;
+}
+
 /* ===== 게시판 그리드 ===== */
 
 .board-section{
   margin-top:60px;
   display:grid;
   grid-template-columns:repeat(3,1fr);
-
-  column-gap:5px;   /* 좌우 간격 유지 */
-  row-gap:2px;      /* 상하 간격만 축소 */
-
-  height:600px;
+  gap:12px;
+  min-height:520px;
+  max-height:600px;
   overflow-y:auto;
 }
 
+/* 장방형 카드 */
 .board-card{
   background:#fff;
-  border:1px solid #ddd;
-  border-radius:10px;
-  padding:8px;
+  border-radius:12px;
+  border:2px solid #ddd;
+  padding:15px;
   cursor:pointer;
   transition:0.2s;
-  height:92px;
+  height:150px;
   overflow:hidden;
   display:flex;
   flex-direction:column;
-  justify-content:flex-start;
+  justify-content:space-between;
+}
+
+.board-card{
+  font-family:
+  "Inter",
+  "Noto Sans KR",
+  "Noto Sans JP",
+  "Noto Sans SC",
+  sans-serif;
 }
 
 .board-card:hover{
@@ -255,21 +278,20 @@
 }
 
 .board-card h3{
-  margin:0 0 4px;
-  font-size:12px;
-  line-height:1.2;
+  font-size:14px;
+  margin:0;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
 .board-preview{
-  font-size:11px;
+  font-size:12px;
   color:#666;
   overflow:hidden;
   text-overflow:ellipsis;
   display:-webkit-box;
-  -webkit-line-clamp:1;
+  -webkit-line-clamp:2;
   -webkit-box-orient:vertical;
 }
 
@@ -280,7 +302,7 @@
 #captchaQuestion{
   font-size:18px;
   font-weight:600;
-  margin-bottom:3px;
+  margin-bottom:8px;
   color:#333;
 }
 
@@ -319,9 +341,13 @@
 @media(max-width:768px){
   .board-section{
     grid-template-columns:repeat(2,1fr);
-    column-gap:5px; /* 좌우 유지 */
-    row-gap:2px;    /* 상하 축소 */
-    max-height:420px;
+  }
+}
+
+@media(max-width:768px){
+  .board-section{
+    grid-template-columns:repeat(2,1fr);
+    max-height:520px;
     overflow-y:auto;
   }
 }
@@ -337,17 +363,14 @@ body{
   padding:20px;
 
   font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    "Apple SD Gothic Neo",
-    "Malgun Gothic",
-    "Microsoft YaHei",
-    "PingFang SC",
-    "Hiragino Sans",
-    "Yu Gothic",
-    Arial,
-    sans-serif;
+  "Inter",              /* 영어 */
+  "Noto Sans KR",       /* 한국어 */
+  "Noto Sans JP",       /* 일본어 */
+  "Noto Sans SC",       /* 중국어 */
+  "Apple SD Gothic Neo",
+  "Segoe UI",
+  Arial,
+  sans-serif;
 
   background:#f5f5f5;
   overflow-y:scroll;
@@ -371,23 +394,19 @@ body{
 .search-box input{
   width:320px;
   height:46px;
-  padding:0 12px;
   border:2px solid #87CEEB;
   border-radius:6px;
-  font-size:16px;
-  font-family:'Microsoft YaHei','微软雅黑',sans-serif;
-  color:#222;
+  padding:0 12px;
 }
 
-.search-box input::placeholder{
-  font-family:'Microsoft YaHei','微软雅黑',sans-serif;
-  color:#888;
+.search-box input{
+  font-size:16px;
 }
 
 .search-box button{
-  width:120px;
-  font-weight:600;
   height:46px;
+  width:160px;
+  margin-left:6px;
   border:none;
   border-radius:6px;
   background:#87CEEB;
@@ -399,33 +418,16 @@ body{
   background:#6bbfe0;
 }
 
-@media(max-width:768px){
-  .search-box{
-    flex-direction:column;
-  }
-
-  .search-box input,
-  .search-box button{
-    width:100%;
-    height:48px;
-    box-sizing:border-box;
-  }
-
-  .search-box button{
-    margin-top:8px;
-  }
-}
-
 /* 배너 */
 
 .top-banner{
-  position:relative;
   width:100%;
   max-width:1200px;
-  height:240px;
-  margin:20px auto 30px;
+  height:120px;
+  margin:20px auto 30px;  /* ← 중앙 정렬 */
   border-radius:14px;
   overflow:hidden;
+  border:2px solid #ffffff;
   display:block;
 }
 
@@ -433,15 +435,9 @@ body{
   width:100%;
   height:100%;
   object-fit:cover;
-  display:block;
-  margin:0 auto;
+  display:block;          /* ← 추가 */
+  margin:0 auto;          /* ← 추가 */
   transition:transform 0.4s ease;
-}
-
-@media(max-width:768px){
-  .top-banner{
-    display:none;
-  }
 }
 
 /* 그리드 */
@@ -495,6 +491,18 @@ body{
   width:100%;
   height:100%;
   object-fit:cover;
+}
+
+.board-card{
+  background:#fff;
+  padding:20px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:1px solid #ddd;
+}
+
+.board-card h3{
+  margin:0 0 10px;
 }
 
 .sns-video{
@@ -568,13 +576,14 @@ body{
     padding:15px;
   }
 
-  .board-card{
-    height:85px;
-  }
-
   .top-banner{
     height:90px;
     margin:15px auto 25px;
+  }
+
+  .search-box{
+    display:flex;
+    flex-direction:column;
   }
 
   .search-box input,
@@ -619,6 +628,14 @@ body{
     margin:0 6px;
   }
 
+.top-banner{
+  display:none;
+}
+
+#topBtn{
+  display:none;
+}
+
   #topBtn{
     left:auto;
     right:15px;
@@ -633,6 +650,8 @@ body{
     transform:scale(0.95);
   }
 
+}
+
 .ad-item {
   display: flex;
   flex-direction: column;
@@ -646,9 +665,12 @@ body{
   font-weight: 500;
   letter-spacing: 1px;
   color: #222;
-  text-align: center;
+  text-align: center;  /* 텍스트 자체 중앙 정렬 */
+}
+
   width:100%;
   display:block;
+  text-align:center;
 }
 
 @keyframes glow{
@@ -966,193 +988,7 @@ body{
   text-align:center;
 }
 
-.search-logo{
-  height:46px;
-  width:auto;
-  border-radius:6px;
-}
-
-.weather-box{
-  position:absolute;
-  top:8px;
-  right:10px;
-  background:rgba(0,0,0,0.55);
-  color:#fff;
-  padding:4px 8px;
-  border-radius:6px;
-  font-size:12px;
-  z-index:10;
-}
-
-/* ===== 배너 날씨 효과 ===== */
-
-.top-banner.rain::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: url('https://i.imgur.com/7Qp5ZkR.png'); /* 비 이미지 */
-  opacity:0.3;
-  pointer-events:none;
-  animation:rainMove 0.5s linear infinite;
-}
-
-@keyframes rainMove{
-  from{ background-position:0 0; }
-  to{ background-position:-100px 200px; }
-}
-
-/* 눈 */
-.top-banner.snow::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: url('https://i.imgur.com/V4RclNb.png'); /* 눈 이미지 */
-  opacity:0.5;
-  pointer-events:none;
-  animation:snowMove 5s linear infinite;
-}
-
-@keyframes snowMove{
-  from{ background-position:0 0; }
-  to{ background-position:0 300px; }
-}
-
-/* 번개 */
-.top-banner.thunder{
-  animation:flash 3s infinite;
-}
-
-@keyframes flash{
-  0%,95%,100%{ filter:brightness(1); }
-  96%{ filter:brightness(2.5); }
-  97%{ filter:brightness(1); }
-}
-
-/* 바람 */
-.top-banner.wind::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  animation:windMove 2s linear infinite;
-}
-
-@keyframes windMove{
-  from{ transform:translateX(-100%); }
-  to{ transform:translateX(100%); }
-}
-
-.board-wrapper{
-  display:flex;
-  gap:12px;
-  margin-top:60px;
-  align-items:stretch;
-}
-
-.board-box{
-  flex:1;
-  background:#fff;
-  border:1px solid #ddd;
-  border-radius:12px;
-  padding:12px;
-  height:600px;
-
-  display:flex;
-  flex-direction:column;
-}
-
-.board-list{
-  min-height:0;
-  flex-grow:1;
-  overflow-y:auto;
-}
-
-.board-box h3{
-  margin:0 0 10px;
-  font-size:14px;
-  border-bottom:1px solid #eee;
-  padding-bottom:6px;
-}
-
-/* 텍스트 리스트 */
-.board-list div{
-  padding:6px 0;
-  border-bottom:1px solid #f1f1f1;
-  font-size:13px;
-  cursor:pointer;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.board-list div:hover{
-  color:#87CEEB;
-}
-
-/* 모바일 */
-@media(max-width:768px){
-
-  .board-wrapper{
-    flex-direction:column;
-  }
-
-  /* 공지사항 */
-  .board-box:first-child{
-    height:250px;
-    min-height:250px;
-    max-height:250px;
-  }
-
-  /* 지역정보 */
-  .board-box:last-child{
-    height:420px;
-    min-height:420px;
-    max-height:420px;
-  }
-
-}
-
-#noticePagination,
-#regionPagination{
-  margin-top:auto;
-  padding-top:10px;
-  text-align:center;
-}
-
-#noticePagination button,
-#regionPagination button{
-  margin:3px;
-  padding:6px 10px;
-  min-width:34px;
-  border:none;
-  border-radius:6px;
-  background:#eee;
-  cursor:pointer;
-}
-
-#noticePagination button:hover,
-#regionPagination button:hover{
-  background:#87CEEB;
-  color:#fff;
-}
-
 </style>
-<meta name="mobile-agent" content="format=html5; url=https://yb365.info">
-<link rel="canonical" href="https://yb365.info">
-
-<script type="application/ld+json">
-{
- "@context":"https://schema.org",
- "@type":"WebSite",
- "name":"延边信息搜索平台",
- "url":"https://yb365.info",
- "potentialAction":{
-   "@type":"SearchAction",
-   "target":"https://yb365.info/?q={search_term_string}",
-   "query-input":"required name=search_term_string"
- }
-}
-</script>
 </head>
 
 <body>
@@ -1160,21 +996,13 @@ body{
 <div class="container">
 
 <div class="search-box">
-
-  <img id="searchLogo" class="search-logo" src="">
-
-  <input id="searchInput"
-       placeholder="검색어 입력 / 输入关键词"
-       onkeydown="if(event.key==='Enter'){search();}">
+  <input id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
-
 </div>
 
 <div id="adsenseArea"></div>
 
-<div class="top-banner" id="topBanner">
-  <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
-</div>
+<div class="top-banner" id="topBanner"></div>
 
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
@@ -1184,19 +1012,17 @@ body{
 <!-- 게시판 전용 검색 -->
 
 <div class="board-search">
-<input id="boardSearchInput"
-       placeholder="게시판 검색"
-       onkeydown="if(event.key==='Enter'){boardSearch();}">
+  <input id="boardSearchInput"
+         placeholder="게시판 검색"
+         onkeydown="if(event.key==='Enter'){boardSearch()}">
   <button onclick="boardSearch()">검색</button>
 </div>
-
-<div id="boardSection"></div>
 
 <div id="writeModal" class="write-modal" style="display:none;">
   <div class="write-box">
 
     <div class="write-header">
-      <h2>지역별로 정보등록해주세요</h2>
+      <h2>좋은정보 많이 공유해주세요</h2>
       <span onclick="closeWritePost()" class="close-btn">✕</span>
     </div>
 
@@ -1204,15 +1030,13 @@ body{
 
       <label>카테고리</label>
       <select id="userPostCategory">
-        <option value="중앙동">중앙동</option>
-        <option value="남촌동">남촌동</option>
-        <option value="신장1동">신장1동</option>
-        <option value="신장2동">신장2동</option>
-        <option value="세마동">세마동</option>
-        <option value="초평동">초평동</option>
-        <option value="데원1동">대원1동</option>
-        <option value="대원2동">대원2동</option>
-        <option value="불편신고">불편신고</option>
+        <option value="서울">서울</option>
+        <option value="경기">경기</option>
+        <option value="인천">인천</option>
+        <option value="부산">부산</option>
+        <option value="충남">충남</option>
+        <option value="기타">기타</option>
+        <option value="신고">신고</option>
       </select>
 
       <label>제목</label>
@@ -1241,69 +1065,21 @@ body{
 
 <div class="board-category" id="boardCategoryBar">
   <button onclick="filterCategory('전체', this)">전체</button>
-  <button onclick="filterCategory('중앙동', this)">중앙동</button>
-  <button onclick="filterCategory('남촌동', this)">남촌동</button>
-  <button onclick="filterCategory('신장1동', this)">신장1동</button>
-  <button onclick="filterCategory('신장2동', this)">신장2동</button>
-  <button onclick="filterCategory('세마동', this)">세마동</button>
-  <button onclick="filterCategory('초평동', this)">초평동</button>
-  <button onclick="filterCategory('대원1동', this)">대원1동</button>
-  <button onclick="filterCategory('대원2동', this)">대원2동</button>
-  <button onclick="filterCategory('불편신고', this)">불편신고</button>
+  <button onclick="filterCategory('서울', this)">서울</button>
+  <button onclick="filterCategory('경기', this)">경기</button>
+  <button onclick="filterCategory('인천', this)">인천</button>
+  <button onclick="filterCategory('부산', this)">부산</button>
+  <button onclick="filterCategory('충남', this)">충남</button>
+  <button onclick="filterCategory('기타', this)">기타</button>
+  <button onclick="filterCategory('신고', this)">신고</button>
 </div>
 
 <button onclick="openWritePost()" class="write-btn">글쓰기</button>
 </div>
 
-<div class="board-wrapper">
-
-  <div class="board-box">
-    <h3>공지사항</h3>
-    <div id="noticeList" class="board-list"></div>
-    <div id="noticePagination"></div>
-  </div>
-
-  <div class="board-box">
-    <h3>지역정보 ( 인재채용,매매,부동산정보,소식 )</h3>
-    <div id="regionList" class="board-list"></div>
-    <div id="regionPagination"></div>
-  </div>
-
-</div>
-
+<div class="board-section" id="boardSection"></div>
+<div id="pagination" style="margin-top:20px;text-align:center;"></div>
 <div class="site-description" id="siteDescription"></div>
-
-<h1 style="
-font-family:'Microsoft YaHei','微软雅黑',sans-serif;
-font-size:12px;
-font-weight:700;
-line-height:1.6;
-letter-spacing:0.5px;
-text-align:center;
-margin:18px 0;
-color:#e0e0e0;
-">
-링크공유 플랫폼<br>
-<span style="
-font-size:12px;
-font-weight:500;
-color:#cfcfcf;
-display:block;
-margin-top:8px;
-">
-중앙동 〃 남촌동 〃 신장1동 〃 신장2동 〃 세마동 〃 초평동 〃 대원1동 〃 대원2동 정보수집
-</span>
-</h1>
-
-<div style="padding:0 20px 20px;
-font-size:12px;
-color:#d5d5d5;
-line-height:1.8;
-text-align:center;
-max-width:700px;
-margin:0 auto;">
-각지역 정보 및 일상생활 온라인정보 공유
-</div>
 
 <div class="owner-box">
   <div class="owner-name" id="ownerName"></div>
@@ -1315,10 +1091,11 @@ margin:0 auto;">
 
 <script>
 
-let noticePage = 1;
-let regionPage = 1;
-
-const boardPageSize = 17;
+function getYoutubeEmbed(url){
+  const reg = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
+  const match = url.match(reg);
+  return match ? "https://www.youtube.com/embed/" + match[1] : url;
+}
 
 let captchaValue = 0;
 
@@ -1333,8 +1110,7 @@ function generateCaptcha(){
 }
 
 function escapeHTML(str){
-  if(!str) return "";
-  return String(str)
+  return str
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;");
@@ -1343,11 +1119,9 @@ function escapeHTML(str){
 let currentCategory = "전체";
 
 function filterCategory(cat, el){
-
   currentCategory = cat;
-
-  noticePage = 1;
-  regionPage = 1;
+  currentPage = 1;
+  pageGroup = 1;
 
   document
     .querySelectorAll(".board-category button")
@@ -1466,7 +1240,7 @@ function closeVideoModal(){
 const iframe = document.getElementById("modalVideo");
 
 if(iframe.tagName==="IFRAME"){
-iframe.src="";
+iframe.src = "";
 }
 
 document.getElementById("videoModal").style.display="none";
@@ -1475,7 +1249,7 @@ document.getElementById("videoModal").style.display="none";
 
 let currentPage = 1;
 
-let pageSize = window.innerWidth <= 768 ? 6 : 12;
+let pageSize = window.innerWidth <= 768 ? 4 : 6;
 
 let pageGroup = 1;
 let pageGroupSize = 5;
@@ -1603,7 +1377,7 @@ if(ad.type==="image"){
 
 const link = ad.link_url 
   ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
+       <img src="${ad.image_url}">
      </a>`
   : ad.video_url
   ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
@@ -1611,7 +1385,7 @@ const link = ad.link_url
 
   wrap.innerHTML=`
     <div class="img-ad">${link}</div>
-    <div class="ad-title">${escapeHTML(ad.main_title||"")}</div>
+    <div class="ad-title">${ad.main_title||""}</div>
   `;
 
   imgBox.appendChild(wrap);
@@ -1634,7 +1408,7 @@ const link = ad.link_url
 
 const link = ad.link_url 
   ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
+       <img src="${ad.image_url}">
      </a>`
   : ad.video_url
   ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
@@ -1642,11 +1416,37 @@ const link = ad.link_url
 
         wrap.innerHTML=`
           <div class="square-ad">${link}</div>
-          <div class="ad-title">${escapeHTML(ad.main_title||"")}</div>
+          <div class="ad-title">${ad.main_title||""}</div>
         `;
 
         bottomBox.appendChild(wrap);
       }
+
+if(ad.type==="product"){
+
+  const wrap=document.createElement("div");
+  wrap.className="ad-item";
+
+  wrap.innerHTML=`
+    <div class="square-ad">
+      <img src="${ad.image_url}">
+    </div>
+
+    <div class="ad-title">
+      <a href="${ad.detail_url}" target="_blank">
+        ${ad.title||""}
+      </a>
+    </div>
+
+    ${ad.link_url ? `
+    <a href="${ad.link_url}" target="_blank" class="naver-pay-btn">
+      네이버페이 구매하기
+    </a>
+    ` : ""}
+  `;
+
+  bottomBox.appendChild(wrap);
+}
 
 if(ad.type==="sns"){
   const wrap=document.createElement("div");
@@ -1678,21 +1478,13 @@ if(ad.type==="sns"){
 
     const s=settings[0];
 
-if(s.search_logo){
-  document.getElementById("searchLogo").src = s.search_logo;
-}
-
-if(s.banner_img){
-  bannerBox.innerHTML = `
-    ${s.banner_link
-      ? `<a href="${s.banner_link}" target="_blank">
-           <img src="${s.banner_img}">
-         </a>`
-      : `<img src="${s.banner_img}">`
+    if(s.banner_img){
+      bannerBox.innerHTML = s.banner_link
+        ? `<a href="${s.banner_link}" target="_blank">
+             <img src="${s.banner_img}">
+           </a>`
+        : `<img src="${s.banner_img}">`;
     }
-    <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
-  `;
-}
 
     document.getElementById("ownerName").innerText=s.owner_name||"";
     document.getElementById("siteDescription").innerText=s.site_description||"";
@@ -1739,231 +1531,113 @@ if(adsenseArea){
 
 loadSite();
 loadBoard();
-setTimeout(loadWeather,2000);
 
 recordVisit();
 
 async function recordVisit(){
 
   const today = new Date().toLocaleDateString("sv-SE");
+
   const visited = localStorage.getItem("visit_date");
 
-  if(visited === today) return;
+  // 이미 오늘 방문했으면 종료
+  if(visited === today){
+    return;
+  }
 
   const { data } = await supabaseClient
     .from("site_visits")
     .select("*")
-    .eq("date", today);
+    .eq("date",today)
+    .limit(1);
 
   if(data && data.length > 0){
 
-    const count = data[0].count || 0;
-
     await supabaseClient
       .from("site_visits")
-      .update({ count: count + 1 })
-      .eq("date", today);
+      .update({ count:data[0].count + 1 })
+      .eq("id",data[0].id);
 
   }else{
 
     await supabaseClient
       .from("site_visits")
-      .insert([{ date: today, count: 1 }]);
+      .insert([{ date:today, count:1 }]);
 
   }
 
+  // 오늘 방문 기록 저장
   localStorage.setItem("visit_date", today);
+
 }
 
 async function loadBoard(){
 
-  const noticeList = document.getElementById("noticeList");
-  const regionList = document.getElementById("regionList");
+  const boardSection=document.getElementById("boardSection");
+  boardSection.innerHTML="";
 
-  /* 지역정보만 로딩 느낌 주기 */
-  regionList.innerHTML = "불러오는중...";
-  noticeList.innerHTML = "";
+  const start=(currentPage-1)*pageSize;
+  const end=start+pageSize-1;
 
-  /* ---------------- 공지글은 전체 고정 ---------------- */
-  const { data: noticePosts } = await supabaseClient
-    .from("board_posts")
-    .select("*")
-    .in("category", ["공지","공지글","이벤트"])
-    .order("id",{ascending:false});
+let query = supabaseClient
+  .from("board_posts")
+  .select("*")
+  .order("id",{ascending:false});
 
-  /* ---------------- 지역정보만 카테고리 적용 ---------------- */
-  let regionQuery = supabaseClient
-    .from("board_posts")
-    .select("*")
-    .order("id",{ascending:false})
-    .not("category","in",'("공지","공지글","이벤트")');
-
-  if(currentCategory !== "전체"){
-    regionQuery = regionQuery.eq("category", currentCategory);
-  }
-
-  const { data: regionPosts } = await regionQuery;
-
-  /* ---------------- 출력 ---------------- */
-  renderBoardList(
-    noticePosts || [],
-    noticeList,
-    noticePage,
-    "notice"
-  );
-
-  renderBoardList(
-    regionPosts || [],
-    regionList,
-    regionPage,
-    "region"
-  );
+if(currentCategory !== "전체"){
+  query = query.eq("category", currentCategory);
 }
 
-function renderBoardList(list, target, page, type){
+const { data: posts } = await query.range(start,end);
 
-  target.innerHTML = "";
+  if(posts){
+    posts.forEach(post=>{
 
-const pageSize =
-  window.innerWidth <= 768
-    ? (type === "notice" ? 5 : 11)
-    : boardPageSize;
+      const div=document.createElement("div");
+      div.className="board-card";
 
-const start = (page - 1) * pageSize;
-const end = start + pageSize;
-
-  const pageItems = list.slice(start, end);
-
-  pageItems.forEach(post => {
-
-    const div = document.createElement("div");
-    div.innerText = `[${post.category}] ${post.title}`;
-
-    div.onclick = () => {
-      const date = new Date(post.created_at)
+      const date=new Date(post.created_at)
         .toLocaleDateString("ko-KR");
 
-      supabaseClient.rpc('increment_views', {
-        post_id: post.id
-      });
+div.innerHTML = `
+  <h3>[${post.category||"일반"}] ${escapeHTML(post.title)}</h3>
+  <div class="board-preview">${escapeHTML(post.content)}</div>
+  <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
+    ${date} · 조회 ${post.views||0}
+  </div>
+`;
 
-      openModal(
-        post.title,
-        post.content,
-        date,
-        (post.views || 0) + 1
-      );
-    };
+div.onclick=async ()=>{
 
-    target.appendChild(div);
+  await supabaseClient.rpc('increment_views', {
+    post_id: post.id
   });
 
-renderBoardPagination(list.length, type, list, target);
+  const newViews = (post.views || 0) + 1;   // 🔥 이 줄 추가
+
+  openModal(post.title, post.content, date, newViews);
+
+  div.querySelector(".view-count").innerText =
+    date + " · 조회 " + newViews;
+
+  post.views = newViews;
+};
+
+      boardSection.appendChild(div);
+    });
+  }
+
+  loadPagination();
 }
 
-function renderBoardPagination(totalCount, type, list, target){
-
-  let container;
-
-  if(type === "notice"){
-    container = document.getElementById("noticePagination");
-  } else {
-    container = document.getElementById("regionPagination");
-  }
-
-  container.innerHTML = "";
-
-const pageSize =
-  window.innerWidth <= 768
-    ? (type === "notice" ? 5 : 11)
-    : boardPageSize;
-
-const totalPages = Math.ceil(totalCount / pageSize);
-
-  // 현재 페이지 확인
-  let current = (type === "notice") ? noticePage : regionPage;
-
-  // ===== 10개씩 그룹 =====
-  const groupSize = window.innerWidth <= 768 ? 5 : 10;
-  const group = Math.ceil(current / groupSize);
-
-  const startPage = (group - 1) * groupSize + 1;
-  const endPage = Math.min(startPage + groupSize - 1, totalPages);
-
-  // 이전 버튼
-  if(startPage > 1){
-    const prev = document.createElement("button");
-    prev.innerText = "이전";
-
-    prev.onclick = () => {
-      if(type === "notice"){
-        noticePage = startPage - 1;
-      }else{
-        regionPage = startPage - 1;
-      }
-
-      renderBoardList(
-        list,
-        target,
-        (type === "notice") ? noticePage : regionPage,
-        type
-      );
-    };
-
-    container.appendChild(prev);
-  }
-
-  // 페이지 번호
-  for(let i = startPage; i <= endPage; i++){
-
-    const btn = document.createElement("button");
-    btn.innerText = i;
-
-    if(i === current){
-      btn.style.background = "#87CEEB";
-      btn.style.color = "#fff";
+document.getElementById("searchInput")
+  .addEventListener("keydown",function(e){
+    if(e.key==="Enter"){
+      search();
     }
+  });
 
-    btn.onclick = () => {
-
-      if(type === "notice"){
-        noticePage = i;
-      }else{
-        regionPage = i;
-      }
-
-      renderBoardList(list, target, i, type);
-    };
-
-    container.appendChild(btn);
-  }
-
-  // 다음 버튼
-  if(endPage < totalPages){
-    const next = document.createElement("button");
-    next.innerText = "다음";
-
-    next.onclick = () => {
-
-      if(type === "notice"){
-        noticePage = endPage + 1;
-      }else{
-        regionPage = endPage + 1;
-      }
-
-      renderBoardList(
-        list,
-        target,
-        (type === "notice") ? noticePage : regionPage,
-        type
-      );
-    };
-
-    container.appendChild(next);
-  }
-}
-
-function boardSearch(){
+async function boardSearch(){
 
   const keyword = document
     .getElementById("boardSearchInput")
@@ -1971,22 +1645,53 @@ function boardSearch(){
     .trim()
     .toLowerCase();
 
-  const items = document.querySelectorAll(".board-list div");
+  if(!keyword) return;
 
-  let found = false;
+  const { data: posts, count } = await supabaseClient
+    .from("board_posts")
+    .select("*",{count:"exact"})
+    .or(`title.ilike.%${keyword}%,content.ilike.%${keyword}%`)
+    .limit(1);
 
-  items.forEach(item => {
+  if(!posts || posts.length === 0){
+    alert("검색 결과 없음");
+    return;
+  }
 
-    const text = item.innerText.toLowerCase();
+  const post = posts[0];
 
-    if(keyword === "" || text.includes(keyword)){
-      item.style.display = "block";
-      found = true;
-    } else {
-      item.style.display = "none";
-    }
+  /* ===== 게시글 순서 찾기 ===== */
 
-  });
+const { count: position } = await supabaseClient
+  .from("board_posts")
+  .select("*",{count:"exact", head:true})
+  .lt("id", post.id);
+
+  const index = position;
+
+  const targetPage = Math.floor(index / pageSize) + 1;
+
+  currentPage = targetPage;
+
+  await loadBoard();
+
+  setTimeout(()=>{
+
+    const boards=document.querySelectorAll(".board-card");
+
+    boards.forEach(board=>{
+      board.classList.remove("highlight");
+
+      if(board.innerText.toLowerCase().includes(keyword)){
+        board.classList.add("highlight");
+        board.scrollIntoView({
+          behavior:"smooth",
+          block:"center"
+        });
+      }
+    });
+
+  },300);
 
 }
 
@@ -2063,17 +1768,26 @@ function outsideClose(e){
   }
 }
 
-window.addEventListener("DOMContentLoaded", function(){
-
-  document.getElementById("boardSearchInput")
-    .addEventListener("keydown", function(e){
-      if(e.key === "Enter"){
-        e.preventDefault();
-        boardSearch();
-      }
-    });
-
+document.getElementById("boardSearchInput")
+  .addEventListener("keydown",function(e){
+    if(e.key==="Enter"){
+      boardSearch();
+    }
 });
+
+function scrollToTop(){
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+function scrollToBottom(){
+  window.scrollTo({
+    top:document.documentElement.scrollHeight,
+    behavior:"smooth"
+  });
+}
 
 function openWritePost(){
   document.getElementById("writeModal").style.display="flex";
@@ -2126,89 +1840,9 @@ if(parseInt(answer) !== captchaValue){
 
 }
 
-async function loadWeather(){
-  const box = document.getElementById("weatherBox");
-  if(!box) return;
-
-const banner = document.getElementById("topBanner");
-if(!banner) return;
-
-// 기존 효과 제거
-banner.classList.remove("rain","snow","thunder","wind");
-
-  try{
-    const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
-    const data = await res.json();
-
-    const current = data.current_condition[0];
-
-    const temp = current.temp_C;
-    const feels = current.FeelsLikeC;
-    let desc = current.weatherDesc[0].value;
-
-const map = {
-  "Sunny":"맑음",
-  "Clear":"맑음",
-  "Partly cloudy":"구름 조금",
-  "Cloudy":"흐림",
-  "Overcast":"흐림",
-  "Mist":"안개",
-  "Fog":"안개",
-
-  "Rain":"비",
-  "Light rain":"약한 비",
-  "Moderate rain":"비",
-  "Heavy rain":"폭우",
-
-  "Drizzle":"이슬비",
-  "Light drizzle":"약한 이슬비",
-  "Patchy light drizzle":"약한 이슬비",
-  "Freezing drizzle":"어는 이슬비",
-
-  "Patchy rain possible":"비 가능성",
-  "Patchy light rain":"약한 비",
-  "Patchy moderate rain":"비",
-
-  "Snow":"눈",
-  "Light snow":"약한 눈",
-  "Heavy snow":"폭설",
-
-  "Thunderstorm":"천둥번개"
-};
-
-desc = map[desc] || "날씨 정보";
-
-if(desc.includes("천둥") || desc.includes("번개")){
-  banner.classList.add("thunder");
-}
-else if(desc.includes("비") || desc.includes("폭우") || desc.includes("소나기")){
-  banner.classList.add("rain");
-}
-else if(desc.includes("눈") || desc.includes("폭설")){
-  banner.classList.add("snow");
-}
-else if(current.windspeedKmph > 20){
-  banner.classList.add("wind");
-}
-
-// 출력
-box.innerHTML = `
-  <div>
-    연변조선족자치주 ${temp}°C
-    <div style="font-size:11px;color:#ddd;">
-      체감 ${feels}°C · ${desc}
-    </div>
-  </div>
-`;
-
-  }catch(e){
-    box.innerText="날씨 오류";
-  }
-}
-
 </script>
 
-<div class="modal" id="boardModal">
+<div class="modal" id="boardModal" onclick="outsideClose(event)">
   <div class="modal-content">
     <div class="modal-close" onclick="closeModal()">✕</div>
     <h2 id="modalTitle"></h2>
@@ -2256,5 +1890,6 @@ box.innerHTML = `
 </button>
 
 </div>
+
 </body>
 </html>

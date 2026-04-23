@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="applicable-device" content="pc,mobile">
+
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<meta charset="UTF-8">
-<title>스마일클럽 링크공유 플랫폼</title>
+<title>延边信息搜索网_延边生活信息平台_연변정보공유 플랫폼</title>
 
-<meta name="description" content="경기도 오산시 지역 생활정보 공유 플랫폼. 중앙동, 남촌동, 세마동, 대원동 지역 광고, 맛집, 구인구직, 커뮤니티 정보를 제공합니다.">
+<!-- SEO -->
+<meta name="keywords" content="延边信息搜索,延边生活信息,延边招聘,延边房产,延边二手市场,延边网站导航,延边朝鲜族信息平台">
+<meta name="description" content="延边信息搜索网 제공. 연변 생활정보, 구인구직, 부동산, 중고거래, 광고홍보, 지역게시판, 연길 훈춘 도문 룡정 왕청 돈화 안도 지역정보 제공 플랫폼.">
+<meta name="robots" content="index,follow">
+<meta name="author" content="yb365.info">
+<meta http-equiv="content-language" content="zh-CN,ko-KR">
 
-<meta name="keywords" content="오산시, 오산 맛집, 오산 생활정보, 오산 구인구직, 오산 광고, 중앙동, 남촌동, 세마동">
-
-<meta property="og:title" content="오산시 지역정보 공유 플랫폼">
-<meta property="og:description" content="오산 시민들을 위한 생활정보 공유 사이트">
-<meta property="og:url" content="https://yb365.info/smileclub/">
+<!-- Open Graph -->
+<meta property="og:title" content="延边信息搜索网">
+<meta property="og:description" content="延边生活信息, 招聘, 房产, 二手市场, 地区交流平台">
+<meta property="og:image" content="https://puevyaupeytllaquecoc.supabase.co/storage/v1/object/public/yb365/banner_09d95650-0a7c-4262-b553-5119a5d82751_YB365INFO_BANER_B.jpg">
+<meta property="og:url" content="https://yb365.info">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ko_KR">
-
-<link rel="alternate" hreflang="zh-cn" href="https://yb365.info/smileclub/cn">
-<link rel="alternate" hreflang="ko" href="https://yb365.info/smileclub/ko">
 
 <style>
 
@@ -237,7 +243,7 @@
   padding:8px;
   cursor:pointer;
   transition:0.2s;
-  height:80px;
+  height:92px;
   overflow:hidden;
   display:flex;
   flex-direction:column;
@@ -369,10 +375,18 @@ body{
   border:2px solid #87CEEB;
   border-radius:6px;
   font-size:16px;
+  font-family:'Microsoft YaHei','微软雅黑',sans-serif;
+  color:#222;
+}
+
+.search-box input::placeholder{
+  font-family:'Microsoft YaHei','微软雅黑',sans-serif;
+  color:#888;
 }
 
 .search-box button{
-  width:160px;
+  width:120px;
+  font-weight:600;
   height:46px;
   border:none;
   border-radius:6px;
@@ -1028,22 +1042,117 @@ body{
   to{ transform:translateX(100%); }
 }
 
+.board-wrapper{
+  display:flex;
+  gap:12px;
+  margin-top:60px;
+  align-items:stretch;
+}
+
+.board-box{
+  flex:1;
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:12px;
+  height:600px;
+
+  display:flex;
+  flex-direction:column;
+}
+
+.board-list{
+  min-height:0;
+  flex-grow:1;
+  overflow-y:auto;
+}
+
+.board-box h3{
+  margin:0 0 10px;
+  font-size:14px;
+  border-bottom:1px solid #eee;
+  padding-bottom:6px;
+}
+
+/* 텍스트 리스트 */
+.board-list div{
+  padding:6px 0;
+  border-bottom:1px solid #f1f1f1;
+  font-size:13px;
+  cursor:pointer;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.board-list div:hover{
+  color:#87CEEB;
+}
+
+/* 모바일 */
+@media(max-width:768px){
+
+  .board-wrapper{
+    flex-direction:column;
+  }
+
+  /* 공지사항 */
+  .board-box:first-child{
+    height:250px;
+    min-height:250px;
+    max-height:250px;
+  }
+
+  /* 지역정보 */
+  .board-box:last-child{
+    height:420px;
+    min-height:420px;
+    max-height:420px;
+  }
+
+}
+
+#noticePagination,
+#regionPagination{
+  margin-top:auto;
+  padding-top:10px;
+  text-align:center;
+}
+
+#noticePagination button,
+#regionPagination button{
+  margin:3px;
+  padding:6px 10px;
+  min-width:34px;
+  border:none;
+  border-radius:6px;
+  background:#eee;
+  cursor:pointer;
+}
+
+#noticePagination button:hover,
+#regionPagination button:hover{
+  background:#87CEEB;
+  color:#fff;
+}
+
 </style>
+<meta name="mobile-agent" content="format=html5; url=https://yb365.info">
+<link rel="canonical" href="https://yb365.info">
 
 <script type="application/ld+json">
 {
  "@context":"https://schema.org",
  "@type":"WebSite",
- "name":"오산시 지역정보 공유 플랫폼",
- "url":"https://yb365.info/smileclub",
+ "name":"延边信息搜索平台",
+ "url":"https://yb365.info",
  "potentialAction":{
    "@type":"SearchAction",
-   "target":"https://yb365.info/smileclub/?q={search_term_string}",
+   "target":"https://yb365.info/?q={search_term_string}",
    "query-input":"required name=search_term_string"
  }
 }
 </script>
-
 </head>
 
 <body>
@@ -1054,14 +1163,11 @@ body{
 
   <img id="searchLogo" class="search-logo" src="">
 
-  <input id="searchInput" placeholder="검색어 입력">
+  <input id="searchInput"
+       placeholder="검색어 입력 / 输入关键词"
+       onkeydown="if(event.key==='Enter'){search();}">
   <button onclick="search()">검색</button>
 
-</div>
-
-<!-- ✅ 여기 추가 -->
-<div style="position:absolute; left:-9999px;">
-  오산시, 오산정보, 오산구인구직, 생활정보
 </div>
 
 <div id="adsenseArea"></div>
@@ -1079,9 +1185,12 @@ body{
 
 <div class="board-search">
 <input id="boardSearchInput"
-       placeholder="게시판 검색">
+       placeholder="게시판 검색"
+       onkeydown="if(event.key==='Enter'){boardSearch();}">
   <button onclick="boardSearch()">검색</button>
 </div>
+
+<div id="boardSection"></div>
 
 <div id="writeModal" class="write-modal" style="display:none;">
   <div class="write-box">
@@ -1095,15 +1204,15 @@ body{
 
       <label>카테고리</label>
       <select id="userPostCategory">
-        <option value="중앙동">중앙동</option>
-        <option value="남촌동">남촌동</option>
-        <option value="신장1동">신장1동</option>
-        <option value="신장2동">신장2동</option>
-        <option value="세마동">세마동</option>
-        <option value="초평동">초평동</option>
-        <option value="대원1동">대원1동</option>
-        <option value="대원2동">대원2동</option>
-        <option value="신고">신고</option>
+        <option value="연길">연길</option>
+        <option value="훈춘">훈춘</option>
+        <option value="화룡">화룡</option>
+        <option value="룡정">룡정</option>
+        <option value="왕청">왕청</option>
+        <option value="도문">도문</option>
+        <option value="돈화">돈화</option>
+        <option value="안도">안도</option>
+        <option value="불편신고">불편신고</option>
       </select>
 
       <label>제목</label>
@@ -1132,23 +1241,69 @@ body{
 
 <div class="board-category" id="boardCategoryBar">
   <button onclick="filterCategory('전체', this)">전체</button>
-  <button onclick="filterCategory('중앙동', this)">중앙동</button>
-  <button onclick="filterCategory('남촌동', this)">남촌동</button>
-  <button onclick="filterCategory('신장1동', this)">신장1동</button>
-  <button onclick="filterCategory('신장2동', this)">신장2동</button>
-  <button onclick="filterCategory('세마동', this)">세마동</button>
-  <button onclick="filterCategory('초평동', this)">초평동</button>
-  <button onclick="filterCategory('대원1동', this)">대원1동</button>
-  <button onclick="filterCategory('대원2동', this)">대원2동</button>
-  <button onclick="filterCategory('신고', this)">신고</button>
+  <button onclick="filterCategory('연길', this)">연길</button>
+  <button onclick="filterCategory('훈춘', this)">훈춘</button>
+  <button onclick="filterCategory('화룡', this)">화룡</button>
+  <button onclick="filterCategory('룡정', this)">룡정</button>
+  <button onclick="filterCategory('왕청', this)">왕청</button>
+  <button onclick="filterCategory('도문', this)">도문</button>
+  <button onclick="filterCategory('돈화', this)">돈화</button>
+  <button onclick="filterCategory('안도', this)">안도</button>
+  <button onclick="filterCategory('불편신고', this)">불편신고</button>
 </div>
 
 <button onclick="openWritePost()" class="write-btn">글쓰기</button>
 </div>
 
-<div class="board-section" id="boardSection"></div>
-<div id="pagination" style="margin-top:20px;text-align:center;"></div>
+<div class="board-wrapper">
+
+  <div class="board-box">
+    <h3>공지사항</h3>
+    <div id="noticeList" class="board-list"></div>
+    <div id="noticePagination"></div>
+  </div>
+
+  <div class="board-box">
+    <h3>지역정보 ( 인재채용,매매,부동산정보,소식 )</h3>
+    <div id="regionList" class="board-list"></div>
+    <div id="regionPagination"></div>
+  </div>
+
+</div>
+
 <div class="site-description" id="siteDescription"></div>
+
+<h1 style="
+font-family:'Microsoft YaHei','微软雅黑',sans-serif;
+font-size:12px;
+font-weight:700;
+line-height:1.6;
+letter-spacing:0.5px;
+text-align:center;
+margin:18px 0;
+color:#e0e0e0;
+">
+延边信息搜索平台<br>
+<span style="
+font-size:12px;
+font-weight:500;
+color:#cfcfcf;
+display:block;
+margin-top:8px;
+">
+延吉 〃 珲春 〃 和龙 〃 龙井 〃 汪清 〃 图们 〃 敦化 〃 安图 商家信息一站式查询
+</span>
+</h1>
+
+<div style="padding:0 20px 20px;
+font-size:12px;
+color:#d5d5d5;
+line-height:1.8;
+text-align:center;
+max-width:700px;
+margin:0 auto;">
+提供商家信息等延边地区综合生活信息查询服务。
+</div>
 
 <div class="owner-box">
   <div class="owner-name" id="ownerName"></div>
@@ -1159,6 +1314,11 @@ body{
 <script src="supabase.js"></script>
 
 <script>
+
+let noticePage = 1;
+let regionPage = 1;
+
+const boardPageSize = 17;
 
 let captchaValue = 0;
 
@@ -1173,7 +1333,8 @@ function generateCaptcha(){
 }
 
 function escapeHTML(str){
-  return str
+  if(!str) return "";
+  return String(str)
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;");
@@ -1182,9 +1343,11 @@ function escapeHTML(str){
 let currentCategory = "전체";
 
 function filterCategory(cat, el){
+
   currentCategory = cat;
-  currentPage = 1;
-  pageGroup = 1;
+
+  noticePage = 1;
+  regionPage = 1;
 
   document
     .querySelectorAll(".board-category button")
@@ -1440,7 +1603,7 @@ if(ad.type==="image"){
 
 const link = ad.link_url 
   ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${ad.image_url}">
+       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
      </a>`
   : ad.video_url
   ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
@@ -1471,7 +1634,7 @@ const link = ad.link_url
 
 const link = ad.link_url 
   ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${ad.image_url}">
+       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
      </a>`
   : ad.video_url
   ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
@@ -1614,71 +1777,193 @@ async function recordVisit(){
 
 async function loadBoard(){
 
-  const boardSection=document.getElementById("boardSection");
-  boardSection.innerHTML="";
+  const noticeList = document.getElementById("noticeList");
+  const regionList = document.getElementById("regionList");
 
-  const start=(currentPage-1)*pageSize;
-  const end=start+pageSize-1;
+  /* 지역정보만 로딩 느낌 주기 */
+  regionList.innerHTML = "불러오는중...";
+  noticeList.innerHTML = "";
 
-let query = supabaseClient
-  .from("board_posts")
-  .select("*")
-  .order("id",{ascending:false});
+  /* ---------------- 공지글은 전체 고정 ---------------- */
+  const { data: noticePosts } = await supabaseClient
+    .from("board_posts")
+    .select("*")
+    .in("category", ["공지","공지글","이벤트"])
+    .order("id",{ascending:false});
 
-if(currentCategory !== "전체"){
-  query = query.eq("category", currentCategory);
-}
+  /* ---------------- 지역정보만 카테고리 적용 ---------------- */
+  let regionQuery = supabaseClient
+    .from("board_posts")
+    .select("*")
+    .order("id",{ascending:false})
+    .not("category","in",'("공지","공지글","이벤트")');
 
-const { data: posts } = await query.range(start,end);
-
-  if(posts){
-    posts.forEach(post=>{
-
-      const div=document.createElement("div");
-      div.className="board-card";
-
-      const date=new Date(post.created_at)
-        .toLocaleDateString("ko-KR");
-
-div.innerHTML = `
-  <h3>[${post.category||"일반"}] ${escapeHTML(post.title)}</h3>
-  <div class="board-preview">${escapeHTML(post.content)}</div>
-  <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
-    ${date} · 조회 ${post.views||0}
-  </div>
-`;
-
-div.onclick=async ()=>{
-
-  await supabaseClient.rpc('increment_views', {
-    post_id: post.id
-  });
-
-  const newViews = (post.views || 0) + 1;   // 🔥 이 줄 추가
-
-  openModal(post.title, post.content, date, newViews);
-
-  div.querySelector(".view-count").innerText =
-    date + " · 조회 " + newViews;
-
-  post.views = newViews;
-};
-
-      boardSection.appendChild(div);
-    });
+  if(currentCategory !== "전체"){
+    regionQuery = regionQuery.eq("category", currentCategory);
   }
 
-  loadPagination();
+  const { data: regionPosts } = await regionQuery;
+
+  /* ---------------- 출력 ---------------- */
+  renderBoardList(
+    noticePosts || [],
+    noticeList,
+    noticePage,
+    "notice"
+  );
+
+  renderBoardList(
+    regionPosts || [],
+    regionList,
+    regionPage,
+    "region"
+  );
 }
 
-document.getElementById("searchInput")
-  .addEventListener("keydown",function(e){
-    if(e.key==="Enter"){
-      search();
-    }
+function renderBoardList(list, target, page, type){
+
+  target.innerHTML = "";
+
+const pageSize =
+  window.innerWidth <= 768
+    ? (type === "notice" ? 5 : 11)
+    : boardPageSize;
+
+const start = (page - 1) * pageSize;
+const end = start + pageSize;
+
+  const pageItems = list.slice(start, end);
+
+  pageItems.forEach(post => {
+
+    const div = document.createElement("div");
+    div.innerText = `[${post.category}] ${post.title}`;
+
+    div.onclick = () => {
+      const date = new Date(post.created_at)
+        .toLocaleDateString("ko-KR");
+
+      supabaseClient.rpc('increment_views', {
+        post_id: post.id
+      });
+
+      openModal(
+        post.title,
+        post.content,
+        date,
+        (post.views || 0) + 1
+      );
+    };
+
+    target.appendChild(div);
   });
 
-async function boardSearch(){
+renderBoardPagination(list.length, type, list, target);
+}
+
+function renderBoardPagination(totalCount, type, list, target){
+
+  let container;
+
+  if(type === "notice"){
+    container = document.getElementById("noticePagination");
+  } else {
+    container = document.getElementById("regionPagination");
+  }
+
+  container.innerHTML = "";
+
+const pageSize =
+  window.innerWidth <= 768
+    ? (type === "notice" ? 5 : 11)
+    : boardPageSize;
+
+const totalPages = Math.ceil(totalCount / pageSize);
+
+  // 현재 페이지 확인
+  let current = (type === "notice") ? noticePage : regionPage;
+
+  // ===== 10개씩 그룹 =====
+  const groupSize = window.innerWidth <= 768 ? 5 : 10;
+  const group = Math.ceil(current / groupSize);
+
+  const startPage = (group - 1) * groupSize + 1;
+  const endPage = Math.min(startPage + groupSize - 1, totalPages);
+
+  // 이전 버튼
+  if(startPage > 1){
+    const prev = document.createElement("button");
+    prev.innerText = "이전";
+
+    prev.onclick = () => {
+      if(type === "notice"){
+        noticePage = startPage - 1;
+      }else{
+        regionPage = startPage - 1;
+      }
+
+      renderBoardList(
+        list,
+        target,
+        (type === "notice") ? noticePage : regionPage,
+        type
+      );
+    };
+
+    container.appendChild(prev);
+  }
+
+  // 페이지 번호
+  for(let i = startPage; i <= endPage; i++){
+
+    const btn = document.createElement("button");
+    btn.innerText = i;
+
+    if(i === current){
+      btn.style.background = "#87CEEB";
+      btn.style.color = "#fff";
+    }
+
+    btn.onclick = () => {
+
+      if(type === "notice"){
+        noticePage = i;
+      }else{
+        regionPage = i;
+      }
+
+      renderBoardList(list, target, i, type);
+    };
+
+    container.appendChild(btn);
+  }
+
+  // 다음 버튼
+  if(endPage < totalPages){
+    const next = document.createElement("button");
+    next.innerText = "다음";
+
+    next.onclick = () => {
+
+      if(type === "notice"){
+        noticePage = endPage + 1;
+      }else{
+        regionPage = endPage + 1;
+      }
+
+      renderBoardList(
+        list,
+        target,
+        (type === "notice") ? noticePage : regionPage,
+        type
+      );
+    };
+
+    container.appendChild(next);
+  }
+}
+
+function boardSearch(){
 
   const keyword = document
     .getElementById("boardSearchInput")
@@ -1686,53 +1971,22 @@ async function boardSearch(){
     .trim()
     .toLowerCase();
 
-  if(!keyword) return;
+  const items = document.querySelectorAll(".board-list div");
 
-  const { data: posts, count } = await supabaseClient
-    .from("board_posts")
-    .select("*",{count:"exact"})
-    .or(`title.ilike.%${keyword}%,content.ilike.%${keyword}%`)
-    .limit(1);
+  let found = false;
 
-  if(!posts || posts.length === 0){
-    alert("검색 결과 없음");
-    return;
-  }
+  items.forEach(item => {
 
-  const post = posts[0];
+    const text = item.innerText.toLowerCase();
 
-  /* ===== 게시글 순서 찾기 ===== */
+    if(keyword === "" || text.includes(keyword)){
+      item.style.display = "block";
+      found = true;
+    } else {
+      item.style.display = "none";
+    }
 
-const { count: position } = await supabaseClient
-  .from("board_posts")
-  .select("*",{count:"exact", head:true})
-  .lt("id", post.id);
-
-  const index = position;
-
-  const targetPage = Math.floor(index / pageSize) + 1;
-
-  currentPage = targetPage;
-
-  await loadBoard();
-
-  setTimeout(()=>{
-
-    const boards=document.querySelectorAll(".board-card");
-
-    boards.forEach(board=>{
-      board.classList.remove("highlight");
-
-      if(board.innerText.toLowerCase().includes(keyword)){
-        board.classList.add("highlight");
-        board.scrollIntoView({
-          behavior:"smooth",
-          block:"center"
-        });
-      }
-    });
-
-  },300);
+  });
 
 }
 
@@ -1809,11 +2063,16 @@ function outsideClose(e){
   }
 }
 
-document.getElementById("boardSearchInput")
-  .addEventListener("keydown",function(e){
-    if(e.key==="Enter"){
-      boardSearch();
-    }
+window.addEventListener("DOMContentLoaded", function(){
+
+  document.getElementById("boardSearchInput")
+    .addEventListener("keydown", function(e){
+      if(e.key === "Enter"){
+        e.preventDefault();
+        boardSearch();
+      }
+    });
+
 });
 
 function openWritePost(){
@@ -1878,7 +2137,7 @@ if(!banner) return;
 banner.classList.remove("rain","snow","thunder","wind");
 
   try{
-    const res = await fetch("https://wttr.in/37.1498,127.0772?format=j1");
+    const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
     const data = await res.json();
 
     const current = data.current_condition[0];
@@ -1935,7 +2194,7 @@ else if(current.windspeedKmph > 20){
 // 출력
 box.innerHTML = `
   <div>
-    경기도 오산시 ${temp}°C
+    연변조선족자치주 ${temp}°C
     <div style="font-size:11px;color:#ddd;">
       체감 ${feels}°C · ${desc}
     </div>
@@ -1997,11 +2256,5 @@ box.innerHTML = `
 </button>
 
 </div>
-
-<!-- ✅ 숨김 SEO -->
-<div style="display:none;" aria-hidden="true">
-  오산시, 경기도오산시, 지역정보, 생활정보
-</div>
-
 </body>
 </html>

@@ -851,18 +851,12 @@ const payload = {
 
 let result;
 
-const { data, error } = await supabaseClient
+const { error } = await supabaseClient
   .from("site_settings")
   .upsert(
     { id: 1, ...payload },
     { onConflict: "id" }
   );
-
-if(error){
-  console.error("site_settings 저장 실패:", error);
-  alert("저장 실패: " + error.message);
-  return;
-}
 
 if(error){
   console.error(error);
@@ -1057,17 +1051,13 @@ async function addBoardPost(){
 
   }else{
 
-const { error } = await supabaseClient.from("board_posts").insert([{
+await supabaseClient.from("board_posts").insert([{
   category:category,
   title:title,
   content:content
 }]);
 
-if(error){
-  console.error("게시판 저장 실패:", error);
-  alert("게시판 저장 실패");
-  return;
-}
+  }
 
   document.getElementById("boardTitle").value="";
   document.getElementById("boardContent").value="";

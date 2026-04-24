@@ -830,10 +830,9 @@ for(const [index, block] of [...snsVideoAdmin.children].entries()){
   }
 }
 
-const { data: existing } = await supabaseClient
-  .from("site_settings")
-  .select("id")
-  .single();
+const { error } = await supabaseClient
+.from("site_settings")
+.upsert([{ id:1, ...payload }]);
 
 const payload = {
   site_description: document

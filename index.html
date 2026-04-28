@@ -1209,6 +1209,7 @@ body{
 <div class="grid" id="textAds"></div>
 <div class="grid" id="bottomImageAds"></div>
 <div class="grid" id="snsVideoAds"></div>
+<div class="grid" id="productAds"></div>
 
 <!-- 게시판 전용 검색 -->
 
@@ -1607,6 +1608,7 @@ async function loadSite(){
   const txtBox=document.getElementById("textAds");
   const bottomBox=document.getElementById("bottomImageAds");
   const snsBox=document.getElementById("snsVideoAds");
+  const productBox=document.getElementById("productAds");
   const bannerBox=document.getElementById("topBanner");
 
   // 🔥 전체 초기화
@@ -1615,6 +1617,7 @@ async function loadSite(){
   txtBox.innerHTML="";
   bottomBox.innerHTML="";
   snsBox.innerHTML="";
+  productBox.innerHTML="";
   bannerBox.innerHTML="";
 
   /* ================= 광고 ================= */
@@ -1697,6 +1700,42 @@ if(ad.type==="sns"){
 
     });
   }
+
+if(ad.type==="product"){
+
+  const wrap=document.createElement("div");
+  wrap.className="ad-item";
+  wrap.setAttribute("data-title",(ad.title||"").toLowerCase());
+
+  wrap.innerHTML=`
+    <div class="square-ad">
+      <img src="${ad.image_url}"
+      onclick="openImageModal('${ad.video_url}')">
+    </div>
+
+    <div class="ad-title">${ad.title}</div>
+
+    <div style="margin-top:6px;font-weight:bold;color:#e91e63;">
+      ${ad.main_title}원
+    </div>
+
+    <a href="${ad.link_url}" target="_blank"
+      style="
+      margin-top:8px;
+      background:#03c75a;
+      color:white;
+      padding:8px 14px;
+      border-radius:8px;
+      text-decoration:none;
+      display:inline-block;
+      font-size:14px;
+      ">
+      네이버페이 결제
+    </a>
+  `;
+
+  productBox.appendChild(wrap);
+}
 
   /* ================= 설정 ================= */
 

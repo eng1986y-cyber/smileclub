@@ -793,6 +793,7 @@ await supabaseClient.from("ads").delete().eq("type","text");
 await supabaseClient.from("ads").delete().eq("type","square");
 await supabaseClient.from("ads").delete().eq("type","sns");
 await supabaseClient.from("ads").delete().eq("type","adsense");
+await supabaseClient.from("ads").delete().eq("type","product");
 
 for(const [index, block] of [...imageAdmin.children].entries()){
 
@@ -857,6 +858,25 @@ for(const [index, block] of [...snsVideoAdmin.children].entries()){
       title:i[0].value.trim(),
       image_url:i[1].value.trim(),
       video_url:i[3].value.trim(),
+      sort:index
+    }]);
+
+  }
+}
+
+for(const [index, block] of [...productAdmin.children].entries()){
+
+  const i = block.querySelectorAll("input");
+
+  if(i[0].value.trim()){
+
+    await supabaseClient.from("ads").insert([{
+      type:"product",
+      title:i[0].value.trim(),
+      main_title:i[1].value.trim(),
+      image_url:i[2].value.trim(),
+      link_url:i[5].value.trim(),
+      video_url:i[4].value.trim(),
       sort:index
     }]);
 

@@ -1711,9 +1711,9 @@ if(ad.type==="product" && ad.image_url){
 
     <div class="ad-title">${escapeHTML(ad.title || "")}</div>
 <div style="margin-top:6px;font-weight:bold;color:#e91e63;">
-  ${Number(
-    String(ad.price || ad.product_price || 0).replace(/,/g,'')
-  ).toLocaleString()}원
+${Number(
+ String(ad.price ?? 0).replace(/,/g,'').trim()
+).toLocaleString()}원
 </div>
 
     <a href="${ad.link_url || '#'}" target="_blank"

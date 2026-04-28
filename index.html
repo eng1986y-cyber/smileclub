@@ -24,6 +24,9 @@
 <meta name="robots" content="index,follow">
 <meta name="googlebot" content="index,follow,max-image-preview:large">
 <meta name="author" content="SmileClub">
+<meta name="google-site-verification" content="구글서치콘솔코드">
+<meta name="rating" content="general">
+<meta name="distribution" content="global">
 <meta name="theme-color" content="#87CEEB">
 
 <style>
@@ -1238,7 +1241,7 @@ body{
         <option value="신장2동">신장2동</option>
         <option value="세마동">세마동</option>
         <option value="초평동">초평동</option>
-        <option value="데원1동">대원1동</option>
+        <option value="대원1동">대원1동</option>
         <option value="대원2동">대원2동</option>
         <option value="불편신고">불편신고</option>
       </select>
@@ -1309,7 +1312,7 @@ line-height:1.6;
 letter-spacing:0.5px;
 text-align:center;
 margin:18px 0;
-color:#e0e0e0;
+color:#222;
 ">
 스마일클럽 링크공유<br>
 <span style="
@@ -2049,14 +2052,17 @@ function closeModal(){
   document.getElementById("boardModal").style.display="none";
 }
 
-// 팝업 배경 클릭 시 닫기
-document.getElementById("boardModal")
-  .addEventListener("click", function(e){
+window.addEventListener("DOMContentLoaded", function(){
 
-    // 배경을 클릭한 경우만 닫기
-    if(e.target === this){
-      closeModal();
-    }
+  const boardModal = document.getElementById("boardModal");
+
+  if(boardModal){
+    boardModal.addEventListener("click", function(e){
+      if(e.target === this){
+        closeModal();
+      }
+    });
+  }
 
 });
 

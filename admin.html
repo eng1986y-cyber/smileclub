@@ -733,6 +733,7 @@ imageAdmin.innerHTML="";
 textAdmin.innerHTML="";
 squareAdmin.innerHTML="";
 snsVideoAdmin.innerHTML="";
+productAdmin.innerHTML="";
 
 const { data: ads } = await supabaseClient
   .from("ads")
@@ -749,6 +750,15 @@ if(ads){
       addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
     if(ad.type==="sns")
       addSnsVideo(ad.title, ad.image_url, ad.video_url);
+    if(ad.type==="product")
+  addProduct(
+    ad.title,
+    ad.main_title,
+    ad.image_url,
+    ad.video_url,
+    ad.link_url
+  );
+
   });
 }
 

@@ -1706,7 +1706,7 @@ if(ad.type==="product" && ad.image_url){
   wrap.innerHTML=`
     <div class="square-ad">
       <img src="${ad.image_url}"
-        onclick="openImageModal('${ad.detail_image || ad.image_url}')">
+        onclick="openImageModal('${ad.detail_url || ad.image_url}')">
     </div>
 
     <div class="ad-title">${escapeHTML(ad.title || "")}</div>

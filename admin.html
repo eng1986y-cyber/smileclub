@@ -878,20 +878,20 @@ for(const [index, block] of [...productAdmin.children].entries()){
 
   const i = block.querySelectorAll("input");
 
-  const name        = i[0].value.trim(); // 상품명
-  const price       = i[1].value.trim(); // 가격
-  const mainImage   = i[2].value.trim(); // 메인이미지
-  const detailImage = i[4].value.trim(); // 상세이미지
-  const buyLink     = i[5].value.trim(); // 결제링크
+  const title = i[0].value.trim();
+  const price = i[1].value.trim();
+  const mainImage = i[2].value.trim();
+  const detailImage = i[4].value.trim();
+  const buyLink = i[5].value.trim();
 
-  if(name){
+  if(title){
 
     await supabaseClient.from("ads").insert([{
       type:"product",
-      title:name,
-      price:Number(price) || 0,
+      title:title,
+      price:Number(price || 0),
       image_url:mainImage,
-      detail_image:detailImage,
+      detail_url:detailImage,
       link_url:buyLink,
       sort:index
     }]);

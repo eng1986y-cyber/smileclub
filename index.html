@@ -1712,17 +1712,16 @@ if(ad.type==="product" && ad.image_url){
     <div class="ad-title">${escapeHTML(ad.title || "")}</div>
 <div style="
 margin-top:8px;
-font-family:'Pretendard','Segoe UI',Arial,sans-serif;
+font-family:'HYGraphicM', Arial, sans-serif;
 font-size:20px;
-font-weight:800;
-letter-spacing:-0.5px;
+font-weight:700;
+letter-spacing:0.3px;
 color:#e91e63;
 line-height:1.1;
-text-shadow:0 1px 0 rgba(255,255,255,0.3);
 ">
 ${Number(
  String(ad.price ?? 0).replace(/,/g,'').trim()
-).toLocaleString()}원
+).toLocaleString()}\
 </div>
 
     <a href="${ad.link_url || '#'}" target="_blank"

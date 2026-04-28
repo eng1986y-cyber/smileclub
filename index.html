@@ -1746,12 +1746,6 @@ if(s.banner_img){
       snsBox.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
   }
 
-loadSite();
-loadBoard();
-setTimeout(loadWeather,2000);
-
-recordVisit();
-
 async function recordVisit(){
 
   const today = new Date().toLocaleDateString("sv-SE");
@@ -2212,6 +2206,11 @@ async function loadWeather(){
     box.innerText="날씨 오류";
   }
 }
+
+loadSite();
+loadBoard();
+setTimeout(loadWeather,2000);
+recordVisit();
 
 </script>
 

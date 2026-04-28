@@ -880,15 +880,14 @@ for(const [index, block] of [...productAdmin.children].entries()){
 
   if(i[0].value.trim()){
 
-    await supabaseClient.from("ads").insert([{
-      type:"product",
-      title:i[0].value.trim(),
-      main_title:i[1].value.trim(),
-      image_url:i[2].value.trim(),
-      link_url:i[5].value.trim(),
-      video_url:i[4].value.trim(),
-      sort:index
-    }]);
+await supabaseClient.from("ads").insert([{
+ type:"product",
+ title:title,
+ image_url:mainImage,
+ detail_image:detailImage,
+ price:Number(price),
+ link_url:buyLink
+}]);
 
   }
 }

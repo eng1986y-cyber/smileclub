@@ -1864,9 +1864,9 @@ const end = start + pageSize;
       const date = new Date(post.created_at)
         .toLocaleDateString("ko-KR");
 
-      await supabaseClient.rpc("increment_views", {
-  post_id: Number(post.id)
-});
+      supabaseClient.rpc('increment_views', {
+        post_id: post.id
+      });
 
       openModal(
         post.title,

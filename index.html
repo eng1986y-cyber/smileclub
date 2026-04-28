@@ -1667,7 +1667,7 @@ const link = ad.link_url
 
 const link = ad.link_url 
   ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
+       <img src="${ad.image_url}" alt="${ad.main_title||'링크공유'}">
      </a>`
   : ad.video_url
   ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
@@ -1706,7 +1706,7 @@ if(ad.type==="product" && ad.image_url){
   wrap.innerHTML=`
     <div class="square-ad">
       <img src="${ad.image_url}"
-           onclick="openImageModal('${ad.detail_image || ad.image_url}')">
+        onclick="openImageModal('${ad.detail_image || ad.image_url}')">
     </div>
 
     <div class="ad-title">${escapeHTML(ad.title || "")}</div>

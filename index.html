@@ -1711,11 +1711,24 @@ if(ad.type==="sns"){
 
 const adCode = s.adsense_code || "";
 
-if(window.innerWidth <= 768){
-  document.getElementById("mobileGoogleAd").innerHTML = adCode;
-}else{
-  document.getElementById("pcGoogleAd").innerHTML = adCode;
-}
+const target =
+window.innerWidth <= 768
+? document.getElementById("mobileGoogleAd")
+: document.getElementById("pcGoogleAd");
+
+target.innerHTML = adCode;
+
+target.querySelectorAll("script").forEach(oldScript=>{
+  const newScript = document.createElement("script");
+
+  [...oldScript.attributes].forEach(attr=>{
+    newScript.setAttribute(attr.name, attr.value);
+  });
+
+  newScript.text = oldScript.innerHTML;
+
+  oldScript.parentNode.replaceChild(newScript, oldScript);
+});
 
 if(s.search_logo){
   document.getElementById("searchLogo").src = s.search_logo;

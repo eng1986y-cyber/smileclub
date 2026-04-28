@@ -716,7 +716,7 @@ function addProduct(name="", price="", img="", detail="", pay=""){
       <input value="${img}" placeholder="상품 메인이미지 URL">
 
       <input type="file" accept="image/*"
-        onchange="uploadImage(this)">
+        onchange="uploadImage(this,2)">
 
       <input value="${detail}" placeholder="상세이미지 링크주소">
 
@@ -1156,7 +1156,7 @@ async function adminLogout(){
 
 }
 
-async function uploadImage(input){
+async function uploadImage(input,targetIndex=1){
 
   const file = input.files[0];
   if(!file) return;
@@ -1181,7 +1181,8 @@ const fileName = crypto.randomUUID()+"_"+safeName;
 
   const imageUrl = urlData.publicUrl;
 
-  const urlInput = input.parentElement.querySelectorAll("input")[1];
+  const urlInput =
+  input.parentElement.querySelectorAll("input")[targetIndex];
   urlInput.value = imageUrl;
 
   alert("업로드 완료 ✅");

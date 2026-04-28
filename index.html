@@ -1743,11 +1743,23 @@ if(ad.type==="product"){
     .select("*")
     .limit(1);
 
-  if(settings && settings.length>0){
+if(settings && settings.length>0){
 
-    const s=settings[0];
+  const s = settings[0];
 
-const adCode = s.adsense_code || "";
+  if(s.banner_img){
+    bannerBox.innerHTML = `
+      ${s.banner_link
+        ? `<a href="${s.banner_link}" target="_blank">
+             <img src="${s.banner_img}">
+           </a>`
+        : `<img src="${s.banner_img}">`
+      }
+      <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
+    `;
+  }
+
+  const adCode = s.adsense_code || "";
 
 const target =
 window.innerWidth <= 768

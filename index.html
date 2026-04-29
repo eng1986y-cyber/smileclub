@@ -1166,6 +1166,17 @@ body{
 
 }
 
+.image-modal-box.product-popup{
+  width:700px;
+  max-width:95vw;
+  max-height:90vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background:#fff;
+  padding:15px;
+  border-radius:12px;
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -1706,14 +1717,14 @@ if(ad.type==="product" && ad.image_url){
   wrap.innerHTML=`
     <div class="square-ad">
       <img src="${ad.image_url}"
-        onclick="openImageModal('${ad.detail_url || ad.image_url}')">
+        onclick="openProductModal('${ad.detail_url || ad.image_url}')">
     </div>
 
     <div class="ad-title">${escapeHTML(ad.title || "")}</div>
 <div style="
 margin-top:8px;
 font-family:'HYGraphicM', Arial, sans-serif;
-font-size:12px;
+font-size:16px;
 font-weight:700;
 letter-spacing:0.3px;
 color:#e91e63;
@@ -2154,6 +2165,25 @@ function openWritePost(){
 
 function closeWritePost(){
   document.getElementById("writeModal").style.display="none";
+}
+
+function openProductModal(url){
+  const modal = document.getElementById("imageModal");
+  const box = modal.querySelector(".image-modal-box");
+
+  box.classList.add("product-popup");
+
+  document.getElementById("modalAdImage").src = url;
+  modal.style.display = "flex";
+}
+
+function closeImageModal(){
+  const modal = document.getElementById("imageModal");
+  const box = modal.querySelector(".image-modal-box");
+
+  modal.style.display="none";
+  document.getElementById("modalAdImage").src="";
+  box.classList.remove("product-popup");
 }
 
 async function submitPost(){

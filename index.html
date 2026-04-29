@@ -2208,9 +2208,15 @@ window.addEventListener("DOMContentLoaded", function(){
     });
   }
 
-document.getElementById("imageModal").addEventListener("click", function(e){
-  if(e.target === this){
-    closeImageModal();
+  // ✅ 여기 추가
+  const imageModal = document.getElementById("imageModal");
+
+  if(imageModal){
+    imageModal.addEventListener("click", function(e){
+      if(e.target === this){
+        closeImageModal();
+      }
+    });
   }
 
 });

@@ -1162,10 +1162,9 @@ body{
   border-radius:50%;
 }
 
-  .image-modal-box.product-popup .modal-close{
-    right:10px;
-    top:10px;
-  }
+.image-modal-box.product-popup .modal-close{
+  right:10px;
+  top:10px;
 }
 
 .modal{
@@ -1175,22 +1174,15 @@ body{
   left:0;
   width:100vw;
   height:100vh;
-
   background:rgba(0,0,0,0.4);
   backdrop-filter: blur(6px);
-
   justify-content:center;
   align-items:center;
-
   z-index:99999;
 }
 
 .modal-content{
   position:relative;
-}
-
-.modal{
-  display:none;
 }
 
 @keyframes fadeIn{
@@ -1701,10 +1693,7 @@ productBox.innerHTML="";
 
   /* ================= 광고 ================= */
 
-  const { data: ads } = await supabaseClient
-    .from("ads")
-    .select("*")
-    .order("id",{ascending:true});
+.select("id,type,title,main_title,image_url,link_url,video_url,price")
 
   if(ads){
     ads.forEach(ad=>{
@@ -2163,7 +2152,7 @@ function search(){
   });
 
   /* ===== 게시판 검색 ===== */
-  const boards=document.querySelectorAll(".board-card");
+  const boards=document.querySelectorAll(".board-list div");
 
   boards.forEach(board=>{
     board.classList.remove("highlight");
@@ -2177,9 +2166,12 @@ function search(){
     }
   });
 
-  if(!found){
-    alert("검색 결과 없음");
-  }
+if(!found){
+  const msg = document.createElement("div");
+  msg.innerText = "검색 결과 없음";
+  msg.style.textAlign="center";
+  msg.style.margin="20px";
+  document.body.appendChild(msg);
 }
 
 function openModal(title,content,date,views){

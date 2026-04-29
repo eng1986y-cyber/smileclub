@@ -1207,11 +1207,10 @@ body{
   display:block;
 }
 
-/* 닫기버튼 완전 고정 */
 .image-modal-box.product-popup .modal-close{
-  position:fixed !important;
-  top:20px;
-  right:calc(50% - 350px + 15px); /* 팝업 우측 상단 고정 */
+  position:absolute !important;
+  top:12px;
+  right:12px;
   width:42px;
   height:42px;
   background:#111;
@@ -1221,8 +1220,8 @@ body{
   align-items:center;
   justify-content:center;
   cursor:pointer;
-  z-index:10000;
-  border-radius:0 !important;   /* 버튼도 사각 */
+  z-index:10;
+  border-radius:0 !important;
 }
 
 /* 모바일 */

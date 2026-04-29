@@ -49,10 +49,6 @@
   backdrop-filter:blur(4px);
 }
 
-.video-modal-box{
-  position:relative;   /* 이거 중요 */
-}
-
 .board-category{
   display:flex;
   justify-content:center;
@@ -78,19 +74,6 @@
   background:#87CEEB;
   color:white;
   border-color:#87CEEB;
-}
-
-.video-modal-box{
-  max-width: 400px;   /* 필요하면 카드보다 넓게 */
-  width:90%;
-  max-height:90vh;
-  overflow:hidden;    /* 스크롤 제거 */
-}
-
-.video-container{
-  position:relative;
-  padding-bottom:177.78%; /* 16:9 영상이 세로일 경우 → 세로가 가로의 16/9배 */
-  height:0;
 }
 
 .video-container iframe,
@@ -284,29 +267,6 @@
   font-weight:600;
   margin-bottom:3px;
   color:#333;
-}
-
-/* ===== 팝업 ===== */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-.modal-content{
-  background:#fff;
-  width:90%;            /* PC/태블릿 공통 */
-  max-width:600px;
-  height:auto;          /* 높이 자동 */
-  max-height:90vh;      /* 화면 90%까지만 */
-  overflow:hidden;      /* 스크롤 제거 */
-  border-radius:14px;
-  padding:25px;
-  position:relative;
 }
 
 .modal-close{
@@ -1526,13 +1486,6 @@ function openImageModal(url){
   content.style.overflow = "hidden";
 
   modal.style.display="flex";
-}
-
-function closeImageModal(){
-
-  document.getElementById("imageModal").style.display="none";
-  document.getElementById("modalAdImage").src="";
-
 }
 
 function openVideoModal(url){

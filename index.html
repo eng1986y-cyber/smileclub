@@ -2271,8 +2271,6 @@ function openProductModal(url){
 
   document.getElementById("modalAdImage").src = url;
   modal.style.display = "flex";
-
-  lockScroll(); // 🔥 추가
 }
 
 let scrollY = 0;
@@ -2300,7 +2298,8 @@ function closeImageModal(){
   document.getElementById("modalAdImage").src="";
   box.classList.remove("product-popup");
 
-  unlockScroll(); // 🔥 추가
+if(document.body.style.position === "fixed"){
+  unlockScroll();
 }
 
 async function submitPost(){

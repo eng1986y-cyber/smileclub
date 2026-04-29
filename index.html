@@ -1485,6 +1485,23 @@ function closeImageModal(){
 
 }
 
+document.getElementById("imageModal").addEventListener("click", function(e){
+
+  const box = document.querySelector(".image-modal-box");
+
+  // 상품 팝업이면 절대 닫지 않음
+  if(box.classList.contains("product-popup")){
+    e.stopPropagation();
+    return;
+  }
+
+  // 일반 이미지 팝업만 닫힘 허용
+  if(e.target === this){
+    closeImageModal();
+  }
+
+});
+
 function openVideoModal(url){
 
 let embed="";
@@ -2386,7 +2403,7 @@ window.scrollTo(0,0);
   </div>
 </div>
 
-<div class="modal" id="imageModal" onclick="closeImageModal()">
+<div class="modal" id="imageModal">
   <div class="modal-content image-modal-box">
 
     <div class="modal-close" onclick="closeImageModal()">✕</div>

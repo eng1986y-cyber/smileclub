@@ -1251,6 +1251,13 @@ body{
 
 body.modal-open{
   overflow:hidden;
+  padding-right:17px;
+}
+
+@media(max-width:768px){
+  body.modal-open{
+    padding-right:0;
+  }
 }
 
 .image-modal-box.product-popup{
@@ -2275,25 +2282,24 @@ function closeWritePost(){
 function openProductModal(url){
   const modal = document.getElementById("imageModal");
   const box = modal.querySelector(".image-modal-box");
+  const img = document.getElementById("modalAdImage");
 
-  box.classList.add("product-popup");
+  box.className = "modal-content image-modal-box product-popup";
 
-  document.getElementById("modalAdImage").src = url;
+  img.src = url;
 
   modal.style.display = "flex";
-
-  document.body.classList.add("modal-open");
 }
 
 function closeImageModal(){
   const modal = document.getElementById("imageModal");
   const box = modal.querySelector(".image-modal-box");
+  const img = document.getElementById("modalAdImage");
 
   modal.style.display = "none";
-  document.getElementById("modalAdImage").src = "";
-  box.classList.remove("product-popup");
+  img.src = "";
 
-  document.body.classList.remove("modal-open");
+  box.className = "modal-content image-modal-box";
 }
 
 async function submitPost(){

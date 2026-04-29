@@ -1693,7 +1693,9 @@ productBox.innerHTML="";
 
   /* ================= 광고 ================= */
 
-.select("id,type,title,main_title,image_url,link_url,video_url,price")
+const { data: ads } = await supabaseClient
+  .from("ads")
+  .select("id,type,title,main_title,image_url,link_url,video_url,price");
 
   if(ads){
     ads.forEach(ad=>{
@@ -2172,6 +2174,8 @@ if(!found){
   msg.style.textAlign="center";
   msg.style.margin="20px";
   document.body.appendChild(msg);
+}
+
 }
 
 function openModal(title,content,date,views){

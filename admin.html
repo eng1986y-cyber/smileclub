@@ -750,14 +750,14 @@ if(ads){
       addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
     if(ad.type==="sns")
       addSnsVideo(ad.title, ad.image_url, ad.video_url);
-    if(ad.type==="product")
-  addProduct(
-    ad.title,
-    ad.main_title,
-    ad.image_url,
-    ad.video_url,
-    ad.link_url
-  );
+if(ad.type==="product")
+addProduct(
+  ad.title || "",
+  ad.price || "",
+  ad.image_url || "",
+  ad.detail_url || "",
+  ad.link_url || ""
+);
 
   });
 }

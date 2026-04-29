@@ -1188,9 +1188,16 @@ body{
 }
 
 .modal-content{
-  transform: scale(0.95);
-  opacity:0;
-  animation: popIn 0.25s ease forwards;
+  opacity:1;
+  transform:none;
+}
+
+#imageModal{
+  display:none;
+}
+
+#imageModal.show{
+  display:flex;
 }
 
 @keyframes fadeIn{
@@ -2241,22 +2248,18 @@ function openProductModal(url){
   const box = modal.querySelector(".image-modal-box");
   const img = document.getElementById("modalAdImage");
 
-  box.className = "modal-content image-modal-box product-popup";
-
+  box.className = "image-modal-box product-popup";
   img.src = url;
 
-  modal.style.display = "flex";
+  modal.classList.add("show");
 }
 
 function closeImageModal(){
   const modal = document.getElementById("imageModal");
-  const box = modal.querySelector(".image-modal-box");
   const img = document.getElementById("modalAdImage");
 
-  modal.style.display = "none";
-  img.src = "";
-
-  box.className = "modal-content image-modal-box";
+  modal.classList.remove("show");
+  img.src="";
 }
 
 async function submitPost(){

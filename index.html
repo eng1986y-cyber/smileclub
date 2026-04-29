@@ -1135,8 +1135,8 @@ body{
 
 .image-modal-box.product-popup #modalAdImage{
   width:100%;
-  height:100%;
-  object-fit:cover;
+  height:auto;        /* ✅ 자연스럽게 길어짐 */
+  object-fit:contain; /* ✅ 이미지 잘림 방지 */
   display:block;
 }
 
@@ -1217,17 +1217,17 @@ body.modal-open{
   width:min(700px,95vw);
   max-width:95vw;
 
-  aspect-ratio:1/1;        /* ✅ 추가 (정사각형 핵심) */
-  height:auto;             /* ✅ 기존 height 제거 */
+  height:90vh;          /* ✅ 높이 고정 */
+  aspect-ratio:auto;    /* ✅ 정사각형 제거 */
 
   background:#fff;
   padding:0;
-  overflow:hidden;         /* ✅ 스크롤 제거 */
+
+  overflow-y:auto;      /* ✅ 스크롤 활성화 */
+  overflow-x:hidden;
 
   border-radius:12px;
   box-sizing:border-box;
-
-  transform:none !important;
 }
 
 #imageModal .image-modal-box.product-popup{

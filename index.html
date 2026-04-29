@@ -1196,10 +1196,6 @@ body{
   display:none;
 }
 
-#imageModal.show{
-  display:flex;
-}
-
 @keyframes fadeIn{
   from {opacity:0;}
   to {opacity:1;}
@@ -1492,9 +1488,6 @@ function openImageModal(url){
   const img = document.getElementById("modalAdImage");
 
   box.className = "modal-content image-modal-box";
-
-  box.style.maxHeight = "90vh";
-  box.style.overflow = "hidden";
 
   img.src = url;
 
@@ -2215,6 +2208,11 @@ window.addEventListener("DOMContentLoaded", function(){
     });
   }
 
+document.getElementById("imageModal").addEventListener("click", function(e){
+  if(e.target === this){
+    closeImageModal();
+  }
+
 });
 
 function outsideClose(e){
@@ -2253,7 +2251,7 @@ function openProductModal(url){
   box.className = "image-modal-box product-popup";
   img.src = url;
 
-  modal.classList.add("show");
+  modal.style.display = "flex";
 }
 
 function closeImageModal(){

@@ -1486,17 +1486,19 @@ function filterCategory(cat, el){
 }
 
 function openImageModal(url){
+
   const modal = document.getElementById("imageModal");
-  const content = modal.querySelector(".modal-content");
+  const box = modal.querySelector(".image-modal-box");
+  const img = document.getElementById("modalAdImage");
 
-  document.getElementById("modalAdImage").src = url;
+  box.className = "modal-content image-modal-box";
 
-  // 화면 높이에 맞춰 높이 조정
-  const vh = window.innerHeight;
-  content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
-  content.style.overflow = "hidden";
+  box.style.maxHeight = "90vh";
+  box.style.overflow = "hidden";
 
-  modal.style.display="flex";
+  img.src = url;
+
+  modal.style.display = "flex";
 }
 
 function openVideoModal(url){
@@ -2255,11 +2257,27 @@ function openProductModal(url){
 }
 
 function closeImageModal(){
+
   const modal = document.getElementById("imageModal");
+  const box = modal.querySelector(".image-modal-box");
   const img = document.getElementById("modalAdImage");
 
-  modal.classList.remove("show");
-  img.src="";
+  /* 숨기기 */
+  modal.style.display = "none";
+
+  /* 이미지 초기화 */
+  img.src = "";
+
+  /* 클래스 원복 */
+  box.className = "modal-content image-modal-box";
+
+  /* 인라인 스타일 원복 */
+  box.style.maxHeight = "";
+  box.style.height = "";
+  box.style.width = "";
+  box.style.overflow = "";
+  box.style.transform = "";
+  box.style.opacity = "";
 }
 
 async function submitPost(){

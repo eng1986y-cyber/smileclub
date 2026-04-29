@@ -706,21 +706,16 @@ function addSnsVideo(title="", thumb="", video=""){
   );
 }
 
-function addProduct(name="", price="", img="", detail="", pay=""){
+function addProduct(name="", price="", img="", detail=""){
   productAdmin.appendChild(
     createCard(`
       <input value="${name}" placeholder="상품명">
-
       <input value="${price}" placeholder="상품가격">
+      <input value="${img}" placeholder="이미지">
 
-      <input value="${img}" placeholder="상품 메인이미지 URL">
-
-      <input type="file" accept="image/*"
-        onchange="uploadImage(this,2)">
-
-      <input value="${detail}" placeholder="상세이미지 링크주소">
-
-      <input value="${pay}" placeholder="네이버페이 결제링크">
+      <button onclick="pay('${name}', ${price})">
+        네이버페이 결제
+      </button>
     `)
   );
 }

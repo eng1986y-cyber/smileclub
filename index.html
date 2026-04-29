@@ -1700,7 +1700,7 @@ if(isFirstLoad){
 
 const { data: ads } = await supabaseClient
   .from("ads")
-  .select("id,type,title,main_title,image_url,link_url,video_url,price");
+  .select("id,type,title,main_title,image_url,detail_image,link_url,video_url,price");
 
   if(ads){
     ads.forEach(ad=>{
@@ -1782,7 +1782,7 @@ if(ad.type==="product" && ad.image_url){
   wrap.innerHTML=`
     <div class="square-ad">
       <img src="${ad.image_url}"
-        onclick="openProductModal('${ad.detail_url || ad.image_url}')">
+        onclick="openProductModal('${ad.detail_image || ad.image_url}')">
     </div>
 
     <div class="ad-title">${escapeHTML(ad.title || "")}</div>

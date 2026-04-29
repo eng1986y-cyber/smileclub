@@ -880,11 +880,10 @@ for(const [index, block] of [...productAdmin.children].entries()){
 
   const i = block.querySelectorAll("input");
 
-  const title = i[0].value.trim();
-  const price = i[1].value.trim();
-  const mainImage = i[2].value.trim();
-  const detailImage = i[4].value.trim();
-  const buyLink = i[5].value.trim();
+  const title = i[0]?.value.trim();
+  const price = i[1]?.value.trim();
+  const mainImage = i[2]?.value.trim();
+  const detailImage = i[4]?.value.trim();
 
   if(title){
 
@@ -894,7 +893,6 @@ for(const [index, block] of [...productAdmin.children].entries()){
       price:Number(price || 0),
       image_url:mainImage,
       detail_url:detailImage,
-      link_url:buyLink,
       sort:index
     }]);
 

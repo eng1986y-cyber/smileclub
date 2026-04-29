@@ -1428,6 +1428,8 @@ margin:0 auto;">
 
 <script>
 
+let isFirstLoad = true;
+
 let noticePage = 1;
 let regionPage = 1;
 
@@ -1684,12 +1686,15 @@ async function loadSite(){
   const productBox=document.getElementById("productAds");
   const bannerBox=document.getElementById("topBanner");
 
-boardSection.innerHTML="";
-imgBox.innerHTML="";
-txtBox.innerHTML="";
-bottomBox.innerHTML="";
-snsBox.innerHTML="";
-productBox.innerHTML="";
+if(isFirstLoad){
+  boardSection.innerHTML="";
+  imgBox.innerHTML="";
+  txtBox.innerHTML="";
+  bottomBox.innerHTML="";
+  snsBox.innerHTML="";
+  productBox.innerHTML="";
+  isFirstLoad = false;
+}
 
   /* ================= 광고 ================= */
 
@@ -1847,18 +1852,6 @@ window.innerWidth <= 768
 : document.getElementById("pcGoogleAd");
 
 target.innerHTML = adCode;
-
-target.querySelectorAll("script").forEach(oldScript=>{
-  const newScript = document.createElement("script");
-
-  [...oldScript.attributes].forEach(attr=>{
-    newScript.setAttribute(attr.name, attr.value);
-  });
-
-  newScript.text = oldScript.innerHTML;
-
-  oldScript.parentNode.replaceChild(newScript, oldScript);
-});
 
 if(s.search_logo){
   document.getElementById("searchLogo").src = s.search_logo;

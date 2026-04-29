@@ -1172,22 +1172,21 @@ body{
   display:none;
   position:fixed;
   inset:0;
+
   background:rgba(0,0,0,0.4);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+
+  display:flex;
   justify-content:center;
   align-items:center;
+
   z-index:9999;
   animation: fadeIn 0.2s ease;
 }
 
 .modal-content{
-  opacity:1;
-  transform:none;
-}
-
-#imageModal{
-  display:none;
+  position:relative;
 }
 
 @keyframes fadeIn{

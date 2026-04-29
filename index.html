@@ -1239,6 +1239,11 @@ body{
   }
 }
 
+body.modal-lock{
+  overflow:hidden !important;
+  height:100vh;
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -2237,6 +2242,9 @@ function openProductModal(url){
 
   document.getElementById("modalAdImage").src = url;
   modal.style.display = "flex";
+
+  // 🔥 뒤 스크롤 완전 잠금
+  document.body.classList.add("modal-lock");
 }
 
 function closeImageModal(){
@@ -2246,6 +2254,9 @@ function closeImageModal(){
   modal.style.display="none";
   document.getElementById("modalAdImage").src="";
   box.classList.remove("product-popup");
+
+  // 🔥 스크롤 복구
+  document.body.classList.remove("modal-lock");
 }
 
 async function submitPost(){

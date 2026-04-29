@@ -1253,6 +1253,14 @@ body {
   overflow-y: scroll;
 }
 
+html.modal-lock,
+body.modal-lock {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -2252,8 +2260,29 @@ function openProductModal(url){
   document.getElementById("modalAdImage").src = url;
   modal.style.display = "flex";
 
+  lockScroll(); // 🔥 추가
+}
+
   // 🔥 뒤 스크롤 완전 잠금
+function lockScroll(){
+  const scrollY = window.scrollY;
+
+  document.documentElement.style.top = `-${scrollY}px`;
+  document.documentElement.classList.add("modal-lock");
+
   document.body.classList.add("modal-lock");
+  document.body.dataset.scrollY = scrollY;
+}
+
+function unlockScroll(){
+  const scrollY = document.body.dataset.scrollY;
+
+  document.documentElement.classList.remove("modal-lock");
+  document.body.classList.remove("modal-lock");
+
+  document.documentElement.style.top = "";
+
+  window.scrollTo(0, parseInt(scrollY || 0));
 }
 
 function closeImageModal(){
@@ -2264,8 +2293,7 @@ function closeImageModal(){
   document.getElementById("modalAdImage").src="";
   box.classList.remove("product-popup");
 
-  // 🔥 스크롤 복구
-  document.body.classList.remove("modal-lock");
+  unlockScroll(); // 🔥 추가
 }
 
 async function submitPost(){

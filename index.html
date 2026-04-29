@@ -2193,7 +2193,6 @@ function closeModal(){
 window.addEventListener("DOMContentLoaded", function(){
 
   const boardModal = document.getElementById("boardModal");
-
   if(boardModal){
     boardModal.addEventListener("click", function(e){
       if(e.target === this){
@@ -2202,9 +2201,7 @@ window.addEventListener("DOMContentLoaded", function(){
     });
   }
 
-  // ✅ 여기 추가
   const imageModal = document.getElementById("imageModal");
-
   if(imageModal){
     imageModal.addEventListener("click", function(e){
       if(e.target === this){
@@ -2213,23 +2210,15 @@ window.addEventListener("DOMContentLoaded", function(){
     });
   }
 
-});
-
-function outsideClose(e){
-  if(e.target.classList.contains("modal")){
-    closeModal();
-  }
-}
-
-window.addEventListener("DOMContentLoaded", function(){
-
-  document.getElementById("boardSearchInput")
-    .addEventListener("keydown", function(e){
+  const boardSearchInput = document.getElementById("boardSearchInput");
+  if(boardSearchInput){
+    boardSearchInput.addEventListener("keydown", function(e){
       if(e.key === "Enter"){
         e.preventDefault();
         boardSearch();
       }
     });
+  }
 
 });
 

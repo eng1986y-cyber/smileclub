@@ -2062,22 +2062,14 @@ function renderBoardList(list, target, page, type){
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
 
-  const pageItems = list.slice(start, end);
+  const pageList = list.slice(start, end);
 
-  pageItems.forEach(item => {
+  pageList.forEach(item => {
 
     const div = document.createElement("div");
+    div.innerHTML = item.title;
+    div.style.cursor = "pointer";
 
-    div.className = "board-card";
-
-    div.innerHTML = `
-      <h3>${item.title || ""}</h3>
-      <div class="board-preview">
-        ${item.content || ""}
-      </div>
-    `;
-
-    // 🔥 클릭 → 팝업
     div.onclick = () => {
       openModal(
         item.title,

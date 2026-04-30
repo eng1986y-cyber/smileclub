@@ -1208,20 +1208,28 @@ body{
 }
 
 .image-modal-box.product-popup .modal-close{
-  position:absolute !important;
-  top:12px;
-  right:12px;
-  width:42px;
-  height:42px;
-  background:#111;
-  color:#fff;
-  font-size:20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  z-index:10;
-  border-radius:0 !important;
+  position: sticky;
+  top: 0;
+  right: 0;
+
+  width: 42px;
+  height: 42px;
+
+  background: #111;
+  color: #fff;
+  font-size: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  z-index: 20;
+}
+
+.image-modal-box.product-popup .modal-close{
+  backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.7);
 }
 
 /* 모바일 */

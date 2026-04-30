@@ -2052,9 +2052,33 @@ async function loadBoard(){
 
 function renderBoardList(list, target, page, type){
 
-target.innerHTML = "";
+  target.innerHTML = "";
 
-renderBoardPagination(list.length, type, list, target);
+  const pageSize =
+    window.innerWidth <= 768
+      ? (type === "notice" ? 5 : 11)
+      : boardPageSize;
+
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
+
+  const pageItems = list.slice(start, end);
+
+  pageItems.forEach(item => {
+
+    const div = document.createElement("div");
+
+    div.innerHTML = `
+      <strong>${item.title || ""}</strong><br>
+      <span style="font-size:12px;color:#888">
+        ${item.category || ""} · ${item.content || ""}
+      </span>
+    `;
+
+    target.appendChild(div);
+  });
+
+  renderBoardPagination(list.length, type, list, target);
 }
 
 function renderBoardPagination(totalCount, type, list, target){

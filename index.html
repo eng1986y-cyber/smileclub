@@ -2054,20 +2054,6 @@ function renderBoardList(list, target, page, type){
 
 target.innerHTML = "";
 
-const temp = document.createElement("div");
-temp.innerHTML = adCode;
-
-temp.childNodes.forEach(node => {
-  if(node.tagName === "SCRIPT"){
-    const s = document.createElement("script");
-    s.src = node.src;
-    s.async = true;
-    target.appendChild(s);
-  } else {
-    target.appendChild(node);
-  }
-});
-
 renderBoardPagination(list.length, type, list, target);
 }
 

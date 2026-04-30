@@ -49,6 +49,10 @@
   backdrop-filter:blur(4px);
 }
 
+.video-modal-box{
+  position:relative;   /* 이거 중요 */
+}
+
 .board-category{
   display:flex;
   justify-content:center;
@@ -74,6 +78,19 @@
   background:#87CEEB;
   color:white;
   border-color:#87CEEB;
+}
+
+.video-modal-box{
+  max-width: 400px;   /* 필요하면 카드보다 넓게 */
+  width:90%;
+  max-height:90vh;
+  overflow:hidden;    /* 스크롤 제거 */
+}
+
+.video-container{
+  position:relative;
+  padding-bottom:177.78%; /* 16:9 영상이 세로일 경우 → 세로가 가로의 16/9배 */
+  height:0;
 }
 
 .video-container iframe,
@@ -267,6 +284,29 @@
   font-weight:600;
   margin-bottom:3px;
   color:#333;
+}
+
+/* ===== 팝업 ===== */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.modal-content{
+  background:#fff;
+  width:90%;            /* PC/태블릿 공통 */
+  max-width:600px;
+  height:auto;          /* 높이 자동 */
+  max-height:90vh;      /* 화면 90%까지만 */
+  overflow:hidden;      /* 스크롤 제거 */
+  border-radius:14px;
+  padding:25px;
+  position:relative;
 }
 
 .modal-close{
@@ -1126,6 +1166,17 @@ body{
 
 }
 
+.image-modal-box.product-popup{
+  width:700px;
+  max-width:95vw;
+  max-height:90vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background:#fff;
+  padding:15px;
+  border-radius:12px;
+}
+
 .image-modal-box.product-popup #modalAdImage{
   width:100%;
   height:auto;
@@ -1133,56 +1184,77 @@ body{
   object-fit:unset !important;
 }
 
+/* 상품 상세팝업 전용 */
+.image-modal-box.product-popup{
+  border-radius:0 !important;   /* 완전 사각 */
+  max-width:700px;
+  width:700px;
+  height:90vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:0;
+  background:#fff;
+  position:relative;
+}
+
+/* 상세 이미지 */
 .image-modal-box.product-popup #modalAdImage{
+  border-radius:0 !important;
   width:100%;
-  height:auto;        /* ✅ 자연스럽게 길어짐 */
-  object-fit:contain; /* ✅ 이미지 잘림 방지 */
+  max-width:none;
+  max-height:none;
+  height:auto;
   display:block;
 }
 
 .image-modal-box.product-popup .modal-close{
   position:absolute !important;
-  top:10px;
-  right:10px;
-
-  width:40px;
-  height:40px;
-
-  background:rgba(0,0,0,0.7);
+  top:12px;
+  right:12px;
+  width:42px;
+  height:42px;
+  background:#111;
   color:#fff;
-
+  font-size:20px;
   display:flex;
   align-items:center;
   justify-content:center;
-
-  font-size:18px;
   cursor:pointer;
-
-  z-index:100;
-  border-radius:50%;
+  z-index:10;
+  border-radius:0 !important;
 }
 
-.image-modal-box.product-popup .modal-close{
-  right:10px;
-  top:10px;
+/* 모바일 */
+@media(max-width:768px){
+  .image-modal-box.product-popup{
+    width:100vw;
+    max-width:100vw;
+    height:100vh;
+  }
+
+  .image-modal-box.product-popup .modal-close{
+    right:10px;
+    top:10px;
+  }
 }
 
 .modal{
   display:none;
   position:fixed;
-  top:0;
-  left:0;
-  width:100vw;
-  height:100vh;
+  inset:0;
   background:rgba(0,0,0,0.4);
   backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   justify-content:center;
   align-items:center;
-  z-index:99999;
+  z-index:9999;
+  animation: fadeIn 0.2s ease;
 }
 
 .modal-content{
-  position:relative;
+  transform: scale(0.95);
+  opacity:0;
+  animation: popIn 0.25s ease forwards;
 }
 
 @keyframes fadeIn{
@@ -1203,47 +1275,6 @@ body{
 
 body.modal-open{
   overflow:hidden;
-  padding-right:0;
-}
-
-@media(max-width:768px){
-  body.modal-open{
-    padding-right:0;
-  }
-}
-
-.image-modal-box.product-popup{
-  position:relative;
-  width:min(700px,95vw);
-  max-width:95vw;
-
-  height:90vh;          /* ✅ 높이 고정 */
-  aspect-ratio:auto;    /* ✅ 정사각형 제거 */
-
-  background:#fff;
-  padding:0;
-
-  overflow-y:auto;      /* ✅ 스크롤 활성화 */
-  overflow-x:hidden;
-
-  border-radius:12px;
-  box-sizing:border-box;
-}
-
-#imageModal .image-modal-box.product-popup{
-  width:min(700px,95vw) !important;
-  max-width:95vw !important;
-  height:90vh !important;
-
-  transform:none !important;
-  animation:none !important;
-
-  margin:0 auto;
-  box-sizing:border-box;
-}
-
-html{
-  overflow-y:scroll;
 }
 
 </style>
@@ -1428,8 +1459,6 @@ margin:0 auto;">
 
 <script>
 
-let isFirstLoad = true;
-
 let noticePage = 1;
 let regionPage = 1;
 
@@ -1474,16 +1503,24 @@ function filterCategory(cat, el){
 }
 
 function openImageModal(url){
-
   const modal = document.getElementById("imageModal");
-  const box = modal.querySelector(".image-modal-box");
-  const img = document.getElementById("modalAdImage");
+  const content = modal.querySelector(".modal-content");
 
-  box.className = "modal-content image-modal-box";
+  document.getElementById("modalAdImage").src = url;
 
-  img.src = url;
+  // 화면 높이에 맞춰 높이 조정
+  const vh = window.innerHeight;
+  content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
+  content.style.overflow = "hidden";
 
-  modal.style.display = "flex";
+  modal.style.display="flex";
+}
+
+function closeImageModal(){
+
+  document.getElementById("imageModal").style.display="none";
+  document.getElementById("modalAdImage").src="";
+
 }
 
 function openVideoModal(url){
@@ -1686,21 +1723,19 @@ async function loadSite(){
   const productBox=document.getElementById("productAds");
   const bannerBox=document.getElementById("topBanner");
 
-if(isFirstLoad){
-  boardSection.innerHTML="";
-  imgBox.innerHTML="";
-  txtBox.innerHTML="";
-  bottomBox.innerHTML="";
-  snsBox.innerHTML="";
-  productBox.innerHTML="";
-  isFirstLoad = false;
-}
+boardSection.innerHTML="";
+imgBox.innerHTML="";
+txtBox.innerHTML="";
+bottomBox.innerHTML="";
+snsBox.innerHTML="";
+productBox.innerHTML="";
 
   /* ================= 광고 ================= */
 
-const { data: ads } = await supabaseClient
-  .from("ads")
-  .select("id,type,title,main_title,image_url,detail_image,link_url,video_url,price");
+  const { data: ads } = await supabaseClient
+    .from("ads")
+    .select("*")
+    .order("id",{ascending:true});
 
   if(ads){
     ads.forEach(ad=>{
@@ -1782,7 +1817,7 @@ if(ad.type==="product" && ad.image_url){
   wrap.innerHTML=`
     <div class="square-ad">
       <img src="${ad.image_url}"
-        onclick="openProductModal('${ad.detail_image || ad.image_url}')">
+        onclick="openProductModal('${ad.detail_url || ad.image_url}')">
     </div>
 
     <div class="ad-title">${escapeHTML(ad.title || "")}</div>
@@ -1852,6 +1887,18 @@ window.innerWidth <= 768
 : document.getElementById("pcGoogleAd");
 
 target.innerHTML = adCode;
+
+target.querySelectorAll("script").forEach(oldScript=>{
+  const newScript = document.createElement("script");
+
+  [...oldScript.attributes].forEach(attr=>{
+    newScript.setAttribute(attr.name, attr.value);
+  });
+
+  newScript.text = oldScript.innerHTML;
+
+  oldScript.parentNode.replaceChild(newScript, oldScript);
+});
 
 if(s.search_logo){
   document.getElementById("searchLogo").src = s.search_logo;
@@ -2147,7 +2194,7 @@ function search(){
   });
 
   /* ===== 게시판 검색 ===== */
-  const boards=document.querySelectorAll(".board-list div");
+  const boards=document.querySelectorAll(".board-card");
 
   boards.forEach(board=>{
     board.classList.remove("highlight");
@@ -2161,14 +2208,9 @@ function search(){
     }
   });
 
-if(!found){
-  const msg = document.createElement("div");
-  msg.innerText = "검색 결과 없음";
-  msg.style.textAlign="center";
-  msg.style.margin="20px";
-  document.body.appendChild(msg);
-}
-
+  if(!found){
+    alert("검색 결과 없음");
+  }
 }
 
 function openModal(title,content,date,views){
@@ -2186,6 +2228,7 @@ function closeModal(){
 window.addEventListener("DOMContentLoaded", function(){
 
   const boardModal = document.getElementById("boardModal");
+
   if(boardModal){
     boardModal.addEventListener("click", function(e){
       if(e.target === this){
@@ -2194,24 +2237,23 @@ window.addEventListener("DOMContentLoaded", function(){
     });
   }
 
-  const imageModal = document.getElementById("imageModal");
-  if(imageModal){
-    imageModal.addEventListener("click", function(e){
-      if(e.target === this){
-        closeImageModal();
-      }
-    });
-  }
+});
 
-  const boardSearchInput = document.getElementById("boardSearchInput");
-  if(boardSearchInput){
-    boardSearchInput.addEventListener("keydown", function(e){
+function outsideClose(e){
+  if(e.target.classList.contains("modal")){
+    closeModal();
+  }
+}
+
+window.addEventListener("DOMContentLoaded", function(){
+
+  document.getElementById("boardSearchInput")
+    .addEventListener("keydown", function(e){
       if(e.key === "Enter"){
         e.preventDefault();
         boardSearch();
       }
     });
-  }
 
 });
 
@@ -2228,36 +2270,25 @@ function closeWritePost(){
 function openProductModal(url){
   const modal = document.getElementById("imageModal");
   const box = modal.querySelector(".image-modal-box");
-  const img = document.getElementById("modalAdImage");
 
-  box.className = "image-modal-box product-popup";
-  img.src = url;
+  box.classList.add("product-popup");
+
+  document.getElementById("modalAdImage").src = url;
 
   modal.style.display = "flex";
+
+  document.body.classList.add("modal-open");
 }
 
 function closeImageModal(){
-
   const modal = document.getElementById("imageModal");
   const box = modal.querySelector(".image-modal-box");
-  const img = document.getElementById("modalAdImage");
 
-  /* 숨기기 */
   modal.style.display = "none";
+  document.getElementById("modalAdImage").src = "";
+  box.classList.remove("product-popup");
 
-  /* 이미지 초기화 */
-  img.src = "";
-
-  /* 클래스 원복 */
-  box.className = "modal-content image-modal-box";
-
-  /* 인라인 스타일 원복 */
-  box.style.maxHeight = "";
-  box.style.height = "";
-  box.style.width = "";
-  box.style.overflow = "";
-  box.style.transform = "";
-  box.style.opacity = "";
+  document.body.classList.remove("modal-open");
 }
 
 async function submitPost(){

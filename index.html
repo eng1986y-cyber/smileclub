@@ -1273,10 +1273,6 @@ body{
   overflow-y: scroll;
 }
 
-body.modal-open{
-  overflow:hidden;
-}
-
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -2257,7 +2253,6 @@ function openProductModal(url){
 
   modal.style.display = "flex";
 
-  document.body.classList.add("modal-open");
 }
 
 function closeImageModal(){
@@ -2268,7 +2263,6 @@ function closeImageModal(){
   document.getElementById("modalAdImage").src = "";
   box.classList.remove("product-popup");
 
-  document.body.classList.remove("modal-open");
 }
 
 async function submitPost(){

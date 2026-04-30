@@ -1323,6 +1323,11 @@ body{
   display:block;
 }
 
+.modal img{
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -2447,6 +2452,16 @@ recordVisit();
 
 history.scrollRestoration = "manual";
 window.scrollTo(0,0);
+
+document.addEventListener("DOMContentLoaded", function(){
+
+  document.querySelectorAll(".modal").forEach(modal=>{
+    modal.addEventListener("contextmenu", function(e){
+      e.preventDefault();
+    });
+  });
+
+});
 
 </script>
 

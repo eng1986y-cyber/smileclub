@@ -2068,12 +2068,24 @@ function renderBoardList(list, target, page, type){
 
     const div = document.createElement("div");
 
+    div.className = "board-card";
+
     div.innerHTML = `
-      <strong>${item.title || ""}</strong><br>
-      <span style="font-size:12px;color:#888">
-        ${item.category || ""} · ${item.content || ""}
-      </span>
+      <h3>${item.title || ""}</h3>
+      <div class="board-preview">
+        ${item.content || ""}
+      </div>
     `;
+
+    // 🔥 클릭 → 팝업
+    div.onclick = () => {
+      openModal(
+        item.title,
+        item.content,
+        item.created_at || "",
+        item.views || 0
+      );
+    };
 
     target.appendChild(div);
   });

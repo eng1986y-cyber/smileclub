@@ -2481,6 +2481,14 @@ recordVisit();
 history.scrollRestoration = "manual";
 window.scrollTo(0,0);
 
+/* ✅ 여기 추가 */
+document.addEventListener("touchend", function(){
+  const modal = document.getElementById("imageModal");
+  if(modal && modal.style.display === "flex"){
+    modal.style.pointerEvents = "auto";
+  }
+});
+
 document.addEventListener("DOMContentLoaded", function(){
 
   document.querySelectorAll(".modal").forEach(modal=>{

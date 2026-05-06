@@ -2350,11 +2350,6 @@ function openProductModal(url){
   // 스크롤 저장 (모바일 안정화)
 document.body.dataset.scrollY = window.scrollY;
 
-document.body.style.position = "fixed";
-document.body.style.top = `-${window.scrollY}px`;
-document.body.style.left = "0";
-document.body.style.right = "0";
-
 }
 
 function closeImageModal(){
@@ -2370,10 +2365,11 @@ function closeImageModal(){
   box.classList.remove("product-popup");
 
   // 스크롤 복구
-  const scrollY = document.body.dataset.scrollY;
-  document.body.style.position = "";
-  document.body.style.top = "";
-  window.scrollTo(0, parseInt(scrollY || "0"));
+const scrollY = document.body.dataset.scrollY || 0;
+
+setTimeout(()=>{
+  window.scrollTo(0, parseInt(scrollY));
+},0);
 
 }
 

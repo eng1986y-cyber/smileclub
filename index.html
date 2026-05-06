@@ -1673,13 +1673,21 @@ document.getElementById("videoModal").style.display="flex";
 
 function closeVideoModal(){
 
-const iframe = document.getElementById("modalVideo");
+  const modal = document.getElementById("videoModal");
+  const iframe = document.getElementById("modalVideo");
 
-if(iframe.tagName==="IFRAME"){
-iframe.src="";
-}
+  if(iframe){
+    iframe.src = "";
+  }
 
-document.getElementById("videoModal").style.display="none";
+  modal.style.display = "none";
+
+  // 🔥 추가 (모바일 버그 핵심 해결)
+  modal.style.pointerEvents = "none";
+
+  setTimeout(()=>{
+    modal.style.pointerEvents = "auto";
+  }, 50);
 
 }
 
@@ -2542,7 +2550,7 @@ document.addEventListener("DOMContentLoaded", function(){
   </div>
 </div>
 
-<div class="modal" id="videoModal" onclick="closeVideoModal()">
+<div class="modal" id="videoModal">
   <div class="modal-content video-modal-box">
 
     <div class="modal-close" onclick="closeVideoModal()">✕</div>

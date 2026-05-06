@@ -2521,6 +2521,12 @@ document.addEventListener("DOMContentLoaded", function(){
     });
   });
 
+document.getElementById("videoModal").addEventListener("click", function(e){
+  if(e.target === this){
+    closeVideoModal();
+  }
+});
+
 });
 
 </script>

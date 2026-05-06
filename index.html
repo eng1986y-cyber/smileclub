@@ -1335,6 +1335,14 @@ body{
   -webkit-user-drag: none;
 }
 
+body{
+  overflow-x:hidden;
+}
+
+.image-modal-box.product-popup{
+  overflow-x:hidden;
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -2333,11 +2341,12 @@ function openProductModal(url){
   modal.style.display = "flex";
 
   // 스크롤 저장 (모바일 안정화)
-  document.body.dataset.scrollY = window.scrollY;
+document.body.dataset.scrollY = window.scrollY;
 
-  document.body.style.position = "fixed";
-  document.body.style.top = `-${window.scrollY}px`;
-  document.body.style.width = "100%";
+document.body.style.position = "fixed";
+document.body.style.top = `-${window.scrollY}px`;
+document.body.style.left = "0";
+document.body.style.right = "0";
 
 }
 

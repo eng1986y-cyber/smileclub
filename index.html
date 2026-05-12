@@ -3,72 +3,37 @@
 <head>
 <meta charset="UTF-8">
 
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/favicon.png">
-<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon_smile.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon_smile.png">
+<link rel="apple-touch-icon" href="/favicon_smile.png">
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="applicable-device" content="pc,mobile">
 
-<link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<title>延边信息搜索网_延边生活信息平台_연변정보공유 플랫폼</title>
 
-<!-- SEO -->
-<meta name="keywords" content="延边信息搜索,延边生活信息,延边招聘,延边房产,延边二手市场,延边网站导航,延边朝鲜族信息平台">
-<meta name="description" content="延边信息搜索网 제공. 연변 생활정보, 구인구직, 부동산, 중고거래, 광고홍보, 지역게시판, 연길 훈춘 도문 룡정 왕청 돈화 안도 지역정보 제공 플랫폼.">
+<title>스마일클럽 링크공유 플랫폼 | 맛집, 생활정보, 구인구직, 광고</title>
+
+<meta name="description" content="경기도 오산시 지역 생활정보 공유 플랫폼. 중앙동, 남촌동, 세마동, 대원동 지역 광고, 맛집, 구인구직, 커뮤니티 정보를 제공합니다.">
+
+<meta name="keywords" content="오산시, 오산 맛집, 오산 생활정보, 오산 구인구직, 오산 광고, 중앙동, 남촌동, 세마동">
+
+<meta property="og:title" content="오산시 지역정보 공유 플랫폼">
+<meta property="og:description" content="오산 시민들을 위한 생활정보 공유 사이트">
+<meta property="og:url" content="https://yb365.info/smileclub/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+
 <meta name="robots" content="index,follow">
 <meta name="googlebot" content="index,follow,max-image-preview:large">
-<meta name="author" content="yb365.info">
-<meta http-equiv="content-language" content="zh-CN,ko-KR">
-
-<!-- Open Graph -->
-<meta property="og:title" content="延边信息搜索网">
-<meta property="og:description" content="延边生活信息, 招聘, 房产, 二手市场, 地区交流平台">
-<meta property="og:image" content="https://puevyaupeytllaquecoc.supabase.co/storage/v1/object/public/yb365/banner_09d95650-0a7c-4262-b553-5119a5d82751_YB365INFO_BANER_B.jpg">
-<meta property="og:url" content="https://yb365.info">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:locale:alternate" content="ko_KR">
+<meta name="author" content="SmileClub">
+<meta name="google-site-verification" content="구글서치콘솔코드">
+<meta name="rating" content="general">
+<meta name="distribution" content="global">
+<meta name="theme-color" content="#87CEEB">
 
 <style>
-
-:root{
-
-  /* 메인 컬러 */
-  --main-color:#C9A227;
-  --main-hover:#A67C00;
-
-  /* 밝은 효과 */
-  --main-light:rgba(201,162,39,0.18);
-  --main-glow:rgba(201,162,39,0.45);
-
-  /* 서브 컬러 */
-  --sub-color:#E2C65C;
-  --sub-border:#B68E1E;
-
-  /* 배경 */
-  --bg-color:#f6f1df;
-  --card-bg:#fffdf7;
-
-  /* 텍스트 */
-  --white:#ffffff;
-  --black:#1a1a1a;
-  --gray:#d8d1be;
-
-}
-
-body{
-  background:
-    linear-gradient(
-      to bottom,
-      #f8f3e4,
-      #efe4bf
-    );
-}
 
 .video-modal-box .modal-close{
   position:absolute;
@@ -109,14 +74,14 @@ body{
 }
 
 .board-category button:hover{
-  background:var(--main-color);
+  background:#87CEEB;
   color:white;
 }
 
 .board-category button.active{
-  background:var(--main-color);
+  background:#87CEEB;
   color:white;
-  border-color:var(--main-color);
+  border-color:#87CEEB;
 }
 
 .video-modal-box{
@@ -142,19 +107,16 @@ body{
   border-radius:10px;
 }
 
-/* ===== 영상 팝업을 정방형으로 통일 ===== */
+/* ===== 영상 모달 통합 (세로/가로 영상 모두 자연스럽게) ===== */
 .video-modal-box{
   width:90%;
-  max-width:520px;
-  aspect-ratio:1/1;     /* 정방형 */
-  height:auto;
-  max-height:none;
-  padding:0;
+  max-width:600px;
+  max-height:80vh;
   overflow:hidden;
+  padding:0;
   display:flex;
   justify-content:center;
   align-items:center;
-  position:relative;
 }
 
 .video-container{
@@ -165,21 +127,10 @@ body{
 
 .video-container iframe,
 .video-container video{
-  position:absolute;
-  inset:0;
   width:100%;
   height:100%;
-  border:0;
-  border-radius:12px;
-  object-fit:cover;   /* 꽉 채움 */
-}
-
-/* 모바일 */
-@media(max-width:768px){
-  .video-modal-box{
-    width:94vw;
-    max-width:none;
-  }
+  border-radius:10px;
+  object-fit:contain; /* 원본 비율 유지, 카드 밖 튀어나오지 않음 */
 }
 
 .image-modal-box{
@@ -202,7 +153,7 @@ body{
   right:12px;
   font-size:22px;
   cursor:pointer;
-  background:var(--card-bg);
+  background:#fff;
   border-radius:50%;
   width:32px;
   height:32px;
@@ -273,7 +224,7 @@ body{
 }
 
 #pagination button:hover{
-  background:var(--main-color);
+  background:#87CEEB;
   color:#fff;
 }
 
@@ -292,7 +243,7 @@ body{
 }
 
 .board-card{
-  background:var(--card-bg);
+  background:#fff;
   border:1px solid #ddd;
   border-radius:10px;
   padding:8px;
@@ -344,14 +295,16 @@ body{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.6);
+  background:rgba(0,0,0,0.5);
+
   justify-content:center;
   align-items:center;
+
   z-index:9999;
 }
 
 .modal-content{
-  background:var(--card-bg);
+  background:#fff;
   width:90%;            /* PC/태블릿 공통 */
   max-width:600px;
   height:auto;          /* 높이 자동 */
@@ -382,9 +335,9 @@ body{
 }
 
 .board-card.highlight{
-  background:var(--sub-color);
+  background:#E2C65C;
   color:#fff;
-  border-color:var(--sub-border);
+  border-color:#C9A227;
 }
 
 body{
@@ -404,7 +357,7 @@ body{
     Arial,
     sans-serif;
 
-  background:var(--bg-color);
+  background:#f5f5f5;
   overflow-y:scroll;
 }
 
@@ -427,7 +380,7 @@ body{
   width:320px;
   height:46px;
   padding:0 12px;
-  border:2px solid var(--main-color);
+  border:2px solid #87CEEB;
   border-radius:6px;
   font-size:16px;
   font-family:'Microsoft YaHei','微软雅黑',sans-serif;
@@ -445,13 +398,13 @@ body{
   height:46px;
   border:none;
   border-radius:6px;
-  background:var(--main-color);
+  background:#87CEEB;
   color:#fff;
   cursor:pointer;
 }
 
 .search-box button:hover{
-  background:var(--main-hover);
+  background:#6bbfe0;
 }
 
 @media(max-width:768px){
@@ -523,7 +476,7 @@ body{
 
 /* 텍스트 광고 */
 .text-ad{
-  background:var(--card-bg);
+  background:#fff;
   border:1px solid #ccc;
   padding:12px;
   text-align:center;
@@ -534,7 +487,7 @@ body{
 }
 
 .text-ad:hover{
-  background:var(--main-color);
+  background:#87CEEB;
   color:#fff;
 }
 
@@ -600,16 +553,16 @@ body{
   width:36px;
   height:36px;
   border-radius:50%;
-  background:var(--card-bg);
-  border:2px solid var(--main-color);
-  color:var(--main-color);
+  background:#fff;
+  border:2px solid #87CEEB;
+  color:#87CEEB;
   font-size:16px;
   text-decoration:none;
   transition:all 0.3s ease;
 }
 
 .owner-sns a:hover{
-  background:var(--main-color);
+  background:#87CEEB;
   color:#fff;
   transform:translateY(-4px);
   box-shadow:0 8px 18px rgba(0,0,0,0.15);
@@ -708,7 +661,7 @@ body{
 
 @keyframes glow{
   from{ box-shadow:0 0 0px rgba(135,206,235,0); }
-  to{ box-shadow:0 0 20px var(--main-glow); }
+  to{ box-shadow:0 0 20px rgba(135,206,235,0.6); }
 }
 
 .ad-title{
@@ -790,7 +743,7 @@ body{
   padding:0 10px;
   border:none;
   border-radius:6px;
-  background:var(--main-color);
+  background:#87CEEB;
   color:#fff;
   cursor:pointer;
   font-size:13px;
@@ -807,7 +760,7 @@ body{
 .write-btn{
   margin:10px 0;
   padding:8px 16px;
-  background:var(--main-color);
+  background:#87CEEB;
   border:none;
   border-radius:6px;
   cursor:pointer;
@@ -863,7 +816,7 @@ body{
 }
 
 .board-category button.active{
-  background:var(--main-color);
+  background:#333;
   color:#fff;
 }
 
@@ -903,7 +856,7 @@ body{
 .write-box{
   width:420px;
   max-width:90%;
-  background:var(--card-bg);
+  background:#fff;
   border-radius:16px;
   box-shadow:0 20px 50px rgba(0,0,0,0.2);
   overflow:hidden;
@@ -967,8 +920,8 @@ body{
 .write-body input:focus,
 .write-body textarea:focus,
 .write-body select:focus{
-  border-color:var(--main-color);
-  box-shadow:0 0 0 3px var(--main-light);
+  border-color:#87CEEB;
+  box-shadow:0 0 0 3px rgba(135,206,235,0.2);
   outline:none;
 }
 
@@ -997,7 +950,7 @@ body{
 }
 
 .submit-btn{
-  background:var(--main-color);
+  background:#87CEEB;
   color:#fff;
   border:none;
   padding:8px 18px;
@@ -1008,7 +961,7 @@ body{
 
 /* 버튼 hover */
 .submit-btn:hover{
-  background:var(--main-hover);
+  background:#6bbfe0;
   transform:translateY(-1px);
 }
 
@@ -1039,6 +992,64 @@ body{
   z-index:10;
 }
 
+/* ===== 배너 날씨 효과 ===== */
+
+.top-banner.rain::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: url('https://i.imgur.com/7Qp5ZkR.png'); /* 비 이미지 */
+  opacity:0.3;
+  pointer-events:none;
+  animation:rainMove 0.5s linear infinite;
+}
+
+@keyframes rainMove{
+  from{ background-position:0 0; }
+  to{ background-position:-100px 200px; }
+}
+
+/* 눈 */
+.top-banner.snow::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: url('https://i.imgur.com/V4RclNb.png'); /* 눈 이미지 */
+  opacity:0.5;
+  pointer-events:none;
+  animation:snowMove 5s linear infinite;
+}
+
+@keyframes snowMove{
+  from{ background-position:0 0; }
+  to{ background-position:0 300px; }
+}
+
+/* 번개 */
+.top-banner.thunder{
+  animation:flash 3s infinite;
+}
+
+@keyframes flash{
+  0%,95%,100%{ filter:brightness(1); }
+  96%{ filter:brightness(2.5); }
+  97%{ filter:brightness(1); }
+}
+
+/* 바람 */
+.top-banner.wind::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation:windMove 2s linear infinite;
+}
+
+@keyframes windMove{
+  from{ transform:translateX(-100%); }
+  to{ transform:translateX(100%); }
+}
+
 .board-wrapper{
   display:flex;
   gap:12px;
@@ -1048,7 +1059,7 @@ body{
 
 .board-box{
   flex:1;
-  background:var(--card-bg);
+  background:#fff;
   border:1px solid #ddd;
   border-radius:12px;
   padding:12px;
@@ -1083,7 +1094,7 @@ body{
 }
 
 .board-list div:hover{
-  color:var(--main-color);
+  color:#87CEEB;
 }
 
 /* 모바일 */
@@ -1129,265 +1140,224 @@ body{
 
 #noticePagination button:hover,
 #regionPagination button:hover{
-  background:var(--main-color);
+  background:#87CEEB;
   color:#fff;
 }
 
-/* ===== 영상 팝업 전체 검정 배경 ===== */
-#videoModal{
-  background:rgba(0,0,0,0.92);
+#pcGoogleAd{
+  margin:20px 0;
+  text-align:center;
 }
 
-#videoModal .modal-content{
-  background:#000 !important;
-  box-shadow:none;
-}
-
-.video-modal-box{
-  background:#000;
-}
-
-.video-container{
-  background:#000;
-}
-
-.video-container iframe,
-.video-container video{
-  background:#000;
-}
-
-/* 닫기 버튼도 검정톤 */
-.video-modal-box .modal-close{
-  background:rgba(255,255,255,0.12);
-  color:#fff;
-}
-
-/* ===== 게시판 내용 길어지면 내부 스크롤 ===== */
-
-/* 공지사항 / 지역정보 리스트 영역 */
-.board-list{
-  flex:1;
-  min-height:0;
-  overflow-y:auto;
-  overflow-x:hidden;
-  padding-right:4px;
-}
-
-/* 팝업 내용도 길면 스크롤 */
-#modalContent{
-  max-height:60vh;
-  overflow-y:auto;
-  overflow-x:hidden;
-  white-space:pre-wrap;
-  line-height:1.6;
-  padding-right:6px;
-}
-
-/* 모바일 팝업 */
-@media(max-width:768px){
-  #modalContent{
-    max-height:55vh;
-  }
-}
-
-.search-logo{
-  height:46px;
-  width:auto;
-  border-radius:6px;
-
-  opacity:0;
-  transition:opacity 0.4s ease;
-}
-
-.ad-section-title{
-  margin:25px 0 8px;
-  font-size:15px;
-  font-weight:600;
-  border-bottom:1px solid #e5e5e5;
-  padding-bottom:6px;
-}
-
-img{
-  -webkit-user-select:none;
-  user-select:none;
-  pointer-events:auto;
-}
-
-img,
-video,
-iframe,
-a{
-  -webkit-user-drag:none;
-  user-drag:none;
-}
-
-.img-ad img,
-.square-ad img,
-.sns-video img{
-  -webkit-touch-callout:none;
-}
-
-#payQR{
-  -webkit-touch-callout:default !important;
-  -webkit-user-select:auto !important;
-  user-select:auto !important;
-
-  pointer-events:auto !important;
-  touch-action:auto !important;
-}
-
-#payQR{
-  image-rendering:auto;
-}
-
-/* ===== 상품 슬라이더 ===== */
-
-.product-slider-wrap{
-  width:100%;
-  overflow:hidden;
-
-  position:relative;
-
-  padding:0 6px;   /* 양쪽 여백 */
-  box-sizing:border-box;
-}
-
-.product-slider{
-  display:flex;
-  overflow-x:auto;
-  overflow-y:hidden;
-  scroll-behavior:smooth;
-
-  -webkit-overflow-scrolling:touch;
-
-  scroll-snap-type:x mandatory;
-
-  scrollbar-width:none;
-}
-
-.product-slider::-webkit-scrollbar{
+#mobileGoogleAd{
   display:none;
-}
-
-.product-page{
-  min-width:100%;
-  flex-shrink:0;
-
-  display:grid;
-
-  /* PC 3열 */
-  grid-template-columns:repeat(3, minmax(0, 0.94fr));
-  grid-template-rows:repeat(2,auto);
-
-  justify-content:center;
-
-  gap:8px;   /* 카드 간격 통일 */
-}
-
-/* 카드 자체 살짝 축소 */
-.product-page .ad-item{
-  transform:scale(0.96);
-  transform-origin:center;
+  margin:15px 0;
+  text-align:center;
 }
 
 @media(max-width:768px){
 
-  .product-slider{
-    scroll-snap-type:x mandatory;
-  }
-
-  .product-page{
-    flex:0 0 100%;
-    width:100%;
-    min-width:100%;
-
-    display:grid;
-
-    /* 모바일 2열 */
-    grid-template-columns:repeat(2, 1fr);
-
-    gap:6px;
-    padding:0 4px;
-
-    box-sizing:border-box;
-
-    scroll-snap-align:start;
-    scroll-snap-stop:always;
-  }
-
-  .product-page .ad-item{
-    width:100%;
-    transform:none;
-  }
-
-  .square-ad{
-    width:100%;
-    aspect-ratio:1/1;
-  }
-
-  .square-ad img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+  #mobileGoogleAd{
     display:block;
   }
 
+  .top-banner{
+    display:block !important;
+    height:90px;
+  }
+
+  #pcGoogleAd{
+    display:none;
+  }
+
 }
 
-/* ===== 슬라이드 점(dot) ===== */
+.image-modal-box.product-popup{
+  width:870px;
+  max-width:95vw;
+  max-height:90vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background:#fff;
+  padding:15px;
+  border-radius:12px;
+}
 
-.product-dots{
-  display:flex;
+.image-modal-box.product-popup #modalAdImage{
+  width:100%;
+  height:auto;
+  max-height:none !important;
+  object-fit:unset !important;
+}
+
+/* 상품 상세팝업 전용 */
+.image-modal-box.product-popup{
+  border-radius:0 !important;   /* 완전 사각 */
+  max-width:870px;
+  width:870px;
+  height:90vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:0;
+  background:#fff;
+  position:relative;
+}
+
+/* 상세 이미지 */
+.image-modal-box.product-popup #modalAdImage{
+  border-radius:0 !important;
+  width:100%;
+  max-width:none;
+  max-height:none;
+  height:auto;
+  display:block;
+}
+
+.image-modal-box.product-popup .modal-close{
+  position: sticky;
+  top: 0;
+  right: 0;
+
+  width: 42px;
+  height: 42px;
+
+  background: #111;
+  color: #fff;
+  font-size: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  z-index: 20;
+}
+
+/* 모바일 */
+@media(max-width:768px){
+  .image-modal-box.product-popup{
+    width:100vw;
+    max-width:100vw;
+    height:100vh;
+  }
+
+  .image-modal-box.product-popup .modal-close{
+    right:10px;
+    top:10px;
+  }
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   justify-content:center;
   align-items:center;
-  gap:8px;
-
-  margin-top:14px;
+  z-index:9999;
+  animation: fadeIn 0.2s ease;
 }
 
-.product-dot{
-  width:10px;
-  height:10px;
-
-  border-radius:50%;
-
-  background:#d0d0d0;
-
-  cursor:pointer;
-
-  transition:all 0.25s ease;
+.modal-content{
+  transform: scale(0.95);
+  opacity:0;
+  animation: popIn 0.25s ease forwards;
 }
 
-.product-dot:hover{
-  transform:scale(1.15);
+@keyframes fadeIn{
+  from {opacity:0;}
+  to {opacity:1;}
 }
 
-.product-dot.active{
-  background:var(--main-color);
-  width:26px;
-  border-radius:20px;
+@keyframes popIn{
+  to {
+    transform: scale(1);
+    opacity:1;
+  }
+}
+
+body{
+  overflow-y: scroll;
+}
+
+/* ===== 상품 팝업 헤더 ===== */
+.product-header{
+  position: sticky;
+  top: 0;
+  z-index: 30;
+
+  height: 50px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  padding: 0 10px;
+
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* 닫기 버튼 */
+.product-header .modal-close{
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  font-size: 18px;
+
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+
+  cursor: pointer;
+}
+
+/* 콘텐츠 */
+.product-body{
+  width:100%;
+}
+
+.product-body img{
+  width:100%;
+  display:block;
+}
+
+.modal img{
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+body{
+  overflow-x:hidden;
+}
+
+.image-modal-box.product-popup{
+  overflow-x:hidden;
 }
 
 </style>
-<meta name="mobile-agent" content="format=html5; url=https://yb365.info">
-<link rel="canonical" href="https://yb365.info">
-<link rel="alternate" hreflang="ko" href="https://yb365.info">
-<link rel="alternate" hreflang="zh-CN" href="https://yb365.info">
-<link rel="alternate" hreflang="x-default" href="https://yb365.info">
+<link rel="canonical" href="https://yb365.info/smileclub/">
 
 <script type="application/ld+json">
 {
  "@context":"https://schema.org",
  "@type":"WebSite",
- "name":"延边信息搜索平台",
- "url":"https://yb365.info",
+ "name":"오산시 지역정보 공유 플랫폼",
+ "url":"https://yb365.info/smileclub/",
+ "description":"오산시 맛집 생활정보 구인구직 광고 커뮤니티 플랫폼",
  "potentialAction":{
    "@type":"SearchAction",
-   "target":"https://yb365.info/?q={search_term_string}",
+   "target":"https://yb365.info/smileclub/?q={search_term_string}",
    "query-input":"required name=search_term_string"
  }
 }
-
 </script>
 </head>
 
@@ -1395,43 +1365,32 @@ a{
 
 <div class="container">
 
-<form class="search-box" onsubmit="search(); return false;">
+<div class="search-box">
 
-<img id="searchLogo" class="search-logo" style="display:none;">
+  <img id="searchLogo" class="search-logo" src="">
 
-  <input type="text" id="searchInput" placeholder="검색어 입력">
+  <input id="searchInput"
+       placeholder="검색어 입력"
+       onkeydown="if(event.key==='Enter'){search();}">
   <button onclick="search()">검색</button>
 
-</form>
+</div>
 
-<div id="adsenseArea"></div>
+<div id="mobileGoogleAd"></div>
 
 <div class="top-banner" id="topBanner">
   <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
 </div>
 
-<h2 class="ad-section-title">추천 광고</h2>
 <div class="grid" id="imageAds"></div>
-
-<h2 class="ad-section-title">추천 사이트</h2>
 <div class="grid" id="textAds"></div>
-
-<h2 class="ad-section-title">상품 디스플레이</h2>
-
-<div class="product-slider-wrap">
-
-  <!-- 슬라이더 -->
-  <div class="product-slider" id="bottomImageAds"></div>
-
-  <!-- 점 -->
-  <div class="product-dots" id="productDots"></div>
-
-</div>
-
-<h2 class="ad-section-title">업체 정보</h2>
+<div class="grid" id="bottomImageAds"></div>
 <div class="grid" id="snsVideoAds"></div>
+<div class="grid" id="productAds"></div>
 
 <!-- 게시판 전용 검색 -->
+
+<div id="pcGoogleAd"></div>
 
 <div class="board-search">
 <input id="boardSearchInput"
@@ -1454,14 +1413,14 @@ a{
 
       <label>카테고리</label>
       <select id="userPostCategory">
-        <option value="연길">연길</option>
-        <option value="훈춘">훈춘</option>
-        <option value="화룡">화룡</option>
-        <option value="룡정">룡정</option>
-        <option value="왕청">왕청</option>
-        <option value="도문">도문</option>
-        <option value="돈화">돈화</option>
-        <option value="안도">안도</option>
+        <option value="중앙동">중앙동</option>
+        <option value="남촌동">남촌동</option>
+        <option value="신장1동">신장1동</option>
+        <option value="신장2동">신장2동</option>
+        <option value="세마동">세마동</option>
+        <option value="초평동">초평동</option>
+        <option value="대원1동">대원1동</option>
+        <option value="대원2동">대원2동</option>
         <option value="불편신고">불편신고</option>
       </select>
 
@@ -1491,14 +1450,14 @@ a{
 
 <div class="board-category" id="boardCategoryBar">
   <button onclick="filterCategory('전체', this)">전체</button>
-  <button onclick="filterCategory('연길', this)">연길</button>
-  <button onclick="filterCategory('훈춘', this)">훈춘</button>
-  <button onclick="filterCategory('화룡', this)">화룡</button>
-  <button onclick="filterCategory('룡정', this)">룡정</button>
-  <button onclick="filterCategory('왕청', this)">왕청</button>
-  <button onclick="filterCategory('도문', this)">도문</button>
-  <button onclick="filterCategory('돈화', this)">돈화</button>
-  <button onclick="filterCategory('안도', this)">안도</button>
+  <button onclick="filterCategory('중앙동', this)">중앙동</button>
+  <button onclick="filterCategory('남촌동', this)">남촌동</button>
+  <button onclick="filterCategory('신장1동', this)">신장1동</button>
+  <button onclick="filterCategory('신장2동', this)">신장2동</button>
+  <button onclick="filterCategory('세마동', this)">세마동</button>
+  <button onclick="filterCategory('초평동', this)">초평동</button>
+  <button onclick="filterCategory('대원1동', this)">대원1동</button>
+  <button onclick="filterCategory('대원2동', this)">대원2동</button>
   <button onclick="filterCategory('불편신고', this)">불편신고</button>
 </div>
 
@@ -1531,9 +1490,9 @@ line-height:1.6;
 letter-spacing:0.5px;
 text-align:center;
 margin:18px 0;
-color:#e0e0e0;
+color:#222;
 ">
-延边信息搜索平台<br>
+스마일클럽 링크공유<br>
 <span style="
 font-size:12px;
 font-weight:500;
@@ -1541,7 +1500,7 @@ color:#cfcfcf;
 display:block;
 margin-top:8px;
 ">
-延吉 〃 珲春 〃 和龙 〃 龙井 〃 汪清 〃 图们 〃 敦化 〃 安图 商家信息一站式查询
+중앙동 〃 남촌동 〃 신장1동 〃 신장2동 〃 세마동 〃 초평동 〃 대원1동 〃 대원2동 정보공유
 </span>
 </h1>
 
@@ -1552,7 +1511,7 @@ line-height:1.8;
 text-align:center;
 max-width:700px;
 margin:0 auto;">
-提供商家信息等延边地区综合生活信息查询服务。
+지역생활정보 및 링크공유 서비스
 </div>
 
 <div class="owner-box">
@@ -1571,15 +1530,6 @@ let regionPage = 1;
 const boardPageSize = 17;
 
 let captchaValue = 0;
-
-function openPayModal(img){
-  document.getElementById("payQR").src = img;
-  document.getElementById("payModal").style.display = "flex";
-}
-
-function closePayModal(){
-  document.getElementById("payModal").style.display = "none";
-}
 
 function generateCaptcha(){
   const a = Math.floor(Math.random()*9)+1;
@@ -1722,13 +1672,21 @@ document.getElementById("videoModal").style.display="flex";
 
 function closeVideoModal(){
 
-const iframe = document.getElementById("modalVideo");
+  const modal = document.getElementById("videoModal");
+  const iframe = document.getElementById("modalVideo");
 
-if(iframe.tagName==="IFRAME"){
-iframe.src="";
-}
+  if(iframe){
+    iframe.src = "";
+  }
 
-document.getElementById("videoModal").style.display="none";
+  modal.style.display = "none";
+
+  // 🔥 추가 (모바일 버그 핵심 해결)
+  modal.style.pointerEvents = "none";
+
+  setTimeout(()=>{
+    modal.style.pointerEvents = "auto";
+  }, 50);
 
 }
 
@@ -1780,7 +1738,7 @@ const { count } = await query;
     btn.innerText=i;
 
     if(i===currentPage)
-      btn.style.background="var(--main-color)";
+      btn.style.background="#87CEEB";
 
     btn.onclick=()=>{
       currentPage=i;
@@ -1835,22 +1793,22 @@ async function loadSite(){
   const txtBox=document.getElementById("textAds");
   const bottomBox=document.getElementById("bottomImageAds");
   const snsBox=document.getElementById("snsVideoAds");
+  const productBox=document.getElementById("productAds");
   const bannerBox=document.getElementById("topBanner");
 
-  // 🔥 전체 초기화
-  boardSection.innerHTML="";
-  imgBox.innerHTML="";
-  txtBox.innerHTML="";
-  bottomBox.innerHTML="";
-  snsBox.innerHTML="";
-  bannerBox.innerHTML="";
+boardSection.innerHTML="";
+imgBox.innerHTML="";
+txtBox.innerHTML="";
+bottomBox.innerHTML="";
+snsBox.innerHTML="";
+productBox.innerHTML="";
 
   /* ================= 광고 ================= */
 
   const { data: ads } = await supabaseClient
-  .from("ads")
-  .select("*")
-  .order("sort",{ascending:true});
+    .from("ads")
+    .select("*")
+    .order("id",{ascending:true});
 
   if(ads){
     ads.forEach(ad=>{
@@ -1860,41 +1818,13 @@ if(ad.type==="image"){
   wrap.className="ad-item";
   wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
 
-let link = "";
-
-if(ad.video_url){
-
-  // QR 팝업 우선
-  link = `
-    <img
-      src="${ad.image_url}"
-      alt="${ad.main_title||'延边广告'}"
-      onclick="openPayModal('${ad.video_url}')"
-    >
-  `;
-
-}else if(ad.link_url){
-
-  // 일반 링크
-  link = `
-    <a href="${ad.link_url}" target="_blank">
-      <img
-        src="${ad.image_url}"
-        alt="${ad.main_title||'延边广告'}"
-      >
-    </a>
-  `;
-
-}else{
-
-  // 일반 이미지 팝업
-  link = `
-    <img
-      src="${ad.image_url}"
-      onclick="openImageModal('${ad.image_url}')"
-    >
-  `;
-}
+const link = ad.link_url 
+  ? `<a href="${ad.link_url}" target="_blank">
+       <img src="${ad.image_url}" alt="${ad.main_title||'링크공유'}">
+     </a>`
+  : ad.video_url
+  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
+  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
 
   wrap.innerHTML=`
     <div class="img-ad">${link}</div>
@@ -1915,126 +1845,88 @@ if(ad.video_url){
       }
 
       if(ad.type==="square"){
+        const wrap=document.createElement("div");
+        wrap.className="ad-item";
+        wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
 
-  // 페이지 없으면 생성
-  if(!window.productPages){
-    window.productPages = [];
-  }
+const link = ad.link_url 
+  ? `<a href="${ad.link_url}" target="_blank">
+       <img src="${ad.image_url}" alt="${ad.main_title||'링크공유'}">
+     </a>`
+  : ad.video_url
+  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
+  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
 
-  let currentPage =
-    window.productPages[
-      window.productPages.length - 1
-    ];
+        wrap.innerHTML=`
+          <div class="square-ad">${link}</div>
+          <div class="ad-title">${escapeHTML(ad.main_title||"")}</div>
+        `;
 
-  if(
-    !currentPage ||
-    currentPage.childElementCount >=
-      (window.innerWidth <= 768 ? 4 : 6)
-  ){
+        bottomBox.appendChild(wrap);
+      }
 
-    currentPage = document.createElement("div");
-    currentPage.className = "product-page";
-
-    bottomBox.appendChild(currentPage);
-
-    window.productPages.push(currentPage);
-  }
-
+if(ad.type==="sns"){
   const wrap=document.createElement("div");
   wrap.className="ad-item";
-
-  wrap.setAttribute(
-    "data-title",
-    (ad.main_title||"").toLowerCase()
-  );
-
-  const link = ad.link_url
-    ? `<a href="${ad.link_url}" target="_blank">
-         <img src="${ad.image_url}">
-       </a>`
-    : ad.video_url
-    ? `<img src="${ad.image_url}"
-       onclick="openPayModal('${ad.video_url}')">`
-    : `<img src="${ad.image_url}"
-       onclick="openImageModal('${ad.image_url}')">`;
+  wrap.setAttribute("data-title",(ad.title||"").toLowerCase());
 
   wrap.innerHTML=`
-    <div class="square-ad">${link}</div>
-    <div class="ad-title">
-      ${escapeHTML(ad.main_title||"")}
-    </div>
-  `;
-
-  currentPage.appendChild(wrap);
-}
-
-/* ===== 업체정보 SNS ===== */
-if(ad.type==="sns"){
-
-  const wrap = document.createElement("div");
-  wrap.className = "ad-item";
-
-  wrap.setAttribute(
-    "data-title",
-    (ad.main_title || "").toLowerCase()
-  );
-
-  let content = "";
-
-  // 링크 클릭형
-  if(ad.link_url){
-
-    content = `
-      <a href="${ad.link_url}" target="_blank">
-        <img src="${ad.image_url}">
-      </a>
-    `;
-
-  }
-
-  // 영상 팝업형
-  else if(ad.video_url){
-
-    content = `
-      <img
-        src="${ad.image_url}"
-        onclick="openVideoModal('${ad.video_url}')"
-      >
-    `;
-
-  }
-
-  // 일반 이미지 팝업
-  else{
-
-    content = `
-      <img
-        src="${ad.image_url}"
-        onclick="openImageModal('${ad.image_url}')"
-      >
-    `;
-
-  }
-
-  wrap.innerHTML = `
     <div class="sns-video">
-      ${content}
+      <img src="${ad.image_url}"
+      onclick="openVideoModal('${ad.video_url}')">
     </div>
-
-    <div class="ad-title">
-      ${escapeHTML(ad.main_title || "")}
-    </div>
+    <div class="ad-title">${ad.title||""}</div>
   `;
 
   snsBox.appendChild(wrap);
 }
 
+if(ad.type==="product" && ad.image_url){
+
+  const wrap=document.createElement("div");
+  wrap.className="ad-item";
+  wrap.setAttribute("data-title",(ad.title||"").toLowerCase());
+
+  wrap.innerHTML=`
+    <div class="square-ad">
+      <img src="${ad.image_url}"
+        onclick="openProductModal('${ad.detail_url || ad.image_url}')">
+    </div>
+
+    <div class="ad-title">${escapeHTML(ad.title || "")}</div>
+<div style="
+margin-top:8px;
+font-family:'HYGraphicM', Arial, sans-serif;
+font-size:16px;
+font-weight:700;
+letter-spacing:0.3px;
+color:#e91e63;
+line-height:1.1;
+text-shadow:1px 1px 2px rgba(0,0,0,0.08);
+">
+${Number(
+ String(ad.price ?? 0).replace(/,/g,'').trim()
+).toLocaleString()}원
+</div>
+
+    <a href="${ad.link_url || '#'}" target="_blank"
+      style="
+      margin-top:8px;
+      background:#03c75a;
+      color:white;
+      padding:8px 14px;
+      border-radius:8px;
+      text-decoration:none;
+      display:inline-block;
+      font-size:14px;">
+      네이버페이 결제
+    </a>
+  `;
+
+  productBox.appendChild(wrap);
+}
+
     });
-
-setTimeout(()=>{
-  updateProductDots();
-},100);
-
   }
 
   /* ================= 설정 ================= */
@@ -2044,35 +1936,45 @@ setTimeout(()=>{
     .select("*")
     .limit(1);
 
-  if(settings && settings.length>0){
+if(settings && settings.length>0){
 
-    const s=settings[0];
+  const s = settings[0];
+
+  if(s.banner_img){
+    bannerBox.innerHTML = `
+      ${s.banner_link
+        ? `<a href="${s.banner_link}" target="_blank">
+             <img src="${s.banner_img}">
+           </a>`
+        : `<img src="${s.banner_img}">`
+      }
+      <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
+    `;
+  }
+
+  const adCode = s.adsense_code || "";
+
+const target =
+window.innerWidth <= 768
+? document.getElementById("mobileGoogleAd")
+: document.getElementById("pcGoogleAd");
+
+target.innerHTML = adCode;
+
+target.querySelectorAll("script").forEach(oldScript=>{
+  const newScript = document.createElement("script");
+
+  [...oldScript.attributes].forEach(attr=>{
+    newScript.setAttribute(attr.name, attr.value);
+  });
+
+  newScript.text = oldScript.innerHTML;
+
+  oldScript.parentNode.replaceChild(newScript, oldScript);
+});
 
 if(s.search_logo){
-  const el = document.getElementById("searchLogo");
-
-  if(el){
-    el.onload = () => {
-      el.style.display = "block";
-      setTimeout(()=>{
-        el.style.opacity = "1";
-      }, 10);
-    };
-
-    el.src = s.search_logo;
-  }
-}
-
-if(s.banner_img){
-  bannerBox.innerHTML = `
-    ${s.banner_link
-      ? `<a href="${s.banner_link}" target="_blank">
-           <img src="${s.banner_img}">
-         </a>`
-      : `<img src="${s.banner_img}">`
-    }
-    <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
-  `;
+  document.getElementById("searchLogo").src = s.search_logo;
 }
 
     document.getElementById("ownerName").innerText=s.owner_name||"";
@@ -2091,38 +1993,7 @@ if(s.banner_img){
       snsBox.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
   }
 
-/* ================= 애드센스 ================= */
-
-const adsenseArea=document.getElementById("adsenseArea");
-
-if(adsenseArea){
-
-  const { data: adsense } = await supabaseClient
-    .from("ads")
-    .select("*")
-    .eq("type","adsense")
-    .order("sort",{ascending:true});
-
-  adsenseArea.innerHTML="";
-
-  if(adsense){
-    adsense.forEach(ad=>{
-      const div=document.createElement("div");
-      div.className="adsense-block";
-      div.innerHTML=ad.code;
-      adsenseArea.appendChild(div);
-    });
-  }
-
 }
-
-}
-
-loadSite();
-loadBoard();
-setTimeout(loadWeather,2000);
-
-recordVisit();
 
 async function recordVisit(){
 
@@ -2205,64 +2076,35 @@ function renderBoardList(list, target, page, type){
 
   target.innerHTML = "";
 
-const pageSize =
-  window.innerWidth <= 768
-    ? (type === "notice" ? 5 : 11)
-    : boardPageSize;
+  const pageSize =
+    window.innerWidth <= 768
+      ? (type === "notice" ? 5 : 11)
+      : boardPageSize;
 
-const start = (page - 1) * pageSize;
-const end = start + pageSize;
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
 
-  const pageItems = list.slice(start, end);
+  const pageList = list.slice(start, end);
 
-  pageItems.forEach(post => {
+  pageList.forEach(item => {
 
     const div = document.createElement("div");
-    div.innerText = `[${post.category}] ${post.title}`;
+    div.innerHTML = item.title;
+    div.style.cursor = "pointer";
 
-div.onclick = async (e) => {
-  e.stopPropagation();
-
-  const date = new Date(post.created_at)
-    .toLocaleDateString("ko-KR");
-
-  let finalViews = post.views || 0;
-
-  try {
-
-    // 1. 조회수 +1
-    await supabaseClient.rpc("increment_views", {
-  post_id: Number(post.id)
-});
-
-    // 2. 최신 조회수 다시 가져오기
-    const { data, error } = await supabaseClient
-      .from("board_posts")
-      .select("views")
-      .eq("id", post.id)
-      .single();
-
-    if (!error && data) {
-      finalViews = data.views || 0;
-      post.views = finalViews;
-    }
-
-  } catch (err) {
-    console.error("조회수 오류:", err);
-  }
-
-  openModal(
-    post.title,
-    post.content,
-    date,
-    finalViews
-  );
-};
+    div.onclick = () => {
+      openModal(
+        item.title,
+        item.content,
+        item.created_at || "",
+        item.views || 0
+      );
+    };
 
     target.appendChild(div);
   });
 
-renderBoardPagination(list.length, type, list, target);
+  renderBoardPagination(list.length, type, list, target);
 }
 
 function renderBoardPagination(totalCount, type, list, target){
@@ -2324,7 +2166,7 @@ const totalPages = Math.ceil(totalCount / pageSize);
     btn.innerText = i;
 
     if(i === current){
-      btn.style.background = "var(--main-color)";
+      btn.style.background = "#87CEEB";
       btn.style.color = "#fff";
     }
 
@@ -2367,20 +2209,31 @@ const totalPages = Math.ceil(totalCount / pageSize);
   }
 }
 
-async function boardSearch(){
+function boardSearch(){
 
   const keyword = document
     .getElementById("boardSearchInput")
-    .value.trim();
+    .value
+    .trim()
+    .toLowerCase();
 
-  if(!keyword) return;
+  const items = document.querySelectorAll(".board-list div");
 
-  const { data } = await supabaseClient
-    .from("board_posts")
-    .select("*")
-    .ilike("title", `%${keyword}%`);
+  let found = false;
 
-  renderBoardList(data || [], document.getElementById("regionList"), 1, "region");
+  items.forEach(item => {
+
+    const text = item.innerText.toLowerCase();
+
+    if(keyword === "" || text.includes(keyword)){
+      item.style.display = "block";
+      found = true;
+    } else {
+      item.style.display = "none";
+    }
+
+  });
+
 }
 
 function search(){
@@ -2439,13 +2292,19 @@ function closeModal(){
   document.getElementById("boardModal").style.display="none";
 }
 
-const boardModal = document.getElementById("boardModal");
+window.addEventListener("DOMContentLoaded", function(){
 
-if(boardModal){
-  boardModal.addEventListener("click", function(){
-    closeModal();
-  });
-}
+  const boardModal = document.getElementById("boardModal");
+
+  if(boardModal){
+    boardModal.addEventListener("click", function(e){
+      if(e.target === this){
+        closeModal();
+      }
+    });
+  }
+
+});
 
 function outsideClose(e){
   if(e.target.classList.contains("modal")){
@@ -2473,6 +2332,45 @@ function openWritePost(){
 
 function closeWritePost(){
   document.getElementById("writeModal").style.display="none";
+}
+
+function openProductModal(url){
+
+  const modal = document.getElementById("imageModal");
+  const box = modal.querySelector(".image-modal-box");
+
+  const img = document.getElementById("modalAdImage");
+
+  box.classList.add("product-popup");
+
+  img.src = url;
+
+  modal.style.display = "flex";
+
+  // 스크롤 저장 (모바일 안정화)
+document.body.dataset.scrollY = window.scrollY;
+
+}
+
+function closeImageModal(){
+
+  const modal = document.getElementById("imageModal");
+  const box = modal.querySelector(".image-modal-box");
+
+  modal.style.display = "none";
+
+  const img = document.getElementById("modalAdImage");
+  if(img) img.src = "";
+
+  box.classList.remove("product-popup");
+
+  // 스크롤 복구
+const scrollY = document.body.dataset.scrollY || 0;
+
+setTimeout(()=>{
+  window.scrollTo(0, parseInt(scrollY));
+},0);
+
 }
 
 async function submitPost(){
@@ -2520,11 +2418,13 @@ async function loadWeather(){
   const box = document.getElementById("weatherBox");
   if(!box) return;
 
-const banner = document.getElementById("topBanner");
-if(!banner) return;
+  const banner = document.getElementById("topBanner");
+  if(!banner) return;
+
+  banner.classList.remove("rain","snow","thunder","wind");
 
   try{
-    const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
+    const res = await fetch("https://wttr.in/37.1498,127.0772?format=j1");
     const data = await res.json();
 
     const current = data.current_condition[0];
@@ -2533,239 +2433,129 @@ if(!banner) return;
     const feels = current.FeelsLikeC;
     let desc = current.weatherDesc[0].value;
 
-const map = {
-  "Sunny":"맑음",
-  "Clear":"맑음",
-  "Partly cloudy":"구름 조금",
-  "Cloudy":"흐림",
-  "Overcast":"흐림",
-  "Mist":"안개",
-  "Fog":"안개",
+    const map = {
+      "Sunny":"맑음",
+      "Clear":"맑음",
+      "Partly cloudy":"구름 조금",
+      "Cloudy":"흐림",
+      "Overcast":"흐림",
+      "Mist":"안개",
+      "Fog":"안개",
 
-  "Rain":"비",
-  "Light rain":"약한 비",
-  "Moderate rain":"비",
-  "Heavy rain":"폭우",
+      "Rain":"비",
+      "Light rain":"약한 비",
+      "Moderate rain":"비",
+      "Heavy rain":"폭우",
 
-  "Drizzle":"이슬비",
-  "Light drizzle":"약한 이슬비",
-  "Patchy light drizzle":"약한 이슬비",
-  "Freezing drizzle":"어는 이슬비",
+      "Drizzle":"이슬비",
+      "Light drizzle":"약한 이슬비",
+      "Patchy light drizzle":"약한 이슬비",
+      "Freezing drizzle":"어는 이슬비",
 
-  "Patchy rain possible":"비 가능성",
-  "Patchy light rain":"약한 비",
-  "Patchy moderate rain":"비",
+      "Patchy rain possible":"비 가능성",
+      "Patchy light rain":"약한 비",
+      "Patchy moderate rain":"비",
 
-  "Snow":"눈",
-  "Light snow":"약한 눈",
-  "Heavy snow":"폭설",
+      "Snow":"눈",
+      "Light snow":"약한 눈",
+      "Heavy snow":"폭설",
 
-  "Thunderstorm":"천둥번개"
-};
+      "Thunderstorm":"천둥번개"
+    };
 
-desc = map[desc] || "날씨 정보";
+    desc = map[desc] || "날씨 정보";
 
-// 출력
-box.innerHTML = `
-  <div>
-    연변조선족자치주 ${temp}°C
-    <div style="font-size:11px;color:#ddd;">
-      체감 ${feels}°C · ${desc}
-    </div>
-  </div>
-`;
+    if(desc.includes("천둥") || desc.includes("번개")){
+      banner.classList.add("thunder");
+    }
+    else if(desc.includes("비") || desc.includes("폭우") || desc.includes("소나기")){
+      banner.classList.add("rain");
+    }
+    else if(desc.includes("눈") || desc.includes("폭설")){
+      banner.classList.add("snow");
+    }
+    else if(current.windspeedKmph > 20){
+      banner.classList.add("wind");
+    }
+
+    box.innerHTML = `
+      <div>
+        경기도 오산시 ${temp}°C
+        <div style="font-size:11px;color:#ddd;">
+          체감 ${feels}°C · ${desc}
+        </div>
+      </div>
+    `;
 
   }catch(e){
     box.innerText="날씨 오류";
   }
 }
 
-window.addEventListener("contextmenu", function(e){
-  e.preventDefault();
-}, { passive:false });
+loadSite();
+loadBoard();
+setTimeout(loadWeather,2000);
+recordVisit();
 
-window.addEventListener("selectstart", function(e){
-  e.preventDefault();
-}, { passive:false });
+history.scrollRestoration = "manual";
+window.scrollTo(0,0);
 
-window.addEventListener("dragstart", function(e){
-  e.preventDefault();
-}, { passive:false });
-
-function slideProducts(direction){
-
-  const slider =
-    document.getElementById("bottomImageAds");
-
-  const move =
-  slider.offsetWidth;
-
-  slider.scrollBy({
-    left: direction * move,
-    behavior:"smooth"
-  });
-
-}
-
-let autoSlideInterval;
-let currentProductPage = 0;
-
-function updateProductDots(){
-
-  const slider =
-    document.getElementById("bottomImageAds");
-
-  const dots =
-    document.getElementById("productDots");
-
-  const totalPages =
-    slider.querySelectorAll(".product-page").length;
-
-  dots.innerHTML = "";
-
-  for(let i=0; i<totalPages; i++){
-
-    const dot = document.createElement("div");
-
-    dot.className =
-      "product-dot" +
-      (i === currentProductPage ? " active" : "");
-
-    dot.onclick = ()=>{
-
-      currentProductPage = i;
-
-      slider.scrollTo({
-        left: slider.offsetWidth * i,
-        behavior:"smooth"
-      });
-
-      updateProductDots();
-    };
-
-    dots.appendChild(dot);
+/* ✅ 여기 추가 */
+document.addEventListener("touchend", function(){
+  const modal = document.getElementById("imageModal");
+  if(modal && modal.style.display === "flex"){
+    modal.style.pointerEvents = "auto";
   }
+});
 
-}
+document.querySelectorAll(".modal").forEach(modal=>{
 
-/* 자동 슬라이드 */
-function startProductAutoSlide(){
+  modal.addEventListener("click", function(e){
 
-  clearInterval(autoSlideInterval);
+    if(e.target === modal){
 
-  autoSlideInterval = setInterval(()=>{
+      modal.style.display = "none";
 
-    const slider =
-      document.getElementById("bottomImageAds");
+      // iframe/video 초기화
+      const iframe = modal.querySelector("iframe");
+      if(iframe) iframe.src = "";
 
-    const totalPages =
-      slider.querySelectorAll(".product-page").length;
+      const video = modal.querySelector("video");
+      if(video) video.pause();
 
-    currentProductPage++;
+      // 모바일 터치 초기화
+      modal.style.pointerEvents = "none";
 
-    if(currentProductPage >= totalPages){
-      currentProductPage = 0;
-    }
-
-    slider.scrollTo({
-      left: slider.offsetWidth * currentProductPage,
-      behavior:"smooth"
-    });
-
-    updateProductDots();
-
-  }, 4000);
-
-}
-
-const productSlider =
-  document.getElementById("bottomImageAds");
-
-if(productSlider){
-
-  productSlider.addEventListener("scroll", ()=>{
-
-    const page =
-      Math.round(
-        productSlider.scrollLeft /
-        productSlider.offsetWidth
-      );
-
-    if(page !== currentProductPage){
-
-      currentProductPage = page;
-      updateProductDots();
+      setTimeout(()=>{
+        modal.style.pointerEvents = "auto";
+      },50);
 
     }
 
   });
-
-  /* ===== 마우스 올리면 자동슬라이드 정지 ===== */
-
-  productSlider.addEventListener("mouseenter", ()=>{
-
-    clearInterval(autoSlideInterval);
-
-  });
-
-  /* ===== 마우스 나가면 다시 시작 ===== */
-
-  productSlider.addEventListener("mouseleave", ()=>{
-
-    if(window.innerWidth > 768){
-      startProductAutoSlide();
-    }
-
-  });
-
-}
-
-window.addEventListener("load", ()=>{
-
-  const slider =
-    document.getElementById("bottomImageAds");
-
-  if(!slider) return;
-
-  updateProductDots();
-
-  // PC만 자동슬라이드
-  if(window.innerWidth > 768){
-    startProductAutoSlide();
-  }
 
 });
 
-function moveProductSlide(direction){
+document.addEventListener("DOMContentLoaded", function(){
 
-  const slider =
-    document.getElementById("bottomImageAds");
-
-  const totalPages =
-    slider.querySelectorAll(".product-page").length;
-
-  currentProductPage += direction;
-
-  if(currentProductPage < 0){
-    currentProductPage = totalPages - 1;
-  }
-
-  if(currentProductPage >= totalPages){
-    currentProductPage = 0;
-  }
-
-  slider.scrollTo({
-    left: slider.offsetWidth * currentProductPage,
-    behavior:"smooth"
+  document.querySelectorAll(".modal").forEach(modal=>{
+    modal.addEventListener("contextmenu", function(e){
+      e.preventDefault();
+    });
   });
 
-  updateProductDots();
-}
+document.getElementById("videoModal").addEventListener("click", function(e){
+  if(e.target === this){
+    closeVideoModal();
+  }
+});
+
+});
 
 </script>
 
-<div class="modal" id="boardModal" onclick="closeModal()">
-  <div class="modal-content" onclick="closeModal()">
+<div class="modal" id="boardModal">
+  <div class="modal-content">
     <div class="modal-close" onclick="closeModal()">✕</div>
     <h2 id="modalTitle"></h2>
     <div id="modalMeta" style="font-size:12px;color:#999;margin-bottom:15px;"></div>
@@ -2773,17 +2563,23 @@ function moveProductSlide(direction){
   </div>
 </div>
 
-<div class="modal" id="imageModal" onclick="closeImageModal()">
-  <div class="modal-content image-modal-box">
+<div class="modal" id="imageModal">
+  <div class="modal-content image-modal-box product-popup">
 
-    <div class="modal-close" onclick="closeImageModal()">✕</div>
+    <!-- 🔥 상단 고정 헤더 -->
+    <div class="product-header">
+      <span class="modal-close" onclick="closeImageModal()">✕</span>
+    </div>
 
-    <img id="modalAdImage">
+    <!-- 🔥 콘텐츠 -->
+    <div class="product-body">
+      <img id="modalAdImage">
+    </div>
 
   </div>
 </div>
 
-<div class="modal" id="videoModal" onclick="closeVideoModal()">
+<div class="modal" id="videoModal">
   <div class="modal-content video-modal-box">
 
     <div class="modal-close" onclick="closeVideoModal()">✕</div>
@@ -2799,71 +2595,16 @@ function moveProductSlide(direction){
 
 <div class="floating-right">
 
-  <button onclick="location.href='/'">
-    <i class="fas fa-home"></i>
-  </button>
+<button onclick="location.href='/smileclub/'">
+  <i class="fas fa-home"></i>
+</button>
 
-  <button onclick="focusSearch()">
-    <i class="fas fa-search"></i>
-  </button>
+<button onclick="focusSearch()">
+  <i class="fas fa-search"></i>
+</button>
 
-  <button onclick="scrollToBottom()">
-    ▼
-  </button>
-
-</div>
-
-<!-- 결제 QR 팝업 -->
-<div id="payModal" style="
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.7);
-z-index:9999;
-justify-content:center;
-align-items:center;
-">
-
-  <div style="
-  background:var(--card-bg);
-  padding:20px;
-  border-radius:12px;
-  text-align:center;
-  max-width:300px;
-  width:90%;
-  ">
-
-    <h3>결제하기</h3>
-
-    <img id="payQR"
-     src=""
-     draggable="false"
-     style="
-     width:100%;
-     margin:15px 0;
-     touch-action:manipulation;
-     cursor:zoom-in;
-     ">
-
-    <button onclick="closePayModal()">닫기</button>
-
-  </div>
-
-</div>
-
-<script>
-document.addEventListener("contextmenu", function(e){
-  e.preventDefault();
-});
-
-document.addEventListener("selectstart", function(e){
-  e.preventDefault();
-});
-
-document.addEventListener("dragstart", function(e){
-  e.preventDefault();
-});
-</script>
-
+<button onclick="scrollToBottom()">
+  ▼
+</button>
 </body>
 </html>

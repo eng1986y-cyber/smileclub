@@ -276,6 +276,78 @@ textarea{
   font-family:Arial;
 }
 
+/* 관리자 정방형 슬라이드 */
+
+.admin-square-slider{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.admin-square-wrapper{
+  overflow:hidden;
+  width:100%;
+}
+
+#squareAdmin{
+  display:flex;
+  transition:transform .35s ease;
+  will-change:transform;
+}
+
+/* 한 페이지 */
+
+.square-page{
+  min-width:100%;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:10px;
+  box-sizing:border-box;
+}
+
+/* 카드 높이 */
+
+.square-page .card{
+  min-height:210px;
+}
+
+/* 버튼 */
+
+.simple-slide-btn{
+  width:34px;
+  height:34px;
+  background:#e5e5e5;
+  color:#333;
+  border:none;
+  border-radius:6px;
+  font-size:14px;
+  flex-shrink:0;
+}
+
+.simple-slide-btn:hover{
+  background:#d5d5d5;
+}
+
+/* 태블릿 */
+
+@media (max-width:1200px){
+
+  .square-page{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+}
+
+/* 모바일 */
+
+@media (max-width:768px){
+
+  .square-page{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
 </style>
 
 </head>
@@ -419,7 +491,7 @@ style="height:123px; resize:none;"></textarea>
 <div class="section">
 
 <div class="ad-header">
-<div class="ad-title">사이트 설명 관리</div>
+<div class="ad-title">사이트설명 관리</div>
 </div>
 
 <div class="grid">
@@ -438,7 +510,7 @@ style="width:100%; height:120px; padding:10px; box-sizing:border-box;">
 <div class="section">
 
 <div class="ad-header">
-<div class="ad-title">상단 이미지 광고</div>
+<div class="ad-title">추천광고 관리 ( 400x210px )</div>
 <button class="add-btn" onclick="addImageAd()">+ 추가</button>
 </div>
 
@@ -451,24 +523,11 @@ style="width:100%; height:120px; padding:10px; box-sizing:border-box;">
 <div class="section">
 
 <div class="ad-header">
-<div class="ad-title">텍스트 광고</div>
+<div class="ad-title">추천사이트 관리</div>
 <button class="add-btn" onclick="addTextAd()">+ 추가</button>
 </div>
 
 <div class="grid" id="textAdmin"></div>
-
-</div>
-
-<!-- ================== 상품 관리 추가 ================== -->
-
-<div class="section">
-
-<div class="ad-header">
-<div class="ad-title">상품 관리 (네이버페이)</div>
-<button class="add-btn" onclick="addProduct()">+ 상품추가</button>
-</div>
-
-<div class="grid" id="productAdmin"></div>
 
 </div>
 
@@ -477,11 +536,25 @@ style="width:100%; height:120px; padding:10px; box-sizing:border-box;">
 <div class="section">
 
 <div class="ad-header">
-<div class="ad-title">하단 정방형 광고</div>
+<div class="ad-title">추천상품 관리 ( 400x400px )</div>
 <button class="add-btn" onclick="addSquareAd()">+ 추가</button>
 </div>
 
-<div class="grid" id="squareAdmin"></div>
+<div class="admin-square-slider">
+
+<button class="simple-slide-btn"
+onclick="slideAdminSquare(-1)">
+◀
+</button>
+
+<div class="admin-square-wrapper">
+  <div id="squareAdmin"></div>
+</div>
+
+<button class="simple-slide-btn"
+onclick="slideAdminSquare(1)">
+▶
+</button>
 
 </div>
 
@@ -490,7 +563,7 @@ style="width:100%; height:120px; padding:10px; box-sizing:border-box;">
 <div class="section">
 
 <div class="ad-header">
-<div class="ad-title">SNS 영상 광고</div>
+<div class="ad-title">SNS 업체정보 관리 ( 400x500px )</div>
 <button class="add-btn" onclick="addSnsVideo()">+ 추가</button>
 </div>
 
@@ -583,7 +656,6 @@ const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
 const squareAdmin=document.getElementById("squareAdmin");
 const snsVideoAdmin=document.getElementById("snsVideoAdmin");
-const productAdmin=document.getElementById("productAdmin");
 
 const bannerImg=document.getElementById("bannerImg");
 const bannerLink=document.getElementById("bannerLink");
@@ -660,7 +732,7 @@ function addImageAd(main="", img="", link="", video=""){
 
       <input value="${link}" placeholder="클릭 링크">
 
-      <input value="${video}" placeholder="동영상 링크 (유튜브)">
+      <input value="${video}" placeholder="bilibili 영상 링크">
     `)
   );
 }
@@ -674,9 +746,15 @@ function addTextAd(title="",link=""){
   );
 }
 
-function addSquareAd(main="", img="", link="", video=""){
-  squareAdmin.appendChild(
-    createCard(`
+function addSquareAd(
+  main="",
+  img="",
+  link="",
+  video="",
+  detail=""
+){
+
+  const card = createCard(`
       <input value="${main}" placeholder="메인 명칭">
 
       <input value="${img}" placeholder="이미지 URL">
@@ -686,9 +764,46 @@ function addSquareAd(main="", img="", link="", video=""){
 
       <input value="${link}" placeholder="클릭 링크">
 
-      <input value="${video}" placeholder="동영상 링크 (유튜브)">
-    `)
-  );
+      <input value="${video}" placeholder="결제QR코드 링크">
+
+      <input value="${detail}" placeholder="상품상세 이미지 링크">
+  `);
+
+  const oldCards =
+    [...squareAdmin.querySelectorAll(".card")];
+
+  const allCards = [card, ...oldCards];
+
+  rebuildSquarePages(allCards);
+
+}
+
+function rebuildSquarePages(cards = null){
+
+  if(!cards){
+    cards = [...squareAdmin.querySelectorAll(".card")];
+  }
+
+  squareAdmin.innerHTML = "";
+
+  const pageSize = 18;
+
+  for(let i=0; i<cards.length; i+=pageSize){
+
+    const page = document.createElement("div");
+    page.className = "square-page";
+
+    cards.slice(i, i+pageSize).forEach(card=>{
+      page.appendChild(card);
+    });
+
+    squareAdmin.appendChild(page);
+
+  }
+
+  adminSquarePage = 0;
+
+  squareAdmin.style.transform = "translateX(0)";
 }
 
 function addSnsVideo(title="", thumb="", video=""){
@@ -701,30 +816,7 @@ function addSnsVideo(title="", thumb="", video=""){
       <input type="file" accept="image/*"
         onchange="uploadImage(this)">
 
-      <input value="${video}" placeholder="유튜브 영상 링크">
-    `)
-  );
-}
-
-function addProduct(name="", price="", img="", detail="", link=""){
-  productAdmin.appendChild(
-    createCard(`
-      <input value="${name}" placeholder="상품명">
-
-      <input value="${price}" placeholder="상품가격">
-
-      <input value="${img}" placeholder="상품 메인이미지 URL">
-
-      <input type="file" accept="image/*"
-        onchange="uploadImage(this,2)">
-
-      <input value="${detail}" placeholder="상세이미지 링크주소">
-
-      <!-- ✅ 추가 -->
-      <input value="${link}" placeholder="네이버페이 결제 링크">
-
-      <!-- ❌ 이건 삭제 -->
-      <!-- <button onclick="pay('${name}', ${price})">네이버페이 결제</button> -->
+      <input value="${video}" placeholder="bilibili 영상 링크">
     `)
   );
 }
@@ -737,34 +829,65 @@ imageAdmin.innerHTML="";
 textAdmin.innerHTML="";
 squareAdmin.innerHTML="";
 snsVideoAdmin.innerHTML="";
-productAdmin.innerHTML="";
 
 const { data: ads } = await supabaseClient
   .from("ads")
   .select("*")
   .order("sort",{ascending:true});
 
-if(ads){
-  ads.forEach(ad=>{
-    if(ad.type==="image")
-      addImageAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
-    if(ad.type==="text")
-      addTextAd(ad.title,ad.link_url);
-    if(ad.type==="square")
-      addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
-    if(ad.type==="sns")
-      addSnsVideo(ad.title, ad.image_url, ad.video_url);
-if(ad.type==="product")
-addProduct(
-  ad.title || "",
-  ad.price || "",
-  ad.image_url || "",
-  ad.detail_url || "",
-  ad.link_url || ""
-);
+const squareCards = [];
 
-  });
-}
+ads.forEach(ad=>{
+
+  if(ad.type==="image"){
+    addImageAd(
+      ad.main_title,
+      ad.image_url,
+      ad.link_url,
+      ad.video_url
+    );
+  }
+
+  if(ad.type==="text"){
+    addTextAd(
+      ad.title,
+      ad.link_url
+    );
+  }
+
+  if(ad.type==="square"){
+
+    const card = createCard(`
+      <input value="${ad.main_title || ""}" placeholder="메인 명칭">
+
+      <input value="${ad.image_url || ""}" placeholder="이미지 URL">
+
+      <input type="file" accept="image/*"
+        onchange="uploadImage(this)">
+
+      <input value="${ad.link_url || ""}" placeholder="클릭 링크">
+
+      <input value="${ad.video_url || ""}" placeholder="결제QR코드 링크">
+
+      <input value="${ad.detail_url || ""}" placeholder="상품상세 이미지 링크">
+    `);
+
+    squareCards.push(card);
+
+  }
+
+  if(ad.type==="sns"){
+    addSnsVideo(
+      ad.title,
+      ad.image_url,
+      ad.video_url
+    );
+  }
+
+});
+
+/* 정방형광고 한번만 생성 */
+rebuildSquarePages(squareCards);
 
 const { data: settings } = await supabaseClient
   .from("site_settings")
@@ -807,7 +930,6 @@ await supabaseClient.from("ads").delete().eq("type","text");
 await supabaseClient.from("ads").delete().eq("type","square");
 await supabaseClient.from("ads").delete().eq("type","sns");
 await supabaseClient.from("ads").delete().eq("type","adsense");
-await supabaseClient.from("ads").delete().eq("type","product");
 
 for(const [index, block] of [...imageAdmin.children].entries()){
 
@@ -843,9 +965,12 @@ for(const [index, block] of [...textAdmin.children].entries()){
   }
 }
 
-for(const [index, block] of [...squareAdmin.children].entries()){
+const squareCards =
+  [...squareAdmin.querySelectorAll(".card")];
 
-  const i=block.querySelectorAll("input");
+for(const [index, block] of squareCards.entries()){
+
+  const i = block.querySelectorAll("input");
 
   if(i[1].value.trim()){
 
@@ -855,6 +980,7 @@ for(const [index, block] of [...squareAdmin.children].entries()){
       image_url:i[1].value.trim(),
       link_url:i[3].value.trim(),
       video_url:i[4].value.trim(),
+      detail_url:i[5].value.trim(),
       sort:index
     }]);
 
@@ -874,31 +1000,6 @@ for(const [index, block] of [...snsVideoAdmin.children].entries()){
       video_url:i[3].value.trim(),
       sort:index
     }]);
-
-  }
-}
-
-for(const [index, block] of [...productAdmin.children].entries()){
-
-  const i = block.querySelectorAll("input");
-
-  const title = i[0]?.value.trim();
-  const price = i[1]?.value.trim();
-  const mainImage = i[2]?.value.trim();
-  const detailImage = i[4]?.value.trim();
-  const link = i[5]?.value.trim();
-
-  if(title){
-
-await supabaseClient.from("ads").insert([{
-  type:"product",
-  title:title,
-  price:Number(price || 0),
-  image_url:mainImage,
-  detail_url:detailImage,
-  link_url: link,   // ✅ 추가
-  sort:index
-}]);
 
   }
 }
@@ -1166,7 +1267,7 @@ async function adminLogout(){
 
 }
 
-async function uploadImage(input,targetIndex=1){
+async function uploadImage(input){
 
   const file = input.files[0];
   if(!file) return;
@@ -1191,8 +1292,7 @@ const fileName = crypto.randomUUID()+"_"+safeName;
 
   const imageUrl = urlData.publicUrl;
 
-  const urlInput =
-  input.parentElement.querySelectorAll("input")[targetIndex];
+  const urlInput = input.parentElement.querySelectorAll("input")[1];
   urlInput.value = imageUrl;
 
   alert("업로드 완료 ✅");
@@ -1257,7 +1357,10 @@ async function deleteAd(btn){
 
   }
 
-  card.remove();
+card.remove();
+
+rebuildSquarePages();
+
 }
 
 function editBoardPost(id){
@@ -1421,6 +1524,33 @@ async function loadVisitStats(){
 }
 
 loadVisitStats();
+
+let adminSquarePage = 0;
+
+function slideAdminSquare(direction){
+
+  const wrapper =
+    document.querySelector(".admin-square-wrapper");
+
+  const pageWidth = wrapper.clientWidth;
+
+  const totalPages =
+    squareAdmin.querySelectorAll(".square-page").length;
+
+  adminSquarePage += direction;
+
+  if(adminSquarePage < 0){
+    adminSquarePage = 0;
+  }
+
+  if(adminSquarePage >= totalPages){
+    adminSquarePage = totalPages - 1;
+  }
+
+  squareAdmin.style.transform =
+    `translateX(-${adminSquarePage * pageWidth}px)`;
+
+}
 
 </script>
 

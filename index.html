@@ -1547,21 +1547,18 @@ body.modal-open{
 }
 
 </style>
-<meta name="mobile-agent" content="format=html5; url=https://yb365.info">
-<link rel="canonical" href="https://yb365.info">
-<link rel="alternate" hreflang="ko" href="https://yb365.info">
-<link rel="alternate" hreflang="zh-CN" href="https://yb365.info">
-<link rel="alternate" hreflang="x-default" href="https://yb365.info">
+<link rel="canonical" href="https://yb365.info/smileclub/">
 
 <script type="application/ld+json">
 {
  "@context":"https://schema.org",
  "@type":"WebSite",
- "name":"延边信息搜索平台",
- "url":"https://yb365.info",
+ "name":"오산시 지역정보 공유 플랫폼",
+ "url":"https://yb365.info/smileclub/",
+ "description":"오산시 맛집 생활정보 구인구직 광고 커뮤니티 플랫폼",
  "potentialAction":{
    "@type":"SearchAction",
-   "target":"https://yb365.info/?q={search_term_string}",
+   "target":"https://yb365.info/smileclub/?q={search_term_string}",
    "query-input":"required name=search_term_string"
  }
 }
@@ -1647,14 +1644,14 @@ body.modal-open{
 
       <label>카테고리</label>
       <select id="userPostCategory">
-        <option value="연길">연길</option>
-        <option value="훈춘">훈춘</option>
-        <option value="화룡">화룡</option>
-        <option value="룡정">룡정</option>
-        <option value="왕청">왕청</option>
-        <option value="도문">도문</option>
-        <option value="돈화">돈화</option>
-        <option value="안도">안도</option>
+        <option value="중앙동">중앙동</option>
+        <option value="남촌동">남촌동</option>
+        <option value="신장1동">신장1동</option>
+        <option value="신장2동">신장2동</option>
+        <option value="세마동">세마동</option>
+        <option value="초평동">초평동</option>
+        <option value="대원1동">대원1동</option>
+        <option value="대원2동">대원2동</option>
         <option value="불편신고">불편신고</option>
       </select>
 
@@ -1684,14 +1681,14 @@ body.modal-open{
 
 <div class="board-category" id="boardCategoryBar">
   <button onclick="filterCategory('전체', this)">전체</button>
-  <button onclick="filterCategory('연길', this)">연길</button>
-  <button onclick="filterCategory('훈춘', this)">훈춘</button>
-  <button onclick="filterCategory('화룡', this)">화룡</button>
-  <button onclick="filterCategory('룡정', this)">룡정</button>
-  <button onclick="filterCategory('왕청', this)">왕청</button>
-  <button onclick="filterCategory('도문', this)">도문</button>
-  <button onclick="filterCategory('돈화', this)">돈화</button>
-  <button onclick="filterCategory('안도', this)">안도</button>
+  <button onclick="filterCategory('중앙동', this)">중앙동</button>
+  <button onclick="filterCategory('남촌동', this)">남촌동</button>
+  <button onclick="filterCategory('신장1동', this)">신장1동</button>
+  <button onclick="filterCategory('신장2동', this)">신장2동</button>
+  <button onclick="filterCategory('세마동', this)">세마동</button>
+  <button onclick="filterCategory('초평동', this)">초평동</button>
+  <button onclick="filterCategory('대원1동', this)">대원1동</button>
+  <button onclick="filterCategory('대원2동', this)">대원2동</button>
   <button onclick="filterCategory('불편신고', this)">불편신고</button>
 </div>
 
@@ -1707,7 +1704,7 @@ body.modal-open{
   </div>
 
   <div class="board-box">
-    <h3>지역정보 ( 인재채용,매매,부동산정보,소식 )</h3>
+    <h3>지역정보 ( 구인,구직,아르바이트 )</h3>
     <div id="regionList" class="board-list"></div>
     <div id="regionPagination"></div>
   </div>
@@ -1726,7 +1723,7 @@ text-align:center;
 margin:18px 0;
 color:#e0e0e0;
 ">
-延边信息搜索平台<br>
+경기 지역정보플랫폼<br>
 <span style="
 font-size:12px;
 font-weight:500;
@@ -1734,7 +1731,7 @@ color:#cfcfcf;
 display:block;
 margin-top:8px;
 ">
-延吉 〃 珲春 〃 和龙 〃 龙井 〃 汪清 〃 图们 〃 敦化 〃 安图 商家信息一站式查询
+중앙동 〃 남촌동 〃 신장1동 〃 신장2동 〃 세마동 〃 초평동 〃 대원1동 〃 대원2동 정보공유
 </span>
 </h1>
 
@@ -1745,7 +1742,7 @@ line-height:1.8;
 text-align:center;
 max-width:700px;
 margin:0 auto;">
-提供商家信息等延边地区综合生活信息查询服务。
+지역생활정보 및 링크공유 서비스
 </div>
 
 <div class="owner-box">
@@ -2721,11 +2718,13 @@ async function loadWeather(){
   const box = document.getElementById("weatherBox");
   if(!box) return;
 
-const banner = document.getElementById("topBanner");
-if(!banner) return;
+  const banner = document.getElementById("topBanner");
+  if(!banner) return;
+
+  banner.classList.remove("rain","snow","thunder","wind");
 
   try{
-    const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
+    const res = await fetch("https://wttr.in/37.1498,127.0772?format=j1");
     const data = await res.json();
 
     const current = data.current_condition[0];
@@ -2734,56 +2733,59 @@ if(!banner) return;
     const feels = current.FeelsLikeC;
     let desc = current.weatherDesc[0].value;
 
-const map = {
-  "Sunny":"맑음",
-  "Clear":"맑음",
-  "Partly cloudy":"구름 조금",
-  "Cloudy":"흐림",
-  "Overcast":"흐림",
-  "Mist":"안개",
-  "Fog":"안개",
+    const map = {
+      "Sunny":"맑음",
+      "Clear":"맑음",
+      "Partly cloudy":"구름 조금",
+      "Cloudy":"흐림",
+      "Overcast":"흐림",
+      "Mist":"안개",
+      "Fog":"안개",
 
-  "Rain":"비",
-  "Light rain":"약한 비",
-  "Moderate rain":"비",
-  "Heavy rain":"폭우",
+      "Rain":"비",
+      "Light rain":"약한 비",
+      "Moderate rain":"비",
+      "Heavy rain":"폭우",
 
-  "Drizzle":"이슬비",
-  "Light drizzle":"약한 이슬비",
-  "Patchy light drizzle":"약한 이슬비",
-  "Freezing drizzle":"어는 이슬비",
+      "Drizzle":"이슬비",
+      "Light drizzle":"약한 이슬비",
+      "Patchy light drizzle":"약한 이슬비",
+      "Freezing drizzle":"어는 이슬비",
 
-  "Patchy rain possible":"비 가능성",
-  "Patchy light rain":"약한 비",
-  "Patchy moderate rain":"비",
+      "Patchy rain possible":"비 가능성",
+      "Patchy light rain":"약한 비",
+      "Patchy moderate rain":"비",
 
-  "Snow":"눈",
-  "Light snow":"약한 눈",
-  "Heavy snow":"폭설",
+      "Snow":"눈",
+      "Light snow":"약한 눈",
+      "Heavy snow":"폭설",
 
-  "Thunderstorm":"천둥번개"
-};
+      "Thunderstorm":"천둥번개"
+    };
 
-desc = map[desc] || "날씨 정보";
+    desc = map[desc] || "날씨 정보";
 
-// 출력
-box.innerHTML = `
-  <div style="
-    font-size:12px;
-    font-weight:700;
-    color:#222;
-    margin-bottom:4px;
-  ">
-    연변조선족자치주 ${temp}°C
-  </div>
+    if(desc.includes("천둥") || desc.includes("번개")){
+      banner.classList.add("thunder");
+    }
+    else if(desc.includes("비") || desc.includes("폭우") || desc.includes("소나기")){
+      banner.classList.add("rain");
+    }
+    else if(desc.includes("눈") || desc.includes("폭설")){
+      banner.classList.add("snow");
+    }
+    else if(current.windspeedKmph > 20){
+      banner.classList.add("wind");
+    }
 
-  <div style="
-    font-size:11px;
-    color:#6b7280;
-  ">
-    체감 ${feels}°C · ${desc}
-  </div>
-`;
+    box.innerHTML = `
+      <div>
+        경기도 오산시 ${temp}°C
+        <div style="font-size:11px;color:#ddd;">
+          체감 ${feels}°C · ${desc}
+        </div>
+      </div>
+    `;
 
   }catch(e){
     box.innerText="날씨 오류";

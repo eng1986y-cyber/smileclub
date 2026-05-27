@@ -563,7 +563,7 @@ onclick="slideAdminSquare(1)">
 <div class="section">
 
 <div class="ad-header">
-<div class="ad-title">SNS 업체정보 관리 ( 400x500px )</div>
+<div class="ad-title">SNS 추천영상 관리 ( 400x500px )</div>
 <button class="add-btn" onclick="addSnsVideo()">+ 추가</button>
 </div>
 
@@ -732,7 +732,9 @@ function addImageAd(main="", img="", link="", video=""){
 
       <input value="${link}" placeholder="클릭 링크">
 
-      <input value="${video}" placeholder="bilibili 영상 링크">
+      <input value="${video}"
+placeholder="유튜브 영상 링크"
+oninput="validateYoutube(this)">
     `)
   );
 }
@@ -816,7 +818,9 @@ createCard(`
   <input type="file" accept="image/*"
     onchange="uploadImage(this)">
 
-  <input value="${video}" placeholder="bilibili 영상 링크">
+  <input value="${video}"
+placeholder="유튜브 영상 링크"
+oninput="validateYoutube(this)">
 
   <input value="${link}" placeholder="클릭 링크">
 `)
@@ -940,6 +944,16 @@ for(const [index, block] of [...imageAdmin.children].entries()){
 
   if(i[1].value.trim()){
 
+    /* 유튜브 링크 검사 */
+    if(
+      i[4].value.trim() &&
+      !i[4].value.includes("youtube.com") &&
+      !i[4].value.includes("youtu.be")
+    ){
+      alert("유튜브 링크만 입력 가능합니다");
+      return;
+    }
+
     await supabaseClient.from("ads").insert([{
       type:"image",
       main_title:i[0].value.trim(),
@@ -995,6 +1009,15 @@ for(const [index, block] of [...snsVideoAdmin.children].entries()){
   const i=block.querySelectorAll("input");
 
   if(i[1].value.trim()){
+
+if(
+  i[3].value.trim() &&
+  !i[3].value.includes("youtube.com") &&
+  !i[3].value.includes("youtu.be")
+){
+  alert("유튜브 링크만 입력 가능합니다");
+  return;
+}
 
 await supabaseClient.from("ads").insert([{
   type:"sns",
@@ -1553,6 +1576,22 @@ function slideAdminSquare(direction){
 
   squareAdmin.style.transform =
     `translateX(-${adminSquarePage * pageWidth}px)`;
+
+}
+
+function validateYoutube(input){
+
+  const value = input.value.trim();
+
+  if(
+    value &&
+    !value.includes("youtube.com") &&
+    !value.includes("youtu.be")
+  ){
+    input.style.border = "2px solid red";
+  }else{
+    input.style.border = "";
+  }
 
 }
 

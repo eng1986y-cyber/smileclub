@@ -806,18 +806,20 @@ function rebuildSquarePages(cards = null){
   squareAdmin.style.transform = "translateX(0)";
 }
 
-function addSnsVideo(title="", thumb="", video=""){
+function addSnsVideo(title="", thumb="", video="", link=""){
   snsVideoAdmin.appendChild(
-    createCard(`
-      <input value="${title}" placeholder="영상 제목">
+createCard(`
+  <input value="${title}" placeholder="영상 제목">
 
-      <input value="${thumb}" placeholder="썸네일 이미지 URL">
+  <input value="${thumb}" placeholder="썸네일 이미지 URL">
 
-      <input type="file" accept="image/*"
-        onchange="uploadImage(this)">
+  <input type="file" accept="image/*"
+    onchange="uploadImage(this)">
 
-      <input value="${video}" placeholder="bilibili 영상 링크">
-    `)
+  <input value="${video}" placeholder="bilibili 영상 링크">
+
+  <input value="${link}" placeholder="클릭 링크">
+`)
   );
 }
 
@@ -876,13 +878,14 @@ ads.forEach(ad=>{
 
   }
 
-  if(ad.type==="sns"){
-    addSnsVideo(
-      ad.title,
-      ad.image_url,
-      ad.video_url
-    );
-  }
+if(ad.type==="sns"){
+  addSnsVideo(
+    ad.title,
+    ad.image_url,
+    ad.video_url,
+    ad.link_url
+  );
+}
 
 });
 
@@ -993,13 +996,14 @@ for(const [index, block] of [...snsVideoAdmin.children].entries()){
 
   if(i[1].value.trim()){
 
-    await supabaseClient.from("ads").insert([{
-      type:"sns",
-      title:i[0].value.trim(),
-      image_url:i[1].value.trim(),
-      video_url:i[3].value.trim(),
-      sort:index
-    }]);
+await supabaseClient.from("ads").insert([{
+  type:"sns",
+  title:i[0].value.trim(),
+  image_url:i[1].value.trim(),
+  video_url:i[3].value.trim(),
+  link_url:i[4].value.trim(),
+  sort:index
+}]);
 
   }
 }

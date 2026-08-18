@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+
+<!-- 구글 애드센스 -->
+<script async
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+  crossorigin="anonymous">
+</script>
+
 <meta charset="UTF-8">
 
 <link rel="icon" type="image/x-icon" href="/smileclub/favicon.ico?v=6">
@@ -1547,6 +1554,20 @@ body.modal-open{
   touch-action:none;
 }
 
+/* ===== 구글 애드센스 ===== */
+
+#adsenseArea{
+  width:100%;
+  margin:20px auto 30px;
+  text-align:center;
+  overflow:hidden;
+}
+
+#adsenseArea .adsbygoogle{
+  display:block;
+  margin:0 auto;
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -1751,6 +1772,47 @@ margin:0 auto;">
 <script src="supabase.js"></script>
 
 <script>
+
+/* ================= 구글 애드센스 출력 ================= */
+
+function loadAdsense(code){
+
+  const area = document.getElementById("adsenseArea");
+
+  if(!area) return;
+
+  if(!code || !code.trim()){
+    area.innerHTML = "";
+    return;
+  }
+
+  area.innerHTML = code;
+
+  /*
+   * 애드센스 광고 실행
+   */
+  try{
+
+    const ads =
+      area.querySelectorAll(".adsbygoogle");
+
+    ads.forEach(() => {
+
+      (window.adsbygoogle =
+        window.adsbygoogle || []).push({});
+
+    });
+
+  }catch(error){
+
+    console.error(
+      "애드센스 실행 오류:",
+      error
+    );
+
+  }
+
+}
 
 let noticePage = 1;
 let regionPage = 1;

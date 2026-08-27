@@ -353,14 +353,81 @@ textarea{
 ======================================== */
 
 .order-admin-section{
-  margin-top:50px;
+  margin-top:30px;
+}
+
+
+.order-admin-header{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  margin-bottom:15px;
+
+}
+
+
+.order-admin-header h2{
+
+  margin:0;
+
+  font-size:20px;
+
+}
+
+
+.order-refresh-btn{
+
+  border:1px solid #ccc;
+
+  background:#fff;
+
+  border-radius:6px;
+
+  padding:8px 14px;
+
+  cursor:pointer;
+
+  font-size:13px;
+
+}
+
+
+.order-refresh-btn:hover{
+
+  background:#f5f5f5;
+
 }
 
 
 #orderAdminList{
+
   display:flex;
+
   flex-direction:column;
-  gap:10px;
+
+  gap:12px;
+
+}
+
+
+.order-empty{
+
+  padding:25px;
+
+  text-align:center;
+
+  background:#fff;
+
+  border:1px solid #ddd;
+
+  border-radius:8px;
+
+  color:#777;
+
 }
 
 
@@ -370,11 +437,9 @@ textarea{
 
   border:1px solid #ddd;
 
-  border-radius:8px;
+  border-radius:10px;
 
-  padding:15px;
-
-  position:relative;
+  padding:16px;
 
 }
 
@@ -386,6 +451,8 @@ textarea{
   justify-content:space-between;
 
   align-items:center;
+
+  gap:10px;
 
   margin-bottom:10px;
 
@@ -403,13 +470,13 @@ textarea{
 
 .order-admin-status{
 
+  display:inline-block;
+
   padding:5px 9px;
 
   border-radius:5px;
 
   background:#eaf7ff;
-
-  color:#333;
 
   font-size:12px;
 
@@ -418,11 +485,11 @@ textarea{
 
 .order-admin-product{
 
-  font-size:15px;
+  font-size:16px;
 
   font-weight:bold;
 
-  margin-bottom:7px;
+  margin-bottom:8px;
 
 }
 
@@ -440,37 +507,52 @@ textarea{
 
 .order-admin-date{
 
-  margin-top:8px;
-
-  font-size:11px;
+  margin-top:7px;
 
   color:#999;
+
+  font-size:11px;
 
 }
 
 
 .order-detail-btn{
 
-  margin-top:10px;
+  width:100%;
 
-  background:#87CEEB;
+  margin-top:12px;
 
-  color:#fff;
+  padding:10px;
+
+  border:1px solid #ddd;
+
+  border-radius:6px;
+
+  background:#fff;
+
+  cursor:pointer;
+
+}
+
+
+.order-detail-btn:hover{
+
+  background:#f7f7f7;
 
 }
 
 
 .order-detail-box{
 
+  display:none;
+
   margin-top:12px;
 
-  padding:12px;
+  padding:15px;
 
   background:#f8f8f8;
 
-  border-radius:6px;
-
-  display:none;
+  border-radius:8px;
 
 }
 
@@ -484,7 +566,7 @@ textarea{
 
 .order-detail-row{
 
-  margin-bottom:7px;
+  margin-bottom:10px;
 
   font-size:13px;
 
@@ -497,31 +579,52 @@ textarea{
 
   font-weight:bold;
 
-  color:#333;
+}
+
+
+.order-detail-box hr{
+
+  border:0;
+
+  border-top:1px solid #ddd;
+
+  margin:15px 0;
 
 }
 
 
 .order-status-select{
 
-  margin-top:10px;
-
   width:100%;
 
-  height:36px;
+  height:40px;
 
-  border:1px solid #ddd;
+  border:1px solid #ccc;
 
   border-radius:6px;
 
-  padding:0 8px;
+  padding:0 10px;
+
+  background:#fff;
 
 }
 
 
 .order-estimate-input{
 
+  width:100%;
+
+  height:40px;
+
+  box-sizing:border-box;
+
   margin-top:8px;
+
+  border:1px solid #ccc;
+
+  border-radius:6px;
+
+  padding:0 10px;
 
 }
 
@@ -530,24 +633,78 @@ textarea{
 
   width:100%;
 
-  min-height:80px;
+  min-height:90px;
+
+  box-sizing:border-box;
 
   margin-top:8px;
 
-  padding:8px;
+  border:1px solid #ccc;
 
-  box-sizing:border-box;
+  border-radius:6px;
+
+  padding:10px;
+
+  resize:vertical;
 
 }
 
 
 .order-save-btn{
 
+  width:100%;
+
   margin-top:8px;
+
+  padding:11px;
+
+  border:0;
+
+  border-radius:6px;
+
+  background:#87CEEB;
+
+  color:#fff;
+
+  cursor:pointer;
+
+}
+
+
+.order-delete-btn{
 
   width:100%;
 
-  background:#4CAF50;
+  margin-top:6px;
+
+  padding:10px;
+
+  border:0;
+
+  border-radius:6px;
+
+  background:#ff6666;
+
+  color:#fff;
+
+  cursor:pointer;
+
+}
+
+
+@media(max-width:700px){
+
+  .order-admin-header{
+
+    align-items:flex-start;
+
+  }
+
+  .order-admin-header h2{
+
+    font-size:17px;
+
+  }
 
 }
 
@@ -778,28 +935,24 @@ onclick="slideAdminSquare(1)">
 
 <div class="section order-admin-section">
 
-  <div class="ad-header">
+  <div class="order-admin-header">
 
-    <div class="ad-title">
-      🛒 구매대행 주문관리
-    </div>
+    <h2>🛒 구매대행 주문관리</h2>
 
     <button
-      class="add-btn"
+      class="order-refresh-btn"
       onclick="loadOrders()">
 
-      새로고침
+      🔄 새로고침
 
     </button>
 
   </div>
 
 
-  <!-- 주문 목록 -->
-
   <div id="orderAdminList">
 
-    <div class="card">
+    <div class="order-empty">
       주문을 불러오는 중입니다...
     </div>
 
@@ -1835,17 +1988,19 @@ function validateYoutube(input){
    구매대행 주문관리
 ======================================== */
 
-
-/* 주문 불러오기 */
-
 async function loadOrders(){
 
-  const box =
+  const list =
     document.getElementById("orderAdminList");
 
+  if(!list) return;
 
-  box.innerHTML =
-    '<div class="card">주문을 불러오는 중입니다...</div>';
+
+  list.innerHTML = `
+    <div class="order-empty">
+      주문을 불러오는 중입니다...
+    </div>
+  `;
 
 
   const { data, error } =
@@ -1856,38 +2011,54 @@ async function loadOrders(){
 
       .select("*")
 
-      .order("id",{ascending:false});
+      .order("id", {
+        ascending:false
+      });
 
 
   if(error){
 
-    console.error(error);
-
-    box.innerHTML =
-      '<div class="card">주문을 불러오지 못했습니다.</div>';
-
-    return;
-
-  }
+    console.error("주문 불러오기 오류:", error);
 
 
-  if(!data || data.length===0){
+    list.innerHTML = `
+      <div class="order-empty">
 
-    box.innerHTML =
-      '<div class="card">현재 접수된 주문이 없습니다.</div>';
+        주문을 불러오지 못했습니다.<br><br>
+
+        ${escapeOrderHTML(error.message)}
+
+      </div>
+    `;
 
     return;
 
   }
 
 
-  box.innerHTML="";
+  if(!data || data.length === 0){
+
+    list.innerHTML = `
+      <div class="order-empty">
+
+        현재 접수된 주문이 없습니다.
+
+      </div>
+    `;
+
+    return;
+
+  }
 
 
-  data.forEach(order=>{
+  list.innerHTML = "";
+
+
+  data.forEach(order => {
 
     const card =
       document.createElement("div");
+
 
     card.className =
       "order-admin-card";
@@ -1908,14 +2079,19 @@ async function loadOrders(){
 
         <div class="order-admin-number">
 
-          주문번호 : ${escapeHTML(order.order_number || "")}
+          주문번호 :
+          ${escapeOrderHTML(
+            order.order_number || ""
+          )}
 
         </div>
 
 
         <div class="order-admin-status">
 
-          ${escapeHTML(order.status || "주문접수")}
+          ${escapeOrderHTML(
+            order.status || "주문접수"
+          )}
 
         </div>
 
@@ -1924,7 +2100,9 @@ async function loadOrders(){
 
       <div class="order-admin-product">
 
-        ${escapeHTML(order.product_name || "")}
+        ${escapeOrderHTML(
+          order.product_name || ""
+        )}
 
       </div>
 
@@ -1932,12 +2110,16 @@ async function loadOrders(){
       <div class="order-admin-info">
 
         주문자 :
-        ${escapeHTML(order.customer_name || "")}
+        ${escapeOrderHTML(
+          order.customer_name || ""
+        )}
 
         <br>
 
         연락처 :
-        ${escapeHTML(order.customer_phone || "")}
+        ${escapeOrderHTML(
+          order.customer_phone || ""
+        )}
 
         <br>
 
@@ -1949,7 +2131,7 @@ async function loadOrders(){
 
       <div class="order-admin-date">
 
-        ${created}
+        ${escapeOrderHTML(created)}
 
       </div>
 
@@ -1971,12 +2153,62 @@ async function loadOrders(){
         <div class="order-detail-row">
 
           <span class="order-detail-label">
+            주문자
+          </span>
+
+          <br>
+
+          ${escapeOrderHTML(
+            order.customer_name || "-"
+          )}
+
+        </div>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            연락처
+          </span>
+
+          <br>
+
+          ${escapeOrderHTML(
+            order.customer_phone || "-"
+          )}
+
+        </div>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            이메일
+          </span>
+
+          <br>
+
+          ${escapeOrderHTML(
+            order.customer_email || "-"
+          )}
+
+        </div>
+
+
+        <hr>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
             상품명
           </span>
 
           <br>
 
-          ${escapeHTML(order.product_name || "")}
+          ${escapeOrderHTML(
+            order.product_name || "-"
+          )}
 
         </div>
 
@@ -1990,9 +2222,11 @@ async function loadOrders(){
           <br>
 
           <a
-            href="${escapeAttribute(order.product_url || "")}"
+            href="${escapeOrderURL(
+              order.product_url
+            )}"
             target="_blank"
-            rel="noopener">
+            rel="noopener noreferrer">
 
             상품 페이지 열기
 
@@ -2004,12 +2238,14 @@ async function loadOrders(){
         <div class="order-detail-row">
 
           <span class="order-detail-label">
-            옵션
+            상품 옵션
           </span>
 
           <br>
 
-          ${escapeHTML(order.product_option || "-")}
+          ${escapeOrderHTML(
+            order.product_option || "-"
+          )}
 
         </div>
 
@@ -2022,7 +2258,9 @@ async function loadOrders(){
 
           <br>
 
-          ${escapeHTML(order.product_color || "-")}
+          ${escapeOrderHTML(
+            order.product_color || "-"
+          )}
 
         </div>
 
@@ -2035,7 +2273,9 @@ async function loadOrders(){
 
           <br>
 
-          ${escapeHTML(order.product_size || "-")}
+          ${escapeOrderHTML(
+            order.product_size || "-"
+          )}
 
         </div>
 
@@ -2043,14 +2283,32 @@ async function loadOrders(){
         <div class="order-detail-row">
 
           <span class="order-detail-label">
-            상품가격
+            수량
           </span>
 
           <br>
 
-          ${escapeHTML(order.product_price || "-")}
+          ${order.quantity || 1}개
 
         </div>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            상품 가격
+          </span>
+
+          <br>
+
+          ${escapeOrderHTML(
+            order.product_price || "-"
+          )}
+
+        </div>
+
+
+        <hr>
 
 
         <div class="order-detail-row">
@@ -2061,7 +2319,9 @@ async function loadOrders(){
 
           <br>
 
-          ${escapeHTML(order.request_content || "-")}
+          ${escapeOrderHTML(
+            order.request_content || "-"
+          )}
 
         </div>
 
@@ -2077,7 +2337,9 @@ async function loadOrders(){
 
           <br>
 
-          ${escapeHTML(order.receiver_name || "")}
+          ${escapeOrderHTML(
+            order.receiver_name || "-"
+          )}
 
         </div>
 
@@ -2090,7 +2352,9 @@ async function loadOrders(){
 
           <br>
 
-          ${escapeHTML(order.receiver_phone || "")}
+          ${escapeOrderHTML(
+            order.receiver_phone || "-"
+          )}
 
         </div>
 
@@ -2103,15 +2367,21 @@ async function loadOrders(){
 
           <br>
 
-          ${escapeHTML(order.zipcode || "")}
+          ${escapeOrderHTML(
+            order.zipcode || ""
+          )}
 
           <br>
 
-          ${escapeHTML(order.address || "")}
+          ${escapeOrderHTML(
+            order.address || ""
+          )}
 
           <br>
 
-          ${escapeHTML(order.address_detail || "")}
+          ${escapeOrderHTML(
+            order.address_detail || ""
+          )}
 
         </div>
 
@@ -2120,7 +2390,9 @@ async function loadOrders(){
 
 
         <label>
+
           주문상태
+
         </label>
 
 
@@ -2128,76 +2400,86 @@ async function loadOrders(){
           id="orderStatus_${order.id}"
           class="order-status-select">
 
-          <option
-            value="주문접수"
-            ${order.status==="주문접수" ? "selected":""}>
+
+          <option value="주문접수"
+            ${order.status === "주문접수"
+              ? "selected"
+              : ""}>
 
             주문접수
 
           </option>
 
 
-          <option
-            value="상품확인중"
-            ${order.status==="상품확인중" ? "selected":""}>
+          <option value="상품확인중"
+            ${order.status === "상품확인중"
+              ? "selected"
+              : ""}>
 
             상품확인중
 
           </option>
 
 
-          <option
-            value="견적완료"
-            ${order.status==="견적완료" ? "selected":""}>
+          <option value="견적완료"
+            ${order.status === "견적완료"
+              ? "selected"
+              : ""}>
 
             견적완료
 
           </option>
 
 
-          <option
-            value="결제대기"
-            ${order.status==="결제대기" ? "selected":""}>
+          <option value="결제대기"
+            ${order.status === "결제대기"
+              ? "selected"
+              : ""}>
 
             결제대기
 
           </option>
 
 
-          <option
-            value="구매완료"
-            ${order.status==="구매완료" ? "selected":""}>
+          <option value="구매완료"
+            ${order.status === "구매완료"
+              ? "selected"
+              : ""}>
 
             구매완료
 
           </option>
 
 
-          <option
-            value="배송중"
-            ${order.status==="배송중" ? "selected":""}>
+          <option value="배송중"
+            ${order.status === "배송중"
+              ? "selected"
+              : ""}>
 
             배송중
 
           </option>
 
 
-          <option
-            value="배송완료"
-            ${order.status==="배송완료" ? "selected":""}>
+          <option value="배송완료"
+            ${order.status === "배송완료"
+              ? "selected"
+              : ""}>
 
             배송완료
 
           </option>
 
 
-          <option
-            value="주문취소"
-            ${order.status==="주문취소" ? "selected":""}>
+          <option value="주문취소"
+            ${order.status === "주문취소"
+              ? "selected"
+              : ""}>
 
             주문취소
 
           </option>
+
 
         </select>
 
@@ -2213,7 +2495,9 @@ async function loadOrders(){
         <textarea
           id="orderMemo_${order.id}"
           class="order-memo-input"
-          placeholder="관리자 메모">${escapeHTML(order.admin_memo || "")}</textarea>
+          placeholder="관리자 메모">${escapeOrderHTML(
+            order.admin_memo || ""
+          )}</textarea>
 
 
         <button
@@ -2226,7 +2510,7 @@ async function loadOrders(){
 
 
         <button
-          style="background:#ff5c5c;margin-top:6px;"
+          class="order-delete-btn"
           onclick="deleteOrder(${order.id})">
 
           주문 삭제
@@ -2239,11 +2523,12 @@ async function loadOrders(){
     `;
 
 
-    box.appendChild(card);
+    list.appendChild(card);
 
   });
 
 }
+
 
 /* 주문 상세 열기 */
 
@@ -2312,7 +2597,7 @@ async function saveOrder(id){
     console.error(error);
 
     alert(
-      "저장 실패\n" +
+      "주문정보 저장 실패\n\n" +
       error.message
     );
 
@@ -2323,7 +2608,7 @@ async function saveOrder(id){
 
   alert("주문정보가 저장되었습니다.");
 
-  loadOrders();
+  await loadOrders();
 
 }
 
@@ -2355,7 +2640,7 @@ async function deleteOrder(id){
   if(error){
 
     alert(
-      "삭제 실패\n" +
+      "주문 삭제 실패\n\n" +
       error.message
     );
 
@@ -2366,39 +2651,73 @@ async function deleteOrder(id){
 
   alert("주문이 삭제되었습니다.");
 
-  loadOrders();
+  await loadOrders();
 
 }
 
 
-/* HTML 문자 처리 */
+/* HTML 문자 보호 */
 
-function escapeHTML(str){
+function escapeOrderHTML(value){
 
-  if(!str) return "";
+  if(value === null || value === undefined){
 
-  return String(str)
+    return "";
+
+  }
+
+
+  return String(value)
 
     .replace(/&/g,"&amp;")
+
     .replace(/</g,"&lt;")
+
     .replace(/>/g,"&gt;")
+
     .replace(/"/g,"&quot;")
+
     .replace(/'/g,"&#039;");
 
 }
 
 
-/* URL 속성 처리 */
+/* URL 보호 */
 
-function escapeAttribute(str){
+function escapeOrderURL(value){
 
-  if(!str) return "#";
+  if(!value){
 
-  return String(str)
+    return "#";
 
-    .replace(/"/g,"%22")
-    .replace(/</g,"%3C")
-    .replace(/>/g,"%3E");
+  }
+
+
+  try{
+
+    const url =
+      new URL(value);
+
+
+    if(
+      url.protocol !== "http:" &&
+      url.protocol !== "https:"
+    ){
+
+      return "#";
+
+    }
+
+
+    return escapeOrderHTML(
+      url.href
+    );
+
+  }catch(e){
+
+    return "#";
+
+  }
 
 }
 

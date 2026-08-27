@@ -1568,6 +1568,297 @@ body.modal-open{
   margin:0 auto;
 }
 
+/* ========================================
+   해외상품 구매대행 주문서
+======================================== */
+
+.purchase-order-area{
+  width:100%;
+  margin:30px auto;
+  text-align:center;
+}
+
+.purchase-order-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  padding:13px 24px;
+
+  border:1px solid var(--main-color);
+  border-radius:8px;
+
+  background:#fff;
+  color:#111 !important;
+
+  font-size:15px;
+  font-weight:600;
+
+  cursor:pointer;
+  transition:all .2s ease;
+}
+
+.purchase-order-btn:hover{
+  background:var(--main-color);
+  transform:translateY(-2px);
+}
+
+
+/* 주문서 팝업 */
+
+#purchaseOrderModal{
+  display:none;
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.35);
+
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+
+  justify-content:center;
+  align-items:center;
+
+  z-index:10000;
+
+  padding:15px;
+  box-sizing:border-box;
+}
+
+
+.purchase-order-box{
+  width:100%;
+  max-width:650px;
+
+  max-height:90vh;
+
+  background:#fff;
+
+  border-radius:14px;
+
+  overflow:hidden;
+
+  box-shadow:0 15px 40px rgba(0,0,0,.2);
+
+  position:relative;
+
+  display:flex;
+  flex-direction:column;
+}
+
+
+.purchase-order-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:18px 20px;
+
+  border-bottom:1px solid #eee;
+
+  flex-shrink:0;
+}
+
+
+.purchase-order-header h2{
+  margin:0;
+
+  font-size:19px;
+}
+
+
+.purchase-order-close{
+  width:34px;
+  height:34px;
+
+  border-radius:50%;
+
+  border:none;
+
+  background:#f3f3f3;
+
+  color:#333;
+
+  cursor:pointer;
+
+  font-size:17px;
+}
+
+
+.purchase-order-body{
+  padding:20px;
+
+  overflow-y:auto;
+}
+
+
+.order-section{
+  margin-bottom:22px;
+}
+
+
+.order-section-title{
+  font-size:15px;
+  font-weight:700;
+
+  margin-bottom:10px;
+
+  padding-bottom:7px;
+
+  border-bottom:1px solid #eee;
+}
+
+
+.order-field{
+  margin-bottom:10px;
+}
+
+
+.order-field label{
+  display:block;
+
+  margin-bottom:5px;
+
+  font-size:13px;
+  font-weight:600;
+
+  color:#333;
+}
+
+
+.order-field label span{
+  color:#e33;
+}
+
+
+.order-field input,
+.order-field textarea,
+.order-field select{
+
+  width:100%;
+
+  box-sizing:border-box;
+
+  border:1px solid #d8d8d8;
+
+  border-radius:7px;
+
+  padding:10px;
+
+  font-size:16px;
+
+  outline:none;
+
+  background:#fff;
+
+}
+
+
+.order-field input:focus,
+.order-field textarea:focus,
+.order-field select:focus{
+
+  border-color:var(--main-color);
+
+  box-shadow:0 0 0 3px var(--main-light);
+
+}
+
+
+.order-field textarea{
+  min-height:100px;
+
+  resize:vertical;
+}
+
+
+.order-two-column{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:10px;
+}
+
+
+.order-notice{
+
+  padding:12px;
+
+  margin-bottom:18px;
+
+  background:#f8fbfd;
+
+  border:1px solid #e4eef3;
+
+  border-radius:8px;
+
+  font-size:12px;
+
+  color:#666;
+
+  line-height:1.6;
+
+}
+
+
+.order-submit-btn{
+
+  width:100%;
+
+  height:48px;
+
+  border:none;
+
+  border-radius:8px;
+
+  background:var(--main-color);
+
+  color:#111;
+
+  font-size:15px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+}
+
+
+.order-submit-btn:hover{
+
+  background:var(--main-hover);
+
+}
+
+
+@media(max-width:768px){
+
+  #purchaseOrderModal{
+    padding:8px;
+  }
+
+  .purchase-order-box{
+    max-height:94vh;
+
+    border-radius:12px;
+  }
+
+  .purchase-order-body{
+    padding:15px;
+  }
+
+  .order-two-column{
+    grid-template-columns:1fr;
+  }
+
+  .purchase-order-header h2{
+    font-size:17px;
+  }
+
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -1653,6 +1944,20 @@ body.modal-open{
 </div>
 
 <div id="boardSection"></div>
+
+<!-- ================= 해외상품 구매대행 ================= -->
+
+<div class="purchase-order-area">
+
+  <button class="purchase-order-btn"
+          onclick="openPurchaseOrder()">
+
+    <i class="fas fa-cart-shopping"></i>
+    해외상품 구매대행 주문하기
+
+  </button>
+
+</div>
 
 <div id="writeModal" class="write-modal" style="display:none;">
   <div class="write-box">
@@ -3018,6 +3323,313 @@ function moveProductSlide(direction){
   updateProductDots();
 }
 
+/* ========================================
+   해외상품 구매대행 주문
+======================================== */
+
+
+/* 주문서 열기 */
+
+function openPurchaseOrder(){
+
+  const modal =
+    document.getElementById("purchaseOrderModal");
+
+  modal.style.display = "flex";
+
+  document.body.classList.add("modal-open");
+
+}
+
+
+/* 주문서 닫기 */
+
+function closePurchaseOrder(){
+
+  const modal =
+    document.getElementById("purchaseOrderModal");
+
+  modal.style.display = "none";
+
+  document.body.classList.remove("modal-open");
+
+}
+
+
+/* 주문 저장 */
+
+async function submitPurchaseOrder(){
+
+  const customerName =
+    document.getElementById("orderCustomerName").value.trim();
+
+  const customerPhone =
+    document.getElementById("orderCustomerPhone").value.trim();
+
+  const customerEmail =
+    document.getElementById("orderCustomerEmail").value.trim();
+
+
+  const productName =
+    document.getElementById("orderProductName").value.trim();
+
+  const productUrl =
+    document.getElementById("orderProductUrl").value.trim();
+
+  const productOption =
+    document.getElementById("orderProductOption").value.trim();
+
+  const productColor =
+    document.getElementById("orderProductColor").value.trim();
+
+  const productSize =
+    document.getElementById("orderProductSize").value.trim();
+
+  const quantity =
+    Number(
+      document.getElementById("orderProductQuantity").value
+    ) || 1;
+
+  const productPrice =
+    document.getElementById("orderProductPrice").value.trim();
+
+
+  const requestContent =
+    document.getElementById("orderRequestContent").value.trim();
+
+
+  const receiverName =
+    document.getElementById("orderReceiverName").value.trim();
+
+  const receiverPhone =
+    document.getElementById("orderReceiverPhone").value.trim();
+
+  const zipcode =
+    document.getElementById("orderZipcode").value.trim();
+
+  const address =
+    document.getElementById("orderAddress").value.trim();
+
+  const addressDetail =
+    document.getElementById("orderAddressDetail").value.trim();
+
+
+  /* 필수값 검사 */
+
+  if(!customerName){
+
+    alert("주문자 이름을 입력해주세요.");
+
+    return;
+
+  }
+
+
+  if(!customerPhone){
+
+    alert("주문자 연락처를 입력해주세요.");
+
+    return;
+
+  }
+
+
+  if(!productName){
+
+    alert("상품명을 입력해주세요.");
+
+    return;
+
+  }
+
+
+  if(!productUrl){
+
+    alert("상품 판매 사이트 URL을 입력해주세요.");
+
+    return;
+
+  }
+
+
+  if(quantity < 1){
+
+    alert("수량은 1개 이상 입력해주세요.");
+
+    return;
+
+  }
+
+
+  if(!receiverName){
+
+    alert("받는 사람 이름을 입력해주세요.");
+
+    return;
+
+  }
+
+
+  if(!receiverPhone){
+
+    alert("받는 사람 연락처를 입력해주세요.");
+
+    return;
+
+  }
+
+
+  if(!address){
+
+    alert("배송받을 주소를 입력해주세요.");
+
+    return;
+
+  }
+
+
+  /* 주문번호 생성 */
+
+  const now = new Date();
+
+  const datePart =
+    now.getFullYear().toString() +
+    String(now.getMonth()+1).padStart(2,"0") +
+    String(now.getDate()).padStart(2,"0");
+
+
+  const randomPart =
+    Math.floor(1000 + Math.random()*9000);
+
+
+  const orderNumber =
+    datePart + randomPart;
+
+
+  /* Supabase 저장 */
+
+  const { data, error } = await supabaseClient
+
+    .from("orders")
+
+    .insert([{
+
+      order_number:orderNumber,
+
+      customer_name:customerName,
+      customer_phone:customerPhone,
+      customer_email:customerEmail,
+
+      product_name:productName,
+      product_url:productUrl,
+      product_option:productOption,
+      product_color:productColor,
+      product_size:productSize,
+      quantity:quantity,
+
+      product_price:productPrice,
+
+      request_content:requestContent,
+
+      receiver_name:receiverName,
+      receiver_phone:receiverPhone,
+
+      zipcode:zipcode,
+      address:address,
+      address_detail:addressDetail,
+
+      status:"주문접수"
+
+    }])
+
+    .select();
+
+
+  /* 저장 실패 */
+
+  if(error){
+
+    console.error("주문 저장 오류:",error);
+
+    alert(
+      "주문 접수 중 오류가 발생했습니다.\n\n" +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  /* 저장 성공 */
+
+  alert(
+    "주문 의뢰가 접수되었습니다.\n\n" +
+    "주문번호 : " + orderNumber + "\n\n" +
+    "상품 확인 후 최종 견적금액을 안내해드리겠습니다."
+  );
+
+
+  /* 주문서 초기화 */
+
+  resetPurchaseOrder();
+
+
+  /* 팝업 닫기 */
+
+  closePurchaseOrder();
+
+}
+
+
+/* 주문서 초기화 */
+
+function resetPurchaseOrder(){
+
+  const ids = [
+
+    "orderCustomerName",
+    "orderCustomerPhone",
+    "orderCustomerEmail",
+
+    "orderProductName",
+    "orderProductUrl",
+    "orderProductOption",
+    "orderProductColor",
+    "orderProductSize",
+    "orderProductPrice",
+
+    "orderRequestContent",
+
+    "orderReceiverName",
+    "orderReceiverPhone",
+    "orderZipcode",
+    "orderAddress",
+    "orderAddressDetail"
+
+  ];
+
+
+  ids.forEach(id=>{
+
+    const el =
+      document.getElementById(id);
+
+    if(el){
+
+      el.value = "";
+
+    }
+
+  });
+
+
+  document.getElementById(
+    "orderProductQuantity"
+  ).value = 1;
+
+}
+
 </script>
 
 <div class="modal" id="boardModal" onclick="closeModal()">
@@ -3108,6 +3720,342 @@ align-items:center;
 </div>
 
 </script>
+
+<!-- ========================================
+     해외상품 구매대행 주문서
+======================================== -->
+
+<div id="purchaseOrderModal">
+
+  <div class="purchase-order-box">
+
+    <!-- 제목 -->
+
+    <div class="purchase-order-header">
+
+      <h2>
+        <i class="fas fa-cart-shopping"></i>
+        해외상품 구매대행 주문
+      </h2>
+
+      <button
+        class="purchase-order-close"
+        onclick="closePurchaseOrder()">
+
+        ✕
+
+      </button>
+
+    </div>
+
+
+    <!-- 주문서 내용 -->
+
+    <div class="purchase-order-body">
+
+      <div class="order-notice">
+
+        원하시는 해외상품의 정보를 입력해주세요.<br>
+        주문 접수 후 상품 확인 및 구매 가능 여부를 확인하여
+        최종 견적금액을 안내드립니다.<br>
+        <b>※ 현재 단계에서는 주문 의뢰만 접수됩니다.</b>
+
+      </div>
+
+
+      <!-- ================= 주문자 정보 ================= -->
+
+      <div class="order-section">
+
+        <div class="order-section-title">
+          ① 주문자 정보
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            이름 <span>*</span>
+          </label>
+
+          <input
+            id="orderCustomerName"
+            type="text"
+            placeholder="주문자 이름">
+
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            연락처 <span>*</span>
+          </label>
+
+          <input
+            id="orderCustomerPhone"
+            type="tel"
+            placeholder="010-0000-0000">
+
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            이메일
+          </label>
+
+          <input
+            id="orderCustomerEmail"
+            type="email"
+            placeholder="이메일 주소">
+
+        </div>
+
+      </div>
+
+
+      <!-- ================= 상품 정보 ================= -->
+
+      <div class="order-section">
+
+        <div class="order-section-title">
+          ② 구매상품 정보
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            상품명 <span>*</span>
+          </label>
+
+          <input
+            id="orderProductName"
+            type="text"
+            placeholder="구매를 원하는 상품명을 입력해주세요">
+
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            상품 판매 사이트 URL <span>*</span>
+          </label>
+
+          <input
+            id="orderProductUrl"
+            type="url"
+            placeholder="https://">
+
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            상품 옵션
+          </label>
+
+          <input
+            id="orderProductOption"
+            type="text"
+            placeholder="예: 일반 / 프리미엄 / 세트">
+
+        </div>
+
+
+        <div class="order-two-column">
+
+          <div class="order-field">
+
+            <label>
+              색상
+            </label>
+
+            <input
+              id="orderProductColor"
+              type="text"
+              placeholder="예: 블랙">
+
+          </div>
+
+
+          <div class="order-field">
+
+            <label>
+              사이즈
+            </label>
+
+            <input
+              id="orderProductSize"
+              type="text"
+              placeholder="예: 270">
+
+          </div>
+
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            수량 <span>*</span>
+          </label>
+
+          <input
+            id="orderProductQuantity"
+            type="number"
+            min="1"
+            value="1">
+
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            상품 가격
+          </label>
+
+          <input
+            id="orderProductPrice"
+            type="text"
+            placeholder="상품 페이지에 표시된 가격">
+
+        </div>
+
+      </div>
+
+
+      <!-- ================= 요청사항 ================= -->
+
+      <div class="order-section">
+
+        <div class="order-section-title">
+          ③ 구매 요청사항
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            상세 요청사항
+          </label>
+
+          <textarea
+            id="orderRequestContent"
+            placeholder="원하시는 상품에 대한 자세한 설명이나 요청사항을 입력해주세요.
+
+예)
+- 해당 상품이 품절이면 주문하지 말아주세요.
+- 다른 색상으로 변경하지 말아주세요.
+- 상품 박스가 훼손되지 않도록 포장해주세요.
+- 비슷한 상품으로 대체하지 말아주세요."></textarea>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================= 배송 정보 ================= -->
+
+      <div class="order-section">
+
+        <div class="order-section-title">
+          ④ 배송받을 정보
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            받는 사람 <span>*</span>
+          </label>
+
+          <input
+            id="orderReceiverName"
+            type="text"
+            placeholder="받는 분 이름">
+
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            받는 사람 연락처 <span>*</span>
+          </label>
+
+          <input
+            id="orderReceiverPhone"
+            type="tel"
+            placeholder="010-0000-0000">
+
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            우편번호
+          </label>
+
+          <input
+            id="orderZipcode"
+            type="text"
+            placeholder="우편번호">
+
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            주소 <span>*</span>
+          </label>
+
+          <input
+            id="orderAddress"
+            type="text"
+            placeholder="주소">
+
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            상세주소
+          </label>
+
+          <input
+            id="orderAddressDetail"
+            type="text"
+            placeholder="상세주소">
+
+        </div>
+
+      </div>
+
+
+      <!-- 제출 -->
+
+      <button
+        class="order-submit-btn"
+        onclick="submitPurchaseOrder()">
+
+        주문 의뢰하기
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
 </body>
 </html>

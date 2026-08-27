@@ -3508,42 +3508,39 @@ async function submitPurchaseOrder(){
 
   /* Supabase 저장 */
 
-  const { data, error } = await supabaseClient
+const { data, error } = await supabaseClient
 
-    .from("orders")
+  .from("orders")
 
-    .insert([{
+  .insert([{
 
-      order_number:orderNumber,
+    order_number:orderNumber,
 
-      customer_name:customerName,
-      customer_phone:customerPhone,
-      customer_email:customerEmail,
+    customer_name:customerName,
+    customer_phone:customerPhone,
+    customer_email:customerEmail,
 
-      product_name:productName,
-      product_url:productUrl,
-      product_option:productOption,
-      product_color:productColor,
-      product_size:productSize,
-      quantity:quantity,
+    product_name:productName,
+    product_url:productUrl,
+    product_option:productOption,
+    product_color:productColor,
+    product_size:productSize,
+    quantity:quantity,
 
-      product_price:productPrice,
+    product_price:productPrice,
 
-      request_content:requestContent,
+    request_content:requestContent,
 
-      receiver_name:receiverName,
-      receiver_phone:receiverPhone,
+    receiver_name:receiverName,
+    receiver_phone:receiverPhone,
 
-      zipcode:zipcode,
-      address:address,
-      address_detail:addressDetail,
+    zipcode:zipcode,
+    address:address,
+    address_detail:addressDetail,
 
-      status:"주문접수"
+    status:"주문접수"
 
-    }])
-
-    .select();
-
+  }]);
 
   /* 저장 실패 */
 

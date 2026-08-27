@@ -348,6 +348,209 @@ textarea{
 
 }
 
+/* ========================================
+   구매대행 주문관리
+======================================== */
+
+.order-admin-section{
+  margin-top:50px;
+}
+
+
+#orderAdminList{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+
+.order-admin-card{
+
+  background:#fff;
+
+  border:1px solid #ddd;
+
+  border-radius:8px;
+
+  padding:15px;
+
+  position:relative;
+
+}
+
+
+.order-admin-top{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-bottom:10px;
+
+}
+
+
+.order-admin-number{
+
+  font-size:13px;
+
+  font-weight:bold;
+
+}
+
+
+.order-admin-status{
+
+  padding:5px 9px;
+
+  border-radius:5px;
+
+  background:#eaf7ff;
+
+  color:#333;
+
+  font-size:12px;
+
+}
+
+
+.order-admin-product{
+
+  font-size:15px;
+
+  font-weight:bold;
+
+  margin-bottom:7px;
+
+}
+
+
+.order-admin-info{
+
+  font-size:13px;
+
+  line-height:1.7;
+
+  color:#555;
+
+}
+
+
+.order-admin-date{
+
+  margin-top:8px;
+
+  font-size:11px;
+
+  color:#999;
+
+}
+
+
+.order-detail-btn{
+
+  margin-top:10px;
+
+  background:#87CEEB;
+
+  color:#fff;
+
+}
+
+
+.order-detail-box{
+
+  margin-top:12px;
+
+  padding:12px;
+
+  background:#f8f8f8;
+
+  border-radius:6px;
+
+  display:none;
+
+}
+
+
+.order-detail-box.show{
+
+  display:block;
+
+}
+
+
+.order-detail-row{
+
+  margin-bottom:7px;
+
+  font-size:13px;
+
+  line-height:1.6;
+
+}
+
+
+.order-detail-label{
+
+  font-weight:bold;
+
+  color:#333;
+
+}
+
+
+.order-status-select{
+
+  margin-top:10px;
+
+  width:100%;
+
+  height:36px;
+
+  border:1px solid #ddd;
+
+  border-radius:6px;
+
+  padding:0 8px;
+
+}
+
+
+.order-estimate-input{
+
+  margin-top:8px;
+
+}
+
+
+.order-memo-input{
+
+  width:100%;
+
+  min-height:80px;
+
+  margin-top:8px;
+
+  padding:8px;
+
+  box-sizing:border-box;
+
+}
+
+
+.order-save-btn{
+
+  margin-top:8px;
+
+  width:100%;
+
+  background:#4CAF50;
+
+}
+
 </style>
 
 </head>
@@ -571,6 +774,39 @@ onclick="slideAdminSquare(1)">
 
 </div>
 
+<!-- ================== 구매대행 주문관리 ================== -->
+
+<div class="section order-admin-section">
+
+  <div class="ad-header">
+
+    <div class="ad-title">
+      🛒 구매대행 주문관리
+    </div>
+
+    <button
+      class="add-btn"
+      onclick="loadOrders()">
+
+      새로고침
+
+    </button>
+
+  </div>
+
+
+  <!-- 주문 목록 -->
+
+  <div id="orderAdminList">
+
+    <div class="card">
+      주문을 불러오는 중입니다...
+    </div>
+
+  </div>
+
+</div>
+
 <!-- ================== 게시판 관리 ================== -->
 
 <div class="section board-section">
@@ -689,6 +925,7 @@ async function adminLogin(){
     await loadData();
     await loadBoardData();
     await loadVisitStats();
+    await loadOrders();
   }catch(e){
     console.error("로그인 후 로딩 에러:", e);
   }
@@ -1080,6 +1317,7 @@ async function init(){
     loadData();
     loadBoardData();
     loadVisitStats();
+    loadOrders();
 
   }
 
@@ -1590,6 +1828,577 @@ function validateYoutube(input){
   }else{
     input.style.border = "";
   }
+
+}
+
+/* ========================================
+   구매대행 주문관리
+======================================== */
+
+
+/* 주문 불러오기 */
+
+async function loadOrders(){
+
+  const box =
+    document.getElementById("orderAdminList");
+
+
+  box.innerHTML =
+    '<div class="card">주문을 불러오는 중입니다...</div>';
+
+
+  const { data, error } =
+
+    await supabaseClient
+
+      .from("orders")
+
+      .select("*")
+
+      .order("id",{ascending:false});
+
+
+  if(error){
+
+    console.error(error);
+
+    box.innerHTML =
+      '<div class="card">주문을 불러오지 못했습니다.</div>';
+
+    return;
+
+  }
+
+
+  if(!data || data.length===0){
+
+    box.innerHTML =
+      '<div class="card">현재 접수된 주문이 없습니다.</div>';
+
+    return;
+
+  }
+
+
+  box.innerHTML="";
+
+
+  data.forEach(order=>{
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "order-admin-card";
+
+
+    const created =
+      order.created_at
+
+      ? new Date(order.created_at)
+          .toLocaleString("ko-KR")
+
+      : "";
+
+
+    card.innerHTML = `
+
+      <div class="order-admin-top">
+
+        <div class="order-admin-number">
+
+          주문번호 : ${escapeHTML(order.order_number || "")}
+
+        </div>
+
+
+        <div class="order-admin-status">
+
+          ${escapeHTML(order.status || "주문접수")}
+
+        </div>
+
+      </div>
+
+
+      <div class="order-admin-product">
+
+        ${escapeHTML(order.product_name || "")}
+
+      </div>
+
+
+      <div class="order-admin-info">
+
+        주문자 :
+        ${escapeHTML(order.customer_name || "")}
+
+        <br>
+
+        연락처 :
+        ${escapeHTML(order.customer_phone || "")}
+
+        <br>
+
+        수량 :
+        ${order.quantity || 1}개
+
+      </div>
+
+
+      <div class="order-admin-date">
+
+        ${created}
+
+      </div>
+
+
+      <button
+        class="order-detail-btn"
+        onclick="toggleOrderDetail(${order.id})">
+
+        주문 상세보기
+
+      </button>
+
+
+      <div
+        id="orderDetail_${order.id}"
+        class="order-detail-box">
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            상품명
+          </span>
+
+          <br>
+
+          ${escapeHTML(order.product_name || "")}
+
+        </div>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            상품 URL
+          </span>
+
+          <br>
+
+          <a
+            href="${escapeAttribute(order.product_url || "")}"
+            target="_blank"
+            rel="noopener">
+
+            상품 페이지 열기
+
+          </a>
+
+        </div>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            옵션
+          </span>
+
+          <br>
+
+          ${escapeHTML(order.product_option || "-")}
+
+        </div>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            색상
+          </span>
+
+          <br>
+
+          ${escapeHTML(order.product_color || "-")}
+
+        </div>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            사이즈
+          </span>
+
+          <br>
+
+          ${escapeHTML(order.product_size || "-")}
+
+        </div>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            상품가격
+          </span>
+
+          <br>
+
+          ${escapeHTML(order.product_price || "-")}
+
+        </div>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            구매 요청사항
+          </span>
+
+          <br>
+
+          ${escapeHTML(order.request_content || "-")}
+
+        </div>
+
+
+        <hr>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            받는 사람
+          </span>
+
+          <br>
+
+          ${escapeHTML(order.receiver_name || "")}
+
+        </div>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            배송 연락처
+          </span>
+
+          <br>
+
+          ${escapeHTML(order.receiver_phone || "")}
+
+        </div>
+
+
+        <div class="order-detail-row">
+
+          <span class="order-detail-label">
+            배송주소
+          </span>
+
+          <br>
+
+          ${escapeHTML(order.zipcode || "")}
+
+          <br>
+
+          ${escapeHTML(order.address || "")}
+
+          <br>
+
+          ${escapeHTML(order.address_detail || "")}
+
+        </div>
+
+
+        <hr>
+
+
+        <label>
+          주문상태
+        </label>
+
+
+        <select
+          id="orderStatus_${order.id}"
+          class="order-status-select">
+
+          <option
+            value="주문접수"
+            ${order.status==="주문접수" ? "selected":""}>
+
+            주문접수
+
+          </option>
+
+
+          <option
+            value="상품확인중"
+            ${order.status==="상품확인중" ? "selected":""}>
+
+            상품확인중
+
+          </option>
+
+
+          <option
+            value="견적완료"
+            ${order.status==="견적완료" ? "selected":""}>
+
+            견적완료
+
+          </option>
+
+
+          <option
+            value="결제대기"
+            ${order.status==="결제대기" ? "selected":""}>
+
+            결제대기
+
+          </option>
+
+
+          <option
+            value="구매완료"
+            ${order.status==="구매완료" ? "selected":""}>
+
+            구매완료
+
+          </option>
+
+
+          <option
+            value="배송중"
+            ${order.status==="배송중" ? "selected":""}>
+
+            배송중
+
+          </option>
+
+
+          <option
+            value="배송완료"
+            ${order.status==="배송완료" ? "selected":""}>
+
+            배송완료
+
+          </option>
+
+
+          <option
+            value="주문취소"
+            ${order.status==="주문취소" ? "selected":""}>
+
+            주문취소
+
+          </option>
+
+        </select>
+
+
+        <input
+          id="orderEstimate_${order.id}"
+          class="order-estimate-input"
+          type="number"
+          placeholder="최종 견적금액"
+          value="${order.estimate_price || ""}">
+
+
+        <textarea
+          id="orderMemo_${order.id}"
+          class="order-memo-input"
+          placeholder="관리자 메모">${escapeHTML(order.admin_memo || "")}</textarea>
+
+
+        <button
+          class="order-save-btn"
+          onclick="saveOrder(${order.id})">
+
+          주문정보 저장
+
+        </button>
+
+
+        <button
+          style="background:#ff5c5c;margin-top:6px;"
+          onclick="deleteOrder(${order.id})">
+
+          주문 삭제
+
+        </button>
+
+
+      </div>
+
+    `;
+
+
+    box.appendChild(card);
+
+  });
+
+}
+
+/* 주문 상세 열기 */
+
+function toggleOrderDetail(id){
+
+  const box =
+    document.getElementById(
+      "orderDetail_" + id
+    );
+
+
+  if(!box) return;
+
+
+  box.classList.toggle("show");
+
+}
+
+
+/* 주문정보 저장 */
+
+async function saveOrder(id){
+
+  const status =
+    document.getElementById(
+      "orderStatus_" + id
+    ).value;
+
+
+  const estimate =
+    document.getElementById(
+      "orderEstimate_" + id
+    ).value;
+
+
+  const memo =
+    document.getElementById(
+      "orderMemo_" + id
+    ).value.trim();
+
+
+  const { error } =
+
+    await supabaseClient
+
+      .from("orders")
+
+      .update({
+
+        status:status,
+
+        estimate_price:
+          estimate
+          ? Number(estimate)
+          : 0,
+
+        admin_memo:memo
+
+      })
+
+      .eq("id",id);
+
+
+  if(error){
+
+    console.error(error);
+
+    alert(
+      "저장 실패\n" +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  alert("주문정보가 저장되었습니다.");
+
+  loadOrders();
+
+}
+
+
+/* 주문 삭제 */
+
+async function deleteOrder(id){
+
+  if(!confirm(
+    "이 주문을 정말 삭제하시겠습니까?"
+  )){
+
+    return;
+
+  }
+
+
+  const { error } =
+
+    await supabaseClient
+
+      .from("orders")
+
+      .delete()
+
+      .eq("id",id);
+
+
+  if(error){
+
+    alert(
+      "삭제 실패\n" +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  alert("주문이 삭제되었습니다.");
+
+  loadOrders();
+
+}
+
+
+/* HTML 문자 처리 */
+
+function escapeHTML(str){
+
+  if(!str) return "";
+
+  return String(str)
+
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* URL 속성 처리 */
+
+function escapeAttribute(str){
+
+  if(!str) return "#";
+
+  return String(str)
+
+    .replace(/"/g,"%22")
+    .replace(/</g,"%3C")
+    .replace(/>/g,"%3E");
 
 }
 

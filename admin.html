@@ -2904,6 +2904,109 @@ function escapeOrderURL(value){
 
 }
 
+/* ========================================
+   주문 상세 팝업
+======================================== */
+
+function toggleOrderDetail(id){
+
+  const detail = document.getElementById("orderDetail_" + id);
+
+  if(!detail) return;
+
+  // 기존 상세내용을 팝업으로 이동
+  const popup = document.createElement("div");
+
+  popup.className = "order-detail-popup";
+
+  popup.id = "orderDetailPopup_" + id;
+
+  popup.innerHTML = `
+    <div
+      class="order-detail-popup-background"
+      onclick="closeOrderDetail(${id})">
+    </div>
+
+    <div class="order-detail-popup-box">
+
+      <button
+        type="button"
+        class="order-detail-popup-close"
+        onclick="closeOrderDetail(${id})">
+
+        ✕ 주문 상세 닫기
+
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(popup);
+
+  const popupBox =
+    popup.querySelector(".order-detail-popup-box");
+
+  // 기존 상세내용을 복사해서 팝업에 넣음
+  popupBox.appendChild(
+    detail.cloneNode(true)
+  );
+
+  // 팝업에서는 상세내용 강제로 표시
+  const popupDetail =
+    popupBox.querySelector(".order-detail-box");
+
+  if(popupDetail){
+
+    popupDetail.classList.add("show");
+
+    popupDetail.style.display = "block";
+
+  }
+
+  // 배경 스크롤 방지
+  document.body.style.overflow = "hidden";
+}
+
+
+/* 주문 상세 팝업 닫기 */
+
+function closeOrderDetail(id){
+
+  const popup =
+    document.getElementById(
+      "orderDetailPopup_" + id
+    );
+
+  if(popup){
+
+    popup.remove();
+
+  }
+
+  // 스크롤 복구
+  document.body.style.overflow = "";
+}
+
+
+/* ESC 키로 팝업 닫기 */
+
+document.addEventListener("keydown", function(e){
+
+  if(e.key !== "Escape") return;
+
+  const popup =
+    document.querySelector(".order-detail-popup");
+
+  if(popup){
+
+    popup.remove();
+
+    document.body.style.overflow = "";
+
+  }
+
+});
+
 </script>
 
 </body>

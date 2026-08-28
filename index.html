@@ -1931,19 +1931,6 @@ body.modal-open{
 
 </div>
 
-<h2 class="ad-section-title">추천영상</h2>
-<div class="grid" id="snsVideoAds"></div>
-
-<!-- 게시판 전용 검색 -->
-
-<div class="board-search">
-<input id="boardSearchInput"
-       placeholder="게시판 검색"
-       onkeydown="if(event.key==='Enter'){boardSearch();}">
-  <button onclick="boardSearch()">검색</button>
-</div>
-
-<div id="boardSection"></div>
 
 <!-- ================= 해외상품 구매대행 ================= -->
 
@@ -1958,6 +1945,22 @@ body.modal-open{
   </button>
 
 </div>
+
+
+<h2 class="ad-section-title">추천영상</h2>
+
+<div class="grid" id="snsVideoAds"></div>
+
+<!-- 게시판 전용 검색 -->
+
+<div class="board-search">
+<input id="boardSearchInput"
+       placeholder="게시판 검색"
+       onkeydown="if(event.key==='Enter'){boardSearch();}">
+  <button onclick="boardSearch()">검색</button>
+</div>
+
+<div id="boardSection"></div>
 
 <div id="writeModal" class="write-modal" style="display:none;">
   <div class="write-box">

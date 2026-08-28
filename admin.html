@@ -541,87 +541,28 @@ textarea{
 
 }
 
-```css
-/* ================================
-   주문 상세 팝업
-================================ */
 
 .order-detail-box{
+
   display:none;
 
-  position:fixed;
-  left:50%;
-  top:50%;
+  margin-top:12px;
 
-  transform:translate(-50%, -50%);
+  padding:15px;
 
-  width:min(600px, calc(100vw - 30px));
-  max-height:calc(100vh - 40px);
+  background:#f8f8f8;
 
-  box-sizing:border-box;
+  border-radius:8px;
 
-  padding:24px;
-
-  background:#fff;
-
-  border-radius:12px;
-
-  box-shadow:
-    0 20px 60px rgba(0,0,0,0.25),
-    0 0 0 100vmax rgba(0,0,0,0.45);
-
-  overflow-y:auto;
-
-  z-index:10000;
 }
+
 
 .order-detail-box.show{
-  display:block;
-}
-
-/* 팝업 닫기 버튼 */
-.order-detail-close{
-  position:sticky;
-  top:0;
 
   display:block;
 
-  width:100%;
-
-  margin-bottom:15px;
-
-  padding:10px;
-
-  border:0;
-  border-radius:6px;
-
-  background:#333;
-  color:#fff;
-
-  font-size:14px;
-  font-weight:bold;
-
-  cursor:pointer;
 }
 
-.order-detail-close:hover{
-  background:#111;
-}
-
-/* 모바일 */
-@media(max-width:700px){
-
-  .order-detail-box{
-    width:calc(100vw - 20px);
-    max-height:calc(100vh - 20px);
-
-    padding:18px;
-
-    border-radius:10px;
-  }
-
-}
-```
 
 .order-detail-row{
 
@@ -2588,8 +2529,8 @@ async function loadOrders(){
 
 }
 
-```js
-/* 주문 상세 팝업 */
+
+/* 주문 상세 열기 */
 
 function toggleOrderDetail(id){
 
@@ -2598,57 +2539,14 @@ function toggleOrderDetail(id){
       "orderDetail_" + id
     );
 
+
   if(!box) return;
 
-  /* 이미 닫기 버튼이 없으면 생성 */
-  let closeBtn =
-    box.querySelector(".order-detail-close");
 
-  if(!closeBtn){
-
-    closeBtn =
-      document.createElement("button");
-
-    closeBtn.className =
-      "order-detail-close";
-
-    closeBtn.textContent =
-      "✕ 주문 상세 닫기";
-
-    closeBtn.onclick =
-      function(e){
-
-        e.stopPropagation();
-
-        box.classList.remove("show");
-
-        document.body.classList.remove("modal-open");
-      };
-
-    box.insertBefore(
-      closeBtn,
-      box.firstChild
-    );
-  }
-
-  /* 팝업 열기 / 닫기 */
-
-  if(box.classList.contains("show")){
-
-    box.classList.remove("show");
-
-    document.body.classList.remove("modal-open");
-
-  }else{
-
-    box.classList.add("show");
-
-    document.body.classList.add("modal-open");
-
-  }
+  box.classList.toggle("show");
 
 }
-```
+
 
 /* 주문정보 저장 */
 

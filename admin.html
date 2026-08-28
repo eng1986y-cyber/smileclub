@@ -2146,8 +2146,17 @@ async function loadOrders(){
 
 
       <div
-        id="orderDetail_${order.id}"
-        class="order-detail-box">
+  id="orderDetail_${order.id}"
+  class="order-detail-box">
+
+  <button
+    type="button"
+    class="order-detail-close-btn"
+    onclick="closeOrderDetail(${order.id})">
+
+    ✕ 닫기
+
+  </button>
 
 
         <div class="order-detail-row">
@@ -2529,7 +2538,6 @@ async function loadOrders(){
 
 }
 
-```css
 /* ========================================
    주문 상세 팝업
 ======================================== */
@@ -2619,7 +2627,6 @@ async function loadOrders(){
   }
 
 }
-```
 
 /* 주문정보 저장 */
 

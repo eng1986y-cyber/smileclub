@@ -3363,11 +3363,15 @@ document.body.classList.add("order-modal-open");
 
 function closePurchaseOrder(){
 
-  document.body.classList.remove("order-modal-open");
+  const modal =
+    document.getElementById("purchaseOrderModal");
 
-  document.getElementById("purchaseOrderModal").style.display = "none";
+  modal.style.display = "none";
+
+  document.body.classList.remove("modal-open");
 
 }
+
 
 /* 주문 저장 */
 

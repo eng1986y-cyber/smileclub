@@ -3342,12 +3342,11 @@ function moveProductSlide(direction){
    해외상품 구매대행 주문
 ======================================== */
 
-
 /* 주문서 열기 */
 
 function openPurchaseOrder(){
 
-document.body.classList.add("order-modal-open");
+  document.body.classList.add("order-modal-open");
 
   const modal =
     document.getElementById("purchaseOrderModal");
@@ -3369,9 +3368,9 @@ function closePurchaseOrder(){
   modal.style.display = "none";
 
   document.body.classList.remove("modal-open");
+  document.body.classList.remove("order-modal-open");
 
 }
-
 
 /* 주문 저장 */
 

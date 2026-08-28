@@ -2529,24 +2529,97 @@ async function loadOrders(){
 
 }
 
+```css
+/* ========================================
+   주문 상세 팝업
+======================================== */
 
-/* 주문 상세 열기 */
-
-function toggleOrderDetail(id){
-
-  const box =
-    document.getElementById(
-      "orderDetail_" + id
-    );
-
-
-  if(!box) return;
-
-
-  box.classList.toggle("show");
-
+.order-detail-box{
+  display:none;
 }
 
+
+/* 팝업으로 열린 상태 */
+
+.order-detail-box.order-popup-open{
+
+  position:fixed;
+
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%, -50%);
+
+  width:600px;
+  max-width:calc(100vw - 30px);
+
+  max-height:calc(100vh - 40px);
+
+  box-sizing:border-box;
+
+  padding:25px;
+
+  background:#fff;
+
+  border:1px solid #ddd;
+
+  border-radius:12px;
+
+  overflow-y:auto;
+
+  z-index:99999;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.3);
+}
+
+
+/* 팝업 표시 */
+
+.order-detail-box.order-popup-open.show{
+  display:block;
+}
+
+
+/* 팝업 뒤쪽 어두운 배경 */
+
+.order-detail-box.order-popup-open::before{
+  content:"";
+
+  position:fixed;
+
+  left:50%;
+  top:50%;
+
+  width:100vw;
+  height:100vh;
+
+  transform:translate(-50%, -50%);
+
+  background:rgba(0,0,0,.45);
+
+  z-index:-1;
+}
+
+
+/* 모바일 */
+
+@media(max-width:700px){
+
+  .order-detail-box.order-popup-open{
+
+    width:calc(100vw - 20px);
+
+    max-width:none;
+
+    max-height:calc(100vh - 20px);
+
+    padding:18px;
+
+  }
+
+}
+```
 
 /* 주문정보 저장 */
 

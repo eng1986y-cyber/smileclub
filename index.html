@@ -1859,6 +1859,18 @@ body.modal-open{
 
 }
 
+/* ==============================
+   주문서 팝업 열릴 때 화면 밀림 방지
+============================== */
+
+html{
+  scrollbar-gutter:stable;
+}
+
+body.order-modal-open{
+  overflow:hidden;
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -3335,6 +3347,8 @@ function moveProductSlide(direction){
 
 function openPurchaseOrder(){
 
+document.body.classList.add("order-modal-open");
+
   const modal =
     document.getElementById("purchaseOrderModal");
 
@@ -3349,15 +3363,11 @@ function openPurchaseOrder(){
 
 function closePurchaseOrder(){
 
-  const modal =
-    document.getElementById("purchaseOrderModal");
+  document.body.classList.remove("order-modal-open");
 
-  modal.style.display = "none";
-
-  document.body.classList.remove("modal-open");
+  document.getElementById("purchaseOrderModal").style.display = "none";
 
 }
-
 
 /* 주문 저장 */
 

@@ -3762,8 +3762,11 @@ async function submitPurchaseOrder(){
   const customerPhone =
     document.getElementById("orderCustomerPhone").value.trim();
 
-  const customerEmail =
-    document.getElementById("orderCustomerEmail").value.trim();
+  const customsClearanceNumber =
+  document.getElementById("orderCustomsClearanceNumber").value.trim();
+
+  const orderLookupPassword =
+  document.getElementById("orderLookupPassword").value;
 
 const customsClearanceNumber =
   document
@@ -3976,7 +3979,11 @@ const { data, error } = await supabaseClient
     address:address,
     address_detail:addressDetail,
 
-    status:"주문접수"
+customs_clearance_number:customsClearanceNumber,
+
+order_password_hash:orderLookupPassword,
+
+status:"주문접수"
 
   }]);
 

@@ -2203,6 +2203,20 @@ body.order-modal-open{
   overflow-y:hidden !important;
 }
 
+.customer-info-section{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.customer-info-section .order-section-title{
+  grid-column:1 / -1;
+}
+
+.customer-info-section .order-field:nth-of-type(5){
+  grid-column:1 / -1;
+}
+
 </style>
 
 <link rel="canonical" href="https://yb365.info/smileclub/">
@@ -4365,7 +4379,7 @@ align-items:center;
 
       <!-- ================= 주문자 정보 ================= -->
 
-      <div class="order-section">
+      <div class="order-section customer-info-section">
 
         <div class="order-section-title">
           ① 주문자 정보

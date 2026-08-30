@@ -2149,79 +2149,76 @@ async function loadOrders(){
       : "";
 
 card.innerHTML = `
-
-  <div class="order-admin-summary">
-
-    <div class="order-summary-text">
-
-      <strong>
-        ${escapeOrderHTML(
-          order.order_number || ""
-        )}
-      </strong>
-
-      &nbsp; | &nbsp;
-
-      ${escapeOrderHTML(
-        order.product_name || ""
-      )}
-
-      &nbsp; | &nbsp;
-
-      주문자 :
-      ${escapeOrderHTML(
-        order.customer_name || ""
-      )}
-
-      &nbsp; | &nbsp;
-
-      ${order.quantity || 1}개
-
-      &nbsp; | &nbsp;
-
-      ${escapeOrderHTML(created)}
-
+  <div class="order-admin-top">
+    <div class="order-admin-number">
+      주문번호 :
+      ${escapeOrderHTML(order.order_number || "")}
     </div>
 
-
-    <div class="order-summary-status">
-
-      ${escapeOrderHTML(
-        order.status || "주문접수"
-      )}
-
+    <div class="order-admin-status">
+      ${escapeOrderHTML(order.status || "주문접수")}
     </div>
-
-
-    <button
-      class="order-detail-btn"
-      onclick="toggleOrderDetail(${order.id})">
-
-      상세보기
-
-    </button>
-
   </div>
 
+  <div class="order-admin-product">
+    ${escapeOrderHTML(order.product_name || "")}
+  </div>
+
+  <div class="order-admin-info">
+    주문자 :
+    ${escapeOrderHTML(order.customer_name || "")}
+
+    <br>
+
+    연락처 :
+    ${escapeOrderHTML(order.customer_phone || "")}
+
+    <br>
+
+    수량 :
+    ${order.quantity || 1}개
+  </div>
+
+  <div class="order-admin-date">
+    ${escapeOrderHTML(created)}
+  </div>
+
+  <button
+    class="order-detail-btn"
+    onclick="toggleOrderDetail(${order.id})">
+    주문 상세보기
+  </button>
 
   <div
     id="orderDetail_${order.id}"
     class="order-detail-box">
 
-    <button
-      type="button"
-      class="order-detail-close-btn"
-      onclick="closeOrderDetail(${order.id})">
+    <div class="order-detail-row">
+      <span class="order-detail-label">상품명 :</span>
+      ${escapeOrderHTML(order.product_name || "")}
+    </div>
 
-      ✕ 닫기
+    <div class="order-detail-row">
+      <span class="order-detail-label">상품 URL :</span>
+      ${escapeOrderHTML(order.product_url || "")}
+    </div>
 
-    </button>
+    <div class="order-detail-row">
+      <span class="order-detail-label">주문자 :</span>
+      ${escapeOrderHTML(order.customer_name || "")}
+    </div>
 
+    <div class="order-detail-row">
+      <span class="order-detail-label">연락처 :</span>
+      ${escapeOrderHTML(order.customer_phone || "")}
+    </div>
 
-    <!-- 기존 상세 주문내역 코드는 여기 그대로 유지 -->
+    <div class="order-detail-row">
+      <span class="order-detail-label">수량 :</span>
+      ${order.quantity || 1}개
+    </div>
 
   </div>
-
 `;
 
       <div

@@ -717,8 +717,7 @@ async function adminLogin(){
     await loadData();
     await loadBoardData();
     await loadVisitStats();
-     loadOrders();
-     await loadOrders();
+    await loadOrders();
   }catch(e){
     console.error("로그인 후 로딩 에러:", e);
   }
@@ -1149,7 +1148,6 @@ document.addEventListener("click",e=>{
   if(e.target===modal) closeOrderDetail();
 });
 
-
 async function init(){
 
   const { data } = await supabaseClient.auth.getSession();
@@ -1161,9 +1159,10 @@ async function init(){
 
     document.body.classList.remove("login-mode");
 
-    loadData();
-    loadBoardData();
-    loadVisitStats();
+    await loadData();
+    await loadBoardData();
+    await loadVisitStats();
+    await loadOrders();   // ⭐ 주문서 불러오기 추가
 
   }
 

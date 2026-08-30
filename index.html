@@ -2033,59 +2033,69 @@ body.order-modal-open{
 
 }
 
-/* ===============================
-   주문서 팝업 위치 완전 고정
-================================ */
+/* =========================================
+   해외상품 구매대행 주문서 팝업 최종 수정
+========================================= */
 
 #purchaseOrderModal{
-  display:none;
   position:fixed !important;
   inset:0 !important;
 
-  width:100vw !important;
-  height:100vh !important;
-
-  margin:0 !important;
-
-  padding:20px !important;
-  box-sizing:border-box !important;
-
-  background:rgba(0,0,0,.55);
-
-  z-index:99999 !important;
+  display:none;
 
   justify-content:center !important;
   align-items:center !important;
+
+  padding:30px 20px !important;
+
+  box-sizing:border-box !important;
+
+  z-index:10000 !important;
 }
 
 
 .purchase-order-box{
-  position:relative !important;
 
-  width:min(700px, 100%) !important;
+  width:100% !important;
+  max-width:650px !important;
 
-  max-height:90vh !important;
+  height:auto !important;
+  max-height:88vh !important;
 
   margin:0 !important;
 
-  overflow:hidden;
+  display:flex !important;
+  flex-direction:column !important;
 
-  box-sizing:border-box;
+  overflow:hidden !important;
 
-  background:#fff;
+  position:relative !important;
 
-  border-radius:16px;
-
-  box-shadow:0 15px 50px rgba(0,0,0,.3);
+  box-sizing:border-box !important;
 }
 
 
+/* 상단 제목 */
+
+.purchase-order-header{
+
+  flex-shrink:0 !important;
+
+}
+
+
+/* 주문서 내용만 스크롤 */
+
 .purchase-order-body{
-  max-height:calc(90vh - 70px);
 
-  overflow-y:auto;
+  flex:1 1 auto !important;
 
-  box-sizing:border-box;
+  min-height:0 !important;
+
+  overflow-y:auto !important;
+
+  overflow-x:hidden !important;
+
 }
 
 
@@ -2095,33 +2105,30 @@ body.order-modal-open{
 
   #purchaseOrderModal{
 
-    padding:10px !important;
-
-    align-items:center !important;
-
-    justify-content:center !important;
+    padding:20px 15px !important;
 
   }
+
 
   .purchase-order-box{
 
     width:100% !important;
 
-    max-height:94vh !important;
-
-    border-radius:14px;
+    max-height:90vh !important;
 
   }
 
+
   .purchase-order-body{
 
-    max-height:calc(94vh - 65px);
+    padding:15px !important;
 
   }
 
 }
 
 </style>
+
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
 <script type="application/ld+json">

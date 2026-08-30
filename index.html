@@ -2203,16 +2203,6 @@ body.order-modal-open{
   overflow-y:hidden !important;
 }
 
-.customer-info-section{
-  display:grid !important;
-  grid-template-columns:1fr 1fr !important;
-  gap:15px !important;
-}
-
-.customer-info-section .order-section-title{
-  grid-column:1 / -1 !important;
-}
-
 .customer-info-section .order-field:nth-of-type(5){
   grid-column:1 / -1 !important;
 }
@@ -2228,7 +2218,13 @@ body.modal-open{
 }
 
 .customer-info-section{
-  margin-bottom:5px !important;
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:15px !important;
+}
+
+.customer-info-section .order-section-title{
+  grid-column:1 / -1 !important;
 }
 
 </style>

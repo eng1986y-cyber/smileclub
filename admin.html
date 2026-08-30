@@ -348,6 +348,20 @@ textarea{
 
 }
 
+
+
+/* 주문서 관리 */
+.order-summary-list{display:flex;flex-direction:column;gap:8px;}
+.order-summary-item{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:10px 12px;}
+.order-summary-text{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.order-detail-btn{flex-shrink:0;background:#87CEEB;color:#fff;}
+.order-detail-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:10000;align-items:center;justify-content:center;}
+.order-detail-box{width:min(700px,90vw);max-height:85vh;overflow:auto;background:#fff;border-radius:12px;padding:24px;position:relative;}
+.order-detail-close{position:absolute;right:15px;top:12px;background:#eee;color:#333;}
+.order-detail-table{width:100%;border-collapse:collapse;margin-top:15px;}
+.order-detail-table th,.order-detail-table td{border-bottom:1px solid #eee;padding:10px;text-align:left;vertical-align:top;word-break:break-all;}
+.order-detail-table th{width:140px;background:#fafafa;}
+
 </style>
 
 </head>
@@ -503,6 +517,20 @@ style="width:100%; height:120px; padding:10px; box-sizing:border-box;">
 </div>
 </div>
 
+</div>
+
+<!-- ================== 주문서 관리 ================== -->
+<div class="section">
+  <div class="ad-header"><div class="ad-title">주문서 관리</div></div>
+  <div class="order-summary-list" id="orderAdminList"></div>
+</div>
+
+<div id="orderDetailModal" class="order-detail-modal">
+  <div class="order-detail-box">
+    <button class="order-detail-close" onclick="closeOrderDetail()">✕</button>
+    <h2>주문 상세내역</h2>
+    <div id="orderDetailContent"></div>
+  </div>
 </div>
 
 <!-- ================== 이미지 광고 ================== -->
@@ -689,6 +717,8 @@ async function adminLogin(){
     await loadData();
     await loadBoardData();
     await loadVisitStats();
+     loadOrders();
+     await loadOrders();
   }catch(e){
     console.error("로그인 후 로딩 에러:", e);
   }
@@ -1065,6 +1095,60 @@ if(error){
 
 alert("저장 완료 ✅");
 }
+
+/* ================= 주문서 관리 ================= */
+let orderData = [];
+
+function escapeOrderHTML(v){
+  return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+async function loadOrders(){
+  const list=document.getElementById("orderAdminList");
+  if(!list) return;
+  const {data,error}=await supabaseClient.from("orders").select("*").order("id",{ascending:false});
+  if(error){
+    console.error("주문서 불러오기 오류:",error);
+    list.innerHTML='<div class="card">주문서를 불러오지 못했습니다.</div>';
+    return;
+  }
+  orderData=data||[];
+  if(!orderData.length){
+    list.innerHTML='<div class="card">접수된 주문서가 없습니다.</div>';
+    return;
+  }
+  list.innerHTML=orderData.map((o,i)=>`
+    <div class="order-summary-item">
+      <div class="order-summary-text">[${escapeOrderHTML(o.order_number||"")}] ${escapeOrderHTML(o.customer_name||"")} | ${escapeOrderHTML(o.product_name||"")} | ${escapeOrderHTML(o.quantity||1)}개 | ${escapeOrderHTML(o.status||"주문접수")}</div>
+      <button class="order-detail-btn" onclick="openOrderDetail(${i})">주문상세보기</button>
+    </div>`).join("");
+}
+
+function openOrderDetail(index){
+  const o=orderData[index];
+  if(!o) return;
+  const fields=[
+    ["주문번호",o.order_number],["주문상태",o.status],["주문자 이름",o.customer_name],
+    ["주문자 연락처",o.customer_phone],["이메일",o.customer_email],["상품명",o.product_name],
+    ["상품 URL",o.product_url],["옵션",o.product_option],["색상",o.product_color],
+    ["사이즈",o.product_size],["수량",o.quantity],["상품 가격",o.product_price],
+    ["요청사항",o.request_content],["받는 사람",o.receiver_name],["받는 사람 연락처",o.receiver_phone],
+    ["우편번호",o.zipcode],["배송 주소",o.address],["상세 주소",o.address_detail]
+  ];
+  document.getElementById("orderDetailContent").innerHTML=
+    `<table class="order-detail-table">${fields.map(([k,v])=>`<tr><th>${escapeOrderHTML(k)}</th><td>${escapeOrderHTML(v||"-")}</td></tr>`).join("")}</table>`;
+  document.getElementById("orderDetailModal").style.display="flex";
+}
+
+function closeOrderDetail(){
+  document.getElementById("orderDetailModal").style.display="none";
+}
+
+document.addEventListener("click",e=>{
+  const modal=document.getElementById("orderDetailModal");
+  if(e.target===modal) closeOrderDetail();
+});
+
 
 async function init(){
 

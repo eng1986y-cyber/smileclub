@@ -2070,14 +2070,13 @@ body.order-modal-open{
   z-index:10000 !important;
 }
 
-
 .purchase-order-box{
-
   width:100% !important;
   max-width:650px !important;
 
-  height:auto !important;
-  max-height:88vh !important;
+  height:88vh !important;
+  max-height:850px !important;
+  min-height:650px;
 
   margin:0 !important;
 
@@ -2091,7 +2090,6 @@ body.order-modal-open{
   box-sizing:border-box !important;
 }
 
-
 /* 상단 제목 */
 
 .purchase-order-header{
@@ -2104,15 +2102,18 @@ body.order-modal-open{
 /* 주문서 내용만 스크롤 */
 
 .purchase-order-body{
-
   flex:1 1 auto !important;
 
   min-height:0 !important;
 
-  overflow-y:auto !important;
+  padding:25px !important;
 
+  overflow-y:auto !important;
   overflow-x:hidden !important;
 
+  box-sizing:border-box !important;
+
+  -webkit-overflow-scrolling:touch;
 }
 
 
@@ -2121,25 +2122,38 @@ body.order-modal-open{
 @media(max-width:768px){
 
   #purchaseOrderModal{
-
-    padding:20px 15px !important;
-
+    padding:10px !important;
   }
-
 
   .purchase-order-box{
-
     width:100% !important;
+    height:94vh !important;
+    max-height:none !important;
+    min-height:0 !important;
 
-    max-height:90vh !important;
-
+    border-radius:14px !important;
   }
 
+  .purchase-order-header{
+    padding:16px 18px !important;
+  }
 
   .purchase-order-body{
+    padding:20px 16px 30px !important;
+  }
 
-    padding:15px !important;
+  .order-section{
+    margin-bottom:28px !important;
+  }
 
+  .order-field{
+    margin-bottom:14px !important;
+  }
+
+  .order-field input,
+  .order-field textarea,
+  .order-field select{
+    padding:12px !important;
   }
 
 }

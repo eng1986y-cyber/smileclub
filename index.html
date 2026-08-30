@@ -1952,9 +1952,13 @@ body.order-modal-open{
           onclick="openPurchaseOrder()">
 
     <i class="fas fa-cart-shopping"></i>
-    해외상품 구매대행 주문하기
+    구매대행 의뢰하기
 
   </button>
+
+<button onclick="openOrderLookup()">
+  내 주문 조회
+</button>
 
 </div>
 
@@ -3385,6 +3389,16 @@ async function submitPurchaseOrder(){
   const customerEmail =
     document.getElementById("orderCustomerEmail").value.trim();
 
+const customsClearanceNumber =
+  document
+    .getElementById("orderCustomsClearanceNumber")
+    .value
+    .trim();
+
+const orderLookupPassword =
+  document
+    .getElementById("orderLookupPassword")
+    .value;
 
   const productName =
     document.getElementById("orderProductName").value.trim();
@@ -3494,15 +3508,47 @@ async function submitPurchaseOrder(){
 
   }
 
+if(!address){
 
-  if(!address){
+  alert("배송받을 주소를 입력해주세요.");
 
-    alert("배송받을 주소를 입력해주세요.");
+  return;
 
-    return;
+}
 
-  }
+if(!customsClearanceNumber){
 
+  alert("개인통관고유번호를 입력해주세요.");
+
+  return;
+
+}
+
+if(!/^P\d{12,13}$/i.test(customsClearanceNumber)){
+
+  alert(
+    "개인통관고유번호 형식을 확인해주세요.\n예: P123456789012"
+  );
+
+  return;
+
+}
+
+if(!orderLookupPassword){
+
+  alert("주문조회 비밀번호를 입력해주세요.");
+
+  return;
+
+}
+
+if(orderLookupPassword.length < 4){
+
+  alert("주문조회 비밀번호는 4자리 이상 입력해주세요.");
+
+  return;
+
+}
 
   /* 주문번호 생성 */
 
@@ -3823,6 +3869,39 @@ align-items:center;
             id="orderCustomerEmail"
             type="email"
             placeholder="이메일 주소">
+
+<div class="order-field">
+
+  <label>
+    개인통관고유번호 <span>*</span>
+  </label>
+
+  <input
+    id="orderCustomsClearanceNumber"
+    type="text"
+    placeholder="예: P123456789012"
+    autocomplete="off">
+
+</div>
+
+
+<div class="order-field">
+
+  <label>
+    주문조회 비밀번호 <span>*</span>
+  </label>
+
+  <input
+    id="orderLookupPassword"
+    type="password"
+    placeholder="주문조회 시 사용할 비밀번호"
+    autocomplete="new-password">
+
+  <small style="display:block;margin-top:6px;color:#777;">
+    주문번호와 함께 주문조회 시 사용됩니다.
+  </small>
+
+</div>
 
         </div>
 

@@ -2217,8 +2217,14 @@ body.order-modal-open{
   grid-column:1 / -1 !important;
 }
 
-.customer-info-section{
-  margin-bottom:10px !important;
+/* 팝업 열어도 사이트 좌우 밀림 방지 */
+html{
+  scrollbar-gutter:stable !important;
+}
+
+body.order-modal-open,
+body.modal-open{
+  overflow:hidden !important;
 }
 
 </style>
@@ -2307,7 +2313,8 @@ body.order-modal-open{
 
   </button>
 
-<button onclick="openOrderLookup()">
+<button class="purchase-order-btn"
+        onclick="openOrderLookup()">
   내 주문 조회
 </button>
 

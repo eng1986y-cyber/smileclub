@@ -1871,6 +1871,168 @@ body.order-modal-open{
   overflow:hidden;
 }
 
+/* =========================
+   내 주문 조회 팝업
+========================= */
+
+.order-lookup-modal{
+
+  display:none;
+
+  position:fixed;
+
+  inset:0;
+
+  background:rgba(0,0,0,.55);
+
+  z-index:10000;
+
+  justify-content:center;
+
+  align-items:center;
+
+  padding:20px;
+
+}
+
+
+.order-lookup-box{
+
+  width:100%;
+
+  max-width:520px;
+
+  max-height:90vh;
+
+  overflow-y:auto;
+
+  background:var(--card-bg);
+
+  border-radius:18px;
+
+}
+
+
+.order-lookup-header{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding:20px;
+
+  border-bottom:1px solid rgba(0,0,0,.1);
+
+}
+
+
+.order-lookup-header h2{
+
+  margin:0;
+
+  font-size:20px;
+
+}
+
+
+.order-lookup-header button{
+
+  border:none;
+
+  background:none;
+
+  font-size:24px;
+
+  cursor:pointer;
+
+}
+
+
+.order-lookup-body{
+
+  padding:20px;
+
+}
+
+
+.order-lookup-notice{
+
+  font-size:14px;
+
+  color:#666;
+
+  margin-bottom:20px;
+
+}
+
+
+.order-result-card{
+
+  margin-top:20px;
+
+  border:1px solid rgba(0,0,0,.12);
+
+  border-radius:12px;
+
+  overflow:hidden;
+
+}
+
+
+.order-result-row{
+
+  display:flex;
+
+  border-bottom:1px solid rgba(0,0,0,.08);
+
+}
+
+
+.order-result-row:last-child{
+
+  border-bottom:none;
+
+}
+
+
+.order-result-label{
+
+  width:120px;
+
+  padding:12px;
+
+  font-weight:bold;
+
+  background:rgba(0,0,0,.03);
+
+}
+
+
+.order-result-value{
+
+  flex:1;
+
+  padding:12px;
+
+  word-break:break-all;
+
+}
+
+
+@media(max-width:600px){
+
+  .order-result-label{
+
+    width:100px;
+
+    font-size:13px;
+
+  }
+
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -3361,6 +3523,220 @@ function openPurchaseOrder(){
 
 }
 
+/* =========================
+   내 주문 조회
+========================= */
+
+function openOrderLookup(){
+
+  const modal =
+    document.getElementById("orderLookupModal");
+
+  modal.style.display = "flex";
+
+  document.body.classList.add("modal-open");
+
+}
+
+
+function closeOrderLookup(){
+
+  const modal =
+    document.getElementById("orderLookupModal");
+
+  modal.style.display = "none";
+
+  document.body.classList.remove("modal-open");
+
+}
+
+async function lookupOrder(){
+
+  const orderNumber =
+    document
+      .getElementById("lookupOrderNumber")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("lookupOrderPassword")
+      .value;
+
+  const result =
+    document.getElementById("orderLookupResult");
+
+
+  if(!orderNumber){
+
+    alert("주문번호를 입력해주세요.");
+
+    return;
+
+  }
+
+
+  if(!password){
+
+    alert("주문조회 비밀번호를 입력해주세요.");
+
+    return;
+
+  }
+
+
+  result.style.display = "block";
+
+  result.innerHTML = `
+    <div style="text-align:center;padding:20px;">
+      주문 정보를 확인 중입니다...
+    </div>
+  `;
+
+
+  const { data, error } =
+    await supabaseClient.rpc(
+      "lookup_order",
+      {
+        p_order_number: orderNumber,
+        p_password: password
+      }
+    );
+
+
+  if(error){
+
+    console.error(error);
+
+    result.innerHTML = `
+      <div style="padding:20px;text-align:center;">
+        주문번호 또는 비밀번호가 올바르지 않습니다.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  if(!data || data.length === 0){
+
+    result.innerHTML = `
+      <div style="padding:20px;text-align:center;">
+        주문번호 또는 비밀번호가 올바르지 않습니다.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  const o = data[0];
+
+
+  result.innerHTML = `
+
+    <div class="order-result-card">
+
+      <div class="order-result-row">
+
+        <div class="order-result-label">
+          주문번호
+        </div>
+
+        <div class="order-result-value">
+          ${escapeHTML(o.order_number)}
+        </div>
+
+      </div>
+
+
+      <div class="order-result-row">
+
+        <div class="order-result-label">
+          상품명
+        </div>
+
+        <div class="order-result-value">
+          ${escapeHTML(o.product_name)}
+        </div>
+
+      </div>
+
+
+      <div class="order-result-row">
+
+        <div class="order-result-label">
+          수량
+        </div>
+
+        <div class="order-result-value">
+          ${escapeHTML(o.quantity)}개
+        </div>
+
+      </div>
+
+
+      <div class="order-result-row">
+
+        <div class="order-result-label">
+          주문상태
+        </div>
+
+        <div class="order-result-value">
+          ${escapeHTML(o.status || "주문접수")}
+        </div>
+
+      </div>
+
+
+      <div class="order-result-row">
+
+        <div class="order-result-label">
+          택배사
+        </div>
+
+        <div class="order-result-value">
+          ${escapeHTML(o.courier || "배송 준비중")}
+        </div>
+
+      </div>
+
+
+      <div class="order-result-row">
+
+        <div class="order-result-label">
+          운송장번호
+        </div>
+
+        <div class="order-result-value">
+          ${escapeHTML(o.tracking_number || "아직 등록되지 않았습니다.")}
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+
+    .replace(/&/g,"&amp;")
+
+    .replace(/</g,"&lt;")
+
+    .replace(/>/g,"&gt;")
+
+    .replace(/"/g,"&quot;")
+
+    .replace(/'/g,"&#039;");
+
+}
 
 /* 주문서 닫기 */
 
@@ -4142,6 +4518,88 @@ align-items:center;
         주문 의뢰하기
 
       </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     내 주문 조회 팝업
+========================= -->
+
+<div id="orderLookupModal" class="order-lookup-modal">
+
+  <div class="order-lookup-box">
+
+    <div class="order-lookup-header">
+
+      <h2>📦 내 주문 조회</h2>
+
+      <button
+        type="button"
+        onclick="closeOrderLookup()">
+
+        ✕
+
+      </button>
+
+    </div>
+
+
+    <div class="order-lookup-body">
+
+      <p class="order-lookup-notice">
+        주문번호와 주문조회 비밀번호를 입력해주세요.
+      </p>
+
+
+      <div class="order-field">
+
+        <label>
+          주문번호
+        </label>
+
+        <input
+          id="lookupOrderNumber"
+          type="text"
+          placeholder="예: ORD-20260830-1234">
+
+      </div>
+
+
+      <div class="order-field">
+
+        <label>
+          주문조회 비밀번호
+        </label>
+
+        <input
+          id="lookupOrderPassword"
+          type="password"
+          placeholder="주문 시 입력한 비밀번호">
+
+      </div>
+
+
+      <button
+        type="button"
+        class="order-submit-btn"
+        onclick="lookupOrder()">
+
+        주문 조회
+
+      </button>
+
+
+      <!-- 조회 결과 -->
+
+      <div
+        id="orderLookupResult"
+        style="display:none;margin-top:25px;">
+
+      </div>
 
     </div>
 

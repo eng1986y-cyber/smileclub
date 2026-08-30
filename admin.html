@@ -742,6 +742,64 @@ textarea{
 }
 ```
 
+/* 주문 목록 한줄 요약 */
+
+.order-admin-card{
+  padding:12px 16px;
+}
+
+.order-admin-summary{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+}
+
+.order-summary-text{
+  flex:1;
+  min-width:0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-size:14px;
+  color:#333;
+}
+
+.order-summary-status{
+  flex-shrink:0;
+  padding:5px 9px;
+  border-radius:5px;
+  background:#eaf7ff;
+  font-size:12px;
+}
+
+.order-detail-btn{
+  width:auto;
+  flex-shrink:0;
+  margin:0;
+  padding:8px 14px;
+  white-space:nowrap;
+}
+
+/* 모바일 */
+
+@media(max-width:700px){
+
+  .order-admin-summary{
+    gap:8px;
+  }
+
+  .order-summary-text{
+    font-size:12px;
+  }
+
+  .order-detail-btn{
+    padding:7px 10px;
+    font-size:12px;
+  }
+
+}
+
 </style>
 
 </head>
@@ -2106,78 +2164,81 @@ async function loadOrders(){
 
       : "";
 
+card.innerHTML = `
 
-    card.innerHTML = `
+  <div class="order-admin-summary">
 
-      <div class="order-admin-top">
+    <div class="order-summary-text">
 
-        <div class="order-admin-number">
-
-          주문번호 :
-          ${escapeOrderHTML(
-            order.order_number || ""
-          )}
-
-        </div>
-
-
-        <div class="order-admin-status">
-
-          ${escapeOrderHTML(
-            order.status || "주문접수"
-          )}
-
-        </div>
-
-      </div>
-
-
-      <div class="order-admin-product">
-
+      <strong>
         ${escapeOrderHTML(
-          order.product_name || ""
+          order.order_number || ""
         )}
+      </strong>
 
-      </div>
+      &nbsp; | &nbsp;
 
+      ${escapeOrderHTML(
+        order.product_name || ""
+      )}
 
-      <div class="order-admin-info">
+      &nbsp; | &nbsp;
 
-        주문자 :
-        ${escapeOrderHTML(
-          order.customer_name || ""
-        )}
+      주문자 :
+      ${escapeOrderHTML(
+        order.customer_name || ""
+      )}
 
-        <br>
+      &nbsp; | &nbsp;
 
-        연락처 :
-        ${escapeOrderHTML(
-          order.customer_phone || ""
-        )}
+      ${order.quantity || 1}개
 
-        <br>
+      &nbsp; | &nbsp;
 
-        수량 :
-        ${order.quantity || 1}개
+      ${escapeOrderHTML(created)}
 
-      </div>
-
-
-      <div class="order-admin-date">
-
-        ${escapeOrderHTML(created)}
-
-      </div>
+    </div>
 
 
-      <button
-        class="order-detail-btn"
-        onclick="toggleOrderDetail(${order.id})">
+    <div class="order-summary-status">
 
-        주문 상세보기
+      ${escapeOrderHTML(
+        order.status || "주문접수"
+      )}
 
-      </button>
+    </div>
 
+
+    <button
+      class="order-detail-btn"
+      onclick="toggleOrderDetail(${order.id})">
+
+      상세보기
+
+    </button>
+
+  </div>
+
+
+  <div
+    id="orderDetail_${order.id}"
+    class="order-detail-box">
+
+    <button
+      type="button"
+      class="order-detail-close-btn"
+      onclick="closeOrderDetail(${order.id})">
+
+      ✕ 닫기
+
+    </button>
+
+
+    <!-- 기존 상세 주문내역 코드는 여기 그대로 유지 -->
+
+  </div>
+
+`;
 
       <div
   id="orderDetail_${order.id}"

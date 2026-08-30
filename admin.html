@@ -1124,19 +1124,129 @@ async function loadOrders(){
 }
 
 function openOrderDetail(index){
-  const o=orderData[index];
+
+  const o = orderData[index];
+
   if(!o) return;
+
   const fields=[
-    ["주문번호",o.order_number],["주문상태",o.status],["주문자 이름",o.customer_name],
-    ["주문자 연락처",o.customer_phone],["이메일",o.customer_email],["상품명",o.product_name],
-    ["상품 URL",o.product_url],["옵션",o.product_option],["색상",o.product_color],
-    ["사이즈",o.product_size],["수량",o.quantity],["상품 가격",o.product_price],
-    ["요청사항",o.request_content],["받는 사람",o.receiver_name],["받는 사람 연락처",o.receiver_phone],
-    ["우편번호",o.zipcode],["배송 주소",o.address],["상세 주소",o.address_detail]
+    ["주문번호",o.order_number],
+    ["주문상태",o.status],
+    ["주문자 이름",o.customer_name],
+    ["주문자 연락처",o.customer_phone],
+    ["이메일",o.customer_email],
+    ["상품명",o.product_name],
+    ["상품 URL",o.product_url],
+    ["옵션",o.product_option],
+    ["색상",o.product_color],
+    ["사이즈",o.product_size],
+    ["수량",o.quantity],
+    ["상품 가격",o.product_price],
+    ["요청사항",o.request_content],
+    ["받는 사람",o.receiver_name],
+    ["받는 사람 연락처",o.receiver_phone],
+    ["우편번호",o.zipcode],
+    ["배송 주소",o.address],
+    ["상세 주소",o.address_detail]
   ];
-  document.getElementById("orderDetailContent").innerHTML=
-    `<table class="order-detail-table">${fields.map(([k,v])=>`<tr><th>${escapeOrderHTML(k)}</th><td>${escapeOrderHTML(v||"-")}</td></tr>`).join("")}</table>`;
+
+  document.getElementById("orderDetailContent").innerHTML = `
+
+    <table class="order-detail-table">
+
+      ${fields.map(([k,v])=>`
+        <tr>
+          <th>${escapeOrderHTML(k)}</th>
+          <td>${escapeOrderHTML(v||"-")}</td>
+        </tr>
+      `).join("")}
+
+    </table>
+
+    <hr style="margin:25px 0;">
+
+    <h3>🚚 배송 정보 입력</h3>
+
+    <div style="margin-bottom:10px;">
+      <label>택배사</label>
+
+      <input
+        id="courierInput"
+        value="${escapeOrderHTML(o.courier||"")}"
+        placeholder="예: CJ대한통운"
+      >
+    </div>
+
+    <div style="margin-bottom:15px;">
+      <label>운송장번호</label>
+
+      <input
+        id="trackingNumberInput"
+        value="${escapeOrderHTML(o.tracking_number||"")}"
+        placeholder="운송장번호 입력"
+      >
+    </div>
+
+    <button onclick="saveShippingInfo(${index})">
+      배송정보 저장
+    </button>
+
+  `;
+
   document.getElementById("orderDetailModal").style.display="flex";
+}
+
+async function saveShippingInfo(index){
+
+  const o = orderData[index];
+
+  if(!o) return;
+
+  const courier =
+    document.getElementById("courierInput").value.trim();
+
+  const trackingNumber =
+    document
+      .getElementById("trackingNumberInput")
+      .value
+      .trim();
+
+  if(!courier){
+    alert("택배사를 입력해주세요.");
+    return;
+  }
+
+  if(!trackingNumber){
+    alert("운송장번호를 입력해주세요.");
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("orders")
+    .update({
+      courier: courier,
+      tracking_number: trackingNumber,
+      status: "배송중"
+    })
+    .eq("id", o.id);
+
+  if(error){
+
+    console.error(error);
+
+    alert(
+      "배송정보 저장 실패: " +
+      error.message
+    );
+
+    return;
+  }
+
+  alert("배송정보가 저장되었습니다. 🚚");
+
+  await loadOrders();
+
+  closeOrderDetail();
 }
 
 function closeOrderDetail(){

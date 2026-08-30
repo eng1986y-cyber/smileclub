@@ -1886,6 +1886,7 @@ html{
 
 body.order-modal-open{
   overflow:hidden;
+  padding-right:calc(100vw - 100%);
 }
 
 /* =========================
@@ -3624,14 +3625,12 @@ function moveProductSlide(direction){
 
 function openPurchaseOrder(){
 
-  document.body.classList.add("order-modal-open");
-
   const modal =
     document.getElementById("purchaseOrderModal");
 
-  modal.style.display = "flex";
+  document.body.classList.add("order-modal-open");
 
-  document.body.classList.add("modal-open");
+  modal.style.display = "flex";
 
 }
 
@@ -3859,8 +3858,8 @@ function closePurchaseOrder(){
 
   modal.style.display = "none";
 
-  document.body.classList.remove("modal-open");
   document.body.classList.remove("order-modal-open");
+  document.body.classList.remove("modal-open");
 
 }
 

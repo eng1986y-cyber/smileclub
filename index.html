@@ -3700,41 +3700,37 @@ function moveProductSlide(direction){
    해외상품 구매대행 주문
 ======================================== */
 
-/* 주문서 열기 */
-
 function openPurchaseOrder(){
 
-  const modal =
-    document.getElementById("purchaseOrderModal");
+  document.getElementById("orderLookupModal").style.display = "none";
 
-  document.body.classList.add("order-modal-open");
+  const modal = document.getElementById("purchaseOrderModal");
 
   modal.style.display = "flex";
 
+  document.body.classList.add("order-modal-open");
+  document.body.classList.remove("modal-open");
+
 }
 
-/* =========================
-   내 주문 조회
-========================= */
 
 function openOrderLookup(){
 
-  const modal =
-    document.getElementById("orderLookupModal");
+  document.getElementById("purchaseOrderModal").style.display = "none";
+
+  const modal = document.getElementById("orderLookupModal");
 
   modal.style.display = "flex";
 
   document.body.classList.add("modal-open");
+  document.body.classList.remove("order-modal-open");
 
 }
 
 
 function closeOrderLookup(){
 
-  const modal =
-    document.getElementById("orderLookupModal");
-
-  modal.style.display = "none";
+  document.getElementById("orderLookupModal").style.display = "none";
 
   document.body.classList.remove("modal-open");
 

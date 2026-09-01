@@ -1363,20 +1363,6 @@ body{
   padding-bottom:6px;
 }
 
-img{
-  -webkit-user-select:none;
-  user-select:none;
-  pointer-events:auto;
-}
-
-img,
-video,
-iframe,
-a{
-  -webkit-user-drag:none;
-  user-drag:none;
-}
-
 .img-ad img,
 .square-ad img,
 .sns-video img{
@@ -2150,10 +2136,9 @@ body.order-modal-open{
 
 <!-- 게시판 전용 검색 -->
 
-<div class="board-search">
 <input id="boardSearchInput"
        placeholder="게시판 검색"
-       onkeydown="if(event.key==='Enter'){boardSearch();}">
+
   <button onclick="boardSearch()">검색</button>
 </div>
 
@@ -3207,26 +3192,6 @@ function closeModal(){
   document.getElementById("boardModal").style.display="none";
 }
 
-const boardModal = document.getElementById("boardModal");
-
-if(boardModal){
-  boardModal.addEventListener("click", function(){
-    closeModal();
-  });
-}
-
-window.addEventListener("DOMContentLoaded", function(){
-
-  document.getElementById("boardSearchInput")
-    .addEventListener("keydown", function(e){
-      if(e.key === "Enter"){
-        e.preventDefault();
-        boardSearch();
-      }
-    });
-
-});
-
 function openWritePost(){
   document.getElementById("writeModal").style.display="flex";
   document.getElementById("captchaAnswer").value="";
@@ -4050,6 +4015,7 @@ function resetPurchaseOrder(){
     "orderZipcode",
     "orderAddress",
     "orderAddressDetail"
+    "orderLookupPassword"
 
   ];
 
@@ -4077,7 +4043,7 @@ function resetPurchaseOrder(){
 </script>
 
 <div class="modal" id="boardModal" onclick="closeModal()">
-  <div class="modal-content" onclick="closeModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
     <div class="modal-close" onclick="closeModal()">✕</div>
     <h2 id="modalTitle"></h2>
     <div id="modalMeta" style="font-size:12px;color:#999;margin-bottom:15px;"></div>

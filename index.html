@@ -1363,6 +1363,20 @@ body{
   padding-bottom:6px;
 }
 
+img{
+  -webkit-user-select:none;
+  user-select:none;
+  pointer-events:auto;
+}
+
+img,
+video,
+iframe,
+a{
+  -webkit-user-drag:none;
+  user-drag:none;
+}
+
 .img-ad img,
 .square-ad img,
 .sns-video img{
@@ -1612,16 +1626,16 @@ body.modal-open{
   box-sizing:border-box;
 }
 
+
 .purchase-order-box{
   width:100%;
   max-width:650px;
 
-  height:95vh;
-  max-height:950px;
+  max-height:90vh;
 
   background:#fff;
 
-  border-radius:16px;
+  border-radius:14px;
 
   overflow:hidden;
 
@@ -1631,9 +1645,8 @@ body.modal-open{
 
   display:flex;
   flex-direction:column;
-
-  box-sizing:border-box;
 }
+
 
 .purchase-order-header{
   display:flex;
@@ -1672,19 +1685,13 @@ body.modal-open{
   font-size:17px;
 }
 
-.purchase-order-body{
-  flex:1;
-  min-height:0;
 
+.purchase-order-body{
   padding:20px;
 
   overflow-y:auto;
-  overflow-x:hidden;
-
-  box-sizing:border-box;
-
-  -webkit-overflow-scrolling:touch;
 }
+
 
 .order-section{
   margin-bottom:22px;
@@ -1825,17 +1832,17 @@ body.modal-open{
 
 }
 
+
 @media(max-width:768px){
 
   #purchaseOrderModal{
-    padding:15px;
+    padding:8px;
   }
 
   .purchase-order-box{
-    height:90vh;
-    max-height:none;
+    max-height:94vh;
 
-    border-radius:14px;
+    border-radius:12px;
   }
 
   .purchase-order-body{
@@ -1853,7 +1860,7 @@ body.modal-open{
 }
 
 /* ==============================
-   주문서 팝업 열릴 때 화면 밀림 완전 방지
+   주문서 팝업 열릴 때 화면 밀림 방지
 ============================== */
 
 html{
@@ -1864,180 +1871,7 @@ body.order-modal-open{
   overflow:hidden;
 }
 
-/* =========================
-   내 주문 조회 팝업
-========================= */
-
-.order-lookup-modal{
-
-  display:none;
-
-  position:fixed;
-
-  inset:0;
-
-  background:rgba(0,0,0,.55);
-
-  z-index:10000;
-
-  justify-content:center;
-
-  align-items:center;
-
-  padding:20px;
-
-}
-
-
-.order-lookup-box{
-
-  width:100%;
-
-  max-width:520px;
-
-  max-height:90vh;
-
-  overflow-y:auto;
-
-  background:var(--card-bg);
-
-  border-radius:18px;
-
-}
-
-
-.order-lookup-header{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  padding:20px;
-
-  border-bottom:1px solid rgba(0,0,0,.1);
-
-}
-
-
-.order-lookup-header h2{
-
-  margin:0;
-
-  font-size:20px;
-
-}
-
-
-.order-lookup-header button{
-
-  border:none;
-
-  background:none;
-
-  font-size:24px;
-
-  cursor:pointer;
-
-}
-
-
-.order-lookup-body{
-
-  padding:20px;
-
-}
-
-
-.order-lookup-notice{
-
-  font-size:14px;
-
-  color:#666;
-
-  margin-bottom:20px;
-
-}
-
-
-.order-result-card{
-
-  margin-top:20px;
-
-  border:1px solid rgba(0,0,0,.12);
-
-  border-radius:12px;
-
-  overflow:hidden;
-
-}
-
-
-.order-result-row{
-
-  display:flex;
-
-  border-bottom:1px solid rgba(0,0,0,.08);
-
-}
-
-
-.order-result-row:last-child{
-
-  border-bottom:none;
-
-}
-
-
-.order-result-label{
-
-  width:120px;
-
-  padding:12px;
-
-  font-weight:bold;
-
-  background:rgba(0,0,0,.03);
-
-}
-
-
-.order-result-value{
-
-  flex:1;
-
-  padding:12px;
-
-  word-break:break-all;
-
-}
-
-
-@media(max-width:600px){
-
-  .order-result-label{
-
-    width:100px;
-
-    font-size:13px;
-
-  }
-
-}
-
-.customer-info-section{
-  display:grid !important;
-  grid-template-columns:1fr 1fr !important;
-  gap:15px !important;
-}
-
-.customer-info-section .order-section-title{
-  grid-column:1 / -1 !important;
-}
-
 </style>
-
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
 <script type="application/ld+json">
@@ -2118,14 +1952,9 @@ body.order-modal-open{
           onclick="openPurchaseOrder()">
 
     <i class="fas fa-cart-shopping"></i>
-    구매대행 의뢰하기
+    해외상품 구매대행 주문하기
 
   </button>
-
-<button class="purchase-order-btn"
-        onclick="openOrderLookup()">
-  내 주문 조회
-</button>
 
 </div>
 
@@ -2136,9 +1965,10 @@ body.order-modal-open{
 
 <!-- 게시판 전용 검색 -->
 
+<div class="board-search">
 <input id="boardSearchInput"
        placeholder="게시판 검색"
-
+       onkeydown="if(event.key==='Enter'){boardSearch();}">
   <button onclick="boardSearch()">검색</button>
 </div>
 
@@ -2829,6 +2659,8 @@ if(s.banner_img){
 }
 
     document.getElementById("ownerName").innerText=s.owner_name||"";
+    document.getElementById("siteDescription").innerText=s.site_description||"";
+
     const snsBox=document.getElementById("ownerSNS");
     snsBox.innerHTML="";
 
@@ -3190,6 +3022,26 @@ function closeModal(){
   document.getElementById("boardModal").style.display="none";
 }
 
+const boardModal = document.getElementById("boardModal");
+
+if(boardModal){
+  boardModal.addEventListener("click", function(){
+    closeModal();
+  });
+}
+
+window.addEventListener("DOMContentLoaded", function(){
+
+  document.getElementById("boardSearchInput")
+    .addEventListener("keydown", function(e){
+      if(e.key === "Enter"){
+        e.preventDefault();
+        boardSearch();
+      }
+    });
+
+});
+
 function openWritePost(){
   document.getElementById("writeModal").style.display="flex";
   document.getElementById("captchaAnswer").value="";
@@ -3490,229 +3342,21 @@ function moveProductSlide(direction){
    해외상품 구매대행 주문
 ======================================== */
 
+/* 주문서 열기 */
+
 function openPurchaseOrder(){
 
-  document.getElementById("orderLookupModal").style.display = "none";
-
-  const modal = document.getElementById("purchaseOrderModal");
-
-  modal.style.display = "flex";
-
   document.body.classList.add("order-modal-open");
-  document.body.classList.remove("modal-open");
 
-}
-
-
-function openOrderLookup(){
-
-  document.getElementById("purchaseOrderModal").style.display = "none";
-
-  const modal = document.getElementById("orderLookupModal");
+  const modal =
+    document.getElementById("purchaseOrderModal");
 
   modal.style.display = "flex";
 
   document.body.classList.add("modal-open");
-  document.body.classList.remove("order-modal-open");
 
 }
 
-
-function closeOrderLookup(){
-
-  document.getElementById("orderLookupModal").style.display = "none";
-
-  document.body.classList.remove("modal-open");
-
-}
-
-async function lookupOrder(){
-
-  const orderNumber =
-    document
-      .getElementById("lookupOrderNumber")
-      .value
-      .trim();
-
-  const password =
-    document
-      .getElementById("lookupOrderPassword")
-      .value;
-
-  const result =
-    document.getElementById("orderLookupResult");
-
-
-  if(!orderNumber){
-
-    alert("주문번호를 입력해주세요.");
-
-    return;
-
-  }
-
-
-  if(!password){
-
-    alert("주문조회 비밀번호를 입력해주세요.");
-
-    return;
-
-  }
-
-
-  result.style.display = "block";
-
-  result.innerHTML = `
-    <div style="text-align:center;padding:20px;">
-      주문 정보를 확인 중입니다...
-    </div>
-  `;
-
-
-  const { data, error } =
-    await supabaseClient.rpc(
-      "lookup_order",
-      {
-        p_order_number: orderNumber,
-        p_password: password
-      }
-    );
-
-
-  if(error){
-
-    console.error(error);
-
-    result.innerHTML = `
-      <div style="padding:20px;text-align:center;">
-        주문번호 또는 비밀번호가 올바르지 않습니다.
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  if(!data || data.length === 0){
-
-    result.innerHTML = `
-      <div style="padding:20px;text-align:center;">
-        주문번호 또는 비밀번호가 올바르지 않습니다.
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  const o = data[0];
-
-
-  result.innerHTML = `
-
-    <div class="order-result-card">
-
-      <div class="order-result-row">
-
-        <div class="order-result-label">
-          주문번호
-        </div>
-
-        <div class="order-result-value">
-          ${escapeHTML(o.order_number)}
-        </div>
-
-      </div>
-
-
-      <div class="order-result-row">
-
-        <div class="order-result-label">
-          상품명
-        </div>
-
-        <div class="order-result-value">
-          ${escapeHTML(o.product_name)}
-        </div>
-
-      </div>
-
-
-      <div class="order-result-row">
-
-        <div class="order-result-label">
-          수량
-        </div>
-
-        <div class="order-result-value">
-          ${escapeHTML(o.quantity)}개
-        </div>
-
-      </div>
-
-
-      <div class="order-result-row">
-
-        <div class="order-result-label">
-          주문상태
-        </div>
-
-        <div class="order-result-value">
-          ${escapeHTML(o.status || "주문접수")}
-        </div>
-
-      </div>
-
-
-      <div class="order-result-row">
-
-        <div class="order-result-label">
-          택배사
-        </div>
-
-        <div class="order-result-value">
-          ${escapeHTML(o.courier || "배송 준비중")}
-        </div>
-
-      </div>
-
-
-      <div class="order-result-row">
-
-        <div class="order-result-label">
-          운송장번호
-        </div>
-
-        <div class="order-result-value">
-          ${escapeHTML(o.tracking_number || "아직 등록되지 않았습니다.")}
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-function escapeHTML(value){
-
-  return String(value ?? "")
-
-    .replace(/&/g,"&amp;")
-
-    .replace(/</g,"&lt;")
-
-    .replace(/>/g,"&gt;")
-
-    .replace(/"/g,"&quot;")
-
-    .replace(/'/g,"&#039;");
-
-}
 
 /* 주문서 닫기 */
 
@@ -3723,8 +3367,8 @@ function closePurchaseOrder(){
 
   modal.style.display = "none";
 
-  document.body.classList.remove("order-modal-open");
   document.body.classList.remove("modal-open");
+  document.body.classList.remove("order-modal-open");
 
 }
 
@@ -3738,11 +3382,9 @@ async function submitPurchaseOrder(){
   const customerPhone =
     document.getElementById("orderCustomerPhone").value.trim();
 
-  const customsClearanceNumber =
-  document.getElementById("orderCustomsClearanceNumber").value.trim();
+  const customerEmail =
+    document.getElementById("orderCustomerEmail").value.trim();
 
-const orderLookupPassword =
-  document.getElementById("orderLookupPassword").value;
 
   const productName =
     document.getElementById("orderProductName").value.trim();
@@ -3852,47 +3494,15 @@ const orderLookupPassword =
 
   }
 
-if(!address){
 
-  alert("배송받을 주소를 입력해주세요.");
+  if(!address){
 
-  return;
+    alert("배송받을 주소를 입력해주세요.");
 
-}
+    return;
 
-if(!customsClearanceNumber){
+  }
 
-  alert("개인통관고유번호를 입력해주세요.");
-
-  return;
-
-}
-
-if(!/^P\d{12,13}$/i.test(customsClearanceNumber)){
-
-  alert(
-    "개인통관고유번호 형식을 확인해주세요.\n예: P123456789012"
-  );
-
-  return;
-
-}
-
-if(!orderLookupPassword){
-
-  alert("주문조회 비밀번호를 입력해주세요.");
-
-  return;
-
-}
-
-if(orderLookupPassword.length < 4){
-
-  alert("주문조회 비밀번호는 4자리 이상 입력해주세요.");
-
-  return;
-
-}
 
   /* 주문번호 생성 */
 
@@ -3944,11 +3554,7 @@ const { data, error } = await supabaseClient
     address:address,
     address_detail:addressDetail,
 
-customs_clearance_number:customsClearanceNumber,
-
-order_password_hash:orderLookupPassword,
-
-status:"주문접수"
+    status:"주문접수"
 
   }]);
 
@@ -3993,29 +3599,29 @@ status:"주문접수"
 
 function resetPurchaseOrder(){
 
-const ids = [
+  const ids = [
 
-  "orderCustomerName",
-  "orderCustomerPhone",
-  "orderCustomerEmail",
+    "orderCustomerName",
+    "orderCustomerPhone",
+    "orderCustomerEmail",
 
-  "orderProductName",
-  "orderProductUrl",
-  "orderProductOption",
-  "orderProductColor",
-  "orderProductSize",
-  "orderProductPrice",
+    "orderProductName",
+    "orderProductUrl",
+    "orderProductOption",
+    "orderProductColor",
+    "orderProductSize",
+    "orderProductPrice",
 
-  "orderRequestContent",
+    "orderRequestContent",
 
-  "orderReceiverName",
-  "orderReceiverPhone",
-  "orderZipcode",
-  "orderAddress",
-  "orderAddressDetail",
-  "orderLookupPassword"
+    "orderReceiverName",
+    "orderReceiverPhone",
+    "orderZipcode",
+    "orderAddress",
+    "orderAddressDetail"
 
-];
+  ];
+
 
   ids.forEach(id=>{
 
@@ -4040,7 +3646,7 @@ const ids = [
 </script>
 
 <div class="modal" id="boardModal" onclick="closeModal()">
-  <div class="modal-content" onclick="event.stopPropagation()">
+  <div class="modal-content" onclick="closeModal()">
     <div class="modal-close" onclick="closeModal()">✕</div>
     <h2 id="modalTitle"></h2>
     <div id="modalMeta" style="font-size:12px;color:#999;margin-bottom:15px;"></div>
@@ -4172,7 +3778,7 @@ align-items:center;
 
       <!-- ================= 주문자 정보 ================= -->
 
-      <div class="order-section customer-info-section">
+      <div class="order-section">
 
         <div class="order-section-title">
           ① 주문자 정보
@@ -4206,26 +3812,22 @@ align-items:center;
 
         </div>
 
-<div class="order-field">
-  <label>이메일</label>
-  <input
-    id="orderCustomerEmail"
-    type="email"
-    placeholder="이메일 주소">
-</div>
 
-<div class="order-field">
-  <label>
-    개인통관고유번호 <span>*</span>
-  </label>
-  <input
-    id="orderCustomsClearanceNumber"
-    type="text"
-    placeholder="예: P123456789012"
-    autocomplete="off">
-</div>
+        <div class="order-field">
 
-      <div class="purchase-order-scroll">
+          <label>
+            이메일
+          </label>
+
+          <input
+            id="orderCustomerEmail"
+            type="email"
+            placeholder="이메일 주소">
+
+        </div>
+
+      </div>
+
 
       <!-- ================= 상품 정보 ================= -->
 
@@ -4449,24 +4051,6 @@ align-items:center;
 
         </div>
 
-<div class="order-field">
-
-  <label>
-    주문조회 비밀번호 <span>*</span>
-  </label>
-
-  <input
-    id="orderLookupPassword"
-    type="password"
-    placeholder="주문조회 시 사용할 비밀번호"
-    autocomplete="new-password">
-
-  <small style="display:block;margin-top:6px;color:#777;">
-    주문번호와 함께 주문조회 시 사용됩니다.
-  </small>
-
-</div>
-
       </div>
 
 
@@ -4479,88 +4063,6 @@ align-items:center;
         주문 의뢰하기
 
       </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- =========================
-     내 주문 조회 팝업
-========================= -->
-
-<div id="orderLookupModal" class="order-lookup-modal">
-
-  <div class="order-lookup-box">
-
-    <div class="order-lookup-header">
-
-      <h2>📦 내 주문 조회</h2>
-
-      <button
-        type="button"
-        onclick="closeOrderLookup()">
-
-        ✕
-
-      </button>
-
-    </div>
-
-
-    <div class="order-lookup-body">
-
-      <p class="order-lookup-notice">
-        주문번호와 주문조회 비밀번호를 입력해주세요.
-      </p>
-
-
-      <div class="order-field">
-
-        <label>
-          주문번호
-        </label>
-
-        <input
-          id="lookupOrderNumber"
-          type="text"
-          placeholder="예: ORD-20260830-1234">
-
-      </div>
-
-
-      <div class="order-field">
-
-        <label>
-          주문조회 비밀번호
-        </label>
-
-        <input
-          id="lookupOrderPassword"
-          type="password"
-          placeholder="주문 시 입력한 비밀번호">
-
-      </div>
-
-
-      <button
-        type="button"
-        class="order-submit-btn"
-        onclick="lookupOrder()">
-
-        주문 조회
-
-      </button>
-
-
-      <!-- 조회 결과 -->
-
-      <div
-        id="orderLookupResult"
-        style="display:none;margin-top:25px;">
-
-      </div>
 
     </div>
 

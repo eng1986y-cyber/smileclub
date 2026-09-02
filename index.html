@@ -1575,7 +1575,10 @@ body.modal-open{
 .purchase-order-area{
   width:100%;
   margin:30px auto;
-  text-align:center;
+
+  display:flex;
+  justify-content:center;
+  gap:10px;
 }
 
 .purchase-order-btn{
@@ -1597,6 +1600,9 @@ body.modal-open{
 
   cursor:pointer;
   transition:all .2s ease;
+
+  flex:1;
+  max-width:300px;
 }
 
 .purchase-order-btn:hover{
@@ -1949,11 +1955,22 @@ body.order-modal-open{
 
 <div class="purchase-order-area">
 
-  <button class="purchase-order-btn"
-          onclick="openPurchaseOrder()">
+  <button
+    class="purchase-order-btn"
+    onclick="openPurchaseOrder()">
 
     <i class="fas fa-cart-shopping"></i>
     해외상품 구매대행 주문하기
+
+  </button>
+
+
+  <button
+    class="purchase-order-btn order-check-btn"
+    onclick="openOrderCheck()">
+
+    <i class="fas fa-magnifying-glass"></i>
+    주문조회
 
   </button>
 

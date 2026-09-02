@@ -1967,9 +1967,15 @@ body.order-modal-open{
 <!-- 게시판 전용 검색 -->
 
 <div class="board-search">
-<input id="boardSearchInput"
-       placeholder="게시판 검색"
-       onkeydown="if(event.key==='Enter'){boardSearch();}">
+<input
+  id="boardSearchInput"
+  type="search"
+  name="board-search-keyword"
+  autocomplete="off"
+  autocapitalize="off"
+  spellcheck="false"
+  placeholder="게시판 검색"
+  onkeydown="if(event.key==='Enter'){boardSearch();}">
   <button onclick="boardSearch()">검색</button>
 </div>
 
@@ -4085,6 +4091,9 @@ align-items:center;
   <input
     id="orderPassword"
     type="password"
+    name="order-password-new"
+    autocomplete="new-password"
+    value=""
     placeholder="주문 조회 시 사용할 비밀번호를 입력하세요"
     required>
 

@@ -3776,57 +3776,81 @@ align-items:center;
       </div>
 
 
-      <!-- ================= 주문자 정보 ================= -->
+<!-- ================= 주문자 정보 ================= -->
 
-      <div class="order-section">
+<div class="order-section">
 
-        <div class="order-section-title">
-          ① 주문자 정보
-        </div>
-
-
-        <div class="order-field">
-
-          <label>
-            이름 <span>*</span>
-          </label>
-
-          <input
-            id="orderCustomerName"
-            type="text"
-            placeholder="주문자 이름">
-
-        </div>
+  <div class="order-section-title">
+    ① 주문자 정보
+  </div>
 
 
-        <div class="order-field">
+  <!-- 첫번째 줄 : 이름 / 연락처 -->
+  <div class="order-two-column">
 
-          <label>
-            연락처 <span>*</span>
-          </label>
+    <div class="order-field">
 
-          <input
-            id="orderCustomerPhone"
-            type="tel"
-            placeholder="010-0000-0000">
+      <label>
+        이름 <span>*</span>
+      </label>
 
-        </div>
+      <input
+        id="orderCustomerName"
+        type="text"
+        placeholder="주문자 이름">
+
+    </div>
 
 
-        <div class="order-field">
+    <div class="order-field">
 
-          <label>
-            이메일
-          </label>
+      <label>
+        연락처 <span>*</span>
+      </label>
 
-          <input
-            id="orderCustomerEmail"
-            type="email"
-            placeholder="이메일 주소">
+      <input
+        id="orderCustomerPhone"
+        type="tel"
+        placeholder="010-0000-0000">
 
-        </div>
+    </div>
 
-      </div>
+  </div>
+
+
+  <!-- 두번째 줄 : 이메일 / 개인통관고유번호 -->
+  <div class="order-two-column">
+
+    <div class="order-field">
+
+      <label>
+        이메일
+      </label>
+
+      <input
+        id="orderCustomerEmail"
+        type="email"
+        placeholder="이메일 주소">
+
+    </div>
+
+
+    <div class="order-field">
+
+      <label>
+        개인통관고유번호
+      </label>
+
+      <input
+        id="orderCustomsNumber"
+        type="text"
+        placeholder="개인통관고유번호 입력">
+
+    </div>
+
+  </div>
+
+</div>
 
 
       <!-- ================= 상품 정보 ================= -->

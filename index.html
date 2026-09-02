@@ -3396,6 +3396,44 @@ function closePurchaseOrder(){
 
 }
 
+/* =========================
+   주문조회 팝업 열기
+========================= */
+
+function openOrderCheck(){
+
+  const modal =
+    document.getElementById("orderCheckModal");
+
+  modal.style.display = "flex";
+
+  document.body.classList.add("modal-open");
+  document.body.classList.add("order-modal-open");
+
+}
+
+
+/* =========================
+   주문조회 팝업 닫기
+========================= */
+
+function closeOrderCheck(){
+
+  const modal =
+    document.getElementById("orderCheckModal");
+
+  modal.style.display = "none";
+
+  document.body.classList.remove("modal-open");
+  document.body.classList.remove("order-modal-open");
+
+}
+
+
+/* 주문 저장 */
+
+async function submitPurchaseOrder(){
+
 /* 주문 저장 */
 
 async function submitPurchaseOrder(){
@@ -4128,6 +4166,90 @@ align-items:center;
         주문 의뢰하기
 
       </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= 주문조회 팝업 ================= -->
+
+<div id="orderCheckModal" class="purchase-order-modal">
+
+  <div class="purchase-order-box">
+
+    <!-- 상단 -->
+
+    <div class="purchase-order-header">
+
+      <h2>
+        <i class="fas fa-magnifying-glass"></i>
+        주문조회
+      </h2>
+
+      <button
+        type="button"
+        onclick="closeOrderCheck()">
+
+        ×
+
+      </button>
+
+    </div>
+
+
+    <!-- 내용 -->
+
+    <div class="purchase-order-body">
+
+      <div class="order-section">
+
+        <div class="order-section-title">
+          주문 정보 조회
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            주문번호 <span>*</span>
+          </label>
+
+          <input
+            id="orderCheckNumber"
+            type="text"
+            autocomplete="off"
+            placeholder="주문번호를 입력하세요">
+
+        </div>
+
+
+        <div class="order-field">
+
+          <label>
+            주문조회 비밀번호 <span>*</span>
+          </label>
+
+          <input
+            id="orderCheckPassword"
+            type="password"
+            autocomplete="new-password"
+            placeholder="주문조회 비밀번호를 입력하세요">
+
+        </div>
+
+
+        <button
+          type="button"
+          class="order-submit-btn"
+          onclick="checkPurchaseOrder()">
+
+          주문 조회하기
+
+        </button>
+
+      </div>
 
     </div>
 

@@ -553,10 +553,13 @@ body{
 @media(max-width:768px){
 
   .search-box button{
-    width:58px;
-    height:100%;
-    margin:0;
-    font-size:17px;
+  width:58px;
+  height:100%;
+  margin:0;
+  font-size:17px;
+  flex-shrink:0;
+  color:var(--main-color);
+}
 
     display:flex;
     align-items:center;
@@ -1854,18 +1857,9 @@ body.order-modal-open{
   align-items:center;
 }
 
-/* ========================================
-   모바일 메인 검색창 자동 확대 방지
-======================================== */
-@media (max-width:768px){
-
-  .search-box input{
-    font-size:16px !important;
-    -webkit-text-size-adjust:100%;
-    text-size-adjust:100%;
-    transform:none !important;
-  }
-
+/* 메인 검색창 돋보기 아이콘 */
+.search-box button i{
+  color:var(--main-color) !important;
 }
 
 </style>

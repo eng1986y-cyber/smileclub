@@ -361,6 +361,13 @@ textarea{
 .order-detail-table{width:100%;border-collapse:collapse;margin-top:15px;}
 .order-detail-table th,.order-detail-table td{border-bottom:1px solid #eee;padding:10px;text-align:left;vertical-align:top;word-break:break-all;}
 .order-detail-table th{width:140px;background:#fafafa;}
+.order-status-select{height:36px;min-width:180px;padding:0 10px;border:1px solid #ccc;border-radius:6px;background:#fff;}
+.order-status-save-btn{margin-left:8px;height:36px;padding:0 14px;border:0;border-radius:6px;background:#87CEEB;color:#fff;cursor:pointer;}
+.order-status-save-btn:hover{opacity:.9;}
+@media(max-width:768px){
+  .order-status-select{min-width:140px;max-width:100%;}
+  .order-status-save-btn{margin-left:4px;padding:0 10px;}
+}
 
 </style>
 
@@ -1097,6 +1104,7 @@ alert("저장 완료 ✅");
 
 /* ================= 주문서 관리 ================= */
 let orderData = [];
+let currentOrderId = null;
 
 function escapeOrderHTML(v){
   return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
@@ -1124,133 +1132,76 @@ async function loadOrders(){
 }
 
 function openOrderDetail(index){
-
-  const o = orderData[index];
-
+  const o=orderData[index];
   if(!o) return;
 
-  const fields=[
-    ["주문번호",o.order_number],
-    ["주문상태",o.status],
-    ["주문자 이름",o.customer_name],
-    ["주문자 연락처",o.customer_phone],
-    ["이메일",o.customer_email],
-    ["상품명",o.product_name],
-    ["상품 URL",o.product_url],
-    ["옵션",o.product_option],
-    ["색상",o.product_color],
-    ["사이즈",o.product_size],
-    ["수량",o.quantity],
-    ["상품 가격",o.product_price],
-    ["요청사항",o.request_content],
-    ["받는 사람",o.receiver_name],
-    ["받는 사람 연락처",o.receiver_phone],
-    ["우편번호",o.zipcode],
-    ["배송 주소",o.address],
-    ["상세 주소",o.address_detail]
+  currentOrderId = o.id;
+
+  const statusOptions = [
+    "주문접수",
+    "상품확인중",
+    "견적안내",
+    "결제대기",
+    "결제완료",
+    "해외배송중",
+    "국내배송중",
+    "배송완료",
+    "주문취소"
   ];
 
-  document.getElementById("orderDetailContent").innerHTML = `
-
-    <table class="order-detail-table">
-
-      ${fields.map(([k,v])=>`
-        <tr>
-          <th>${escapeOrderHTML(k)}</th>
-          <td>${escapeOrderHTML(v||"-")}</td>
-        </tr>
+  const statusSelect = `
+    <select id="orderStatusSelect" class="order-status-select">
+      ${statusOptions.map(status => `
+        <option value="${escapeOrderHTML(status)}" ${status === (o.status || "주문접수") ? "selected" : ""}>${escapeOrderHTML(status)}</option>
       `).join("")}
+    </select>
+    <button type="button" class="order-status-save-btn" onclick="updateOrderStatus()">주문상태 저장</button>`;
 
-    </table>
+  const fields=[
+    ["주문번호",o.order_number],["주문자 이름",o.customer_name],
+    ["주문자 연락처",o.customer_phone],["이메일",o.customer_email],["상품명",o.product_name],
+    ["상품 URL",o.product_url],["옵션",o.product_option],["색상",o.product_color],
+    ["사이즈",o.product_size],["수량",o.quantity],["상품 가격",o.product_price],
+    ["요청사항",o.request_content],["받는 사람",o.receiver_name],["받는 사람 연락처",o.receiver_phone],
+    ["우편번호",o.zipcode],["배송 주소",o.address],["상세 주소",o.address_detail]
+  ];
 
-    <hr style="margin:25px 0;">
-
-    <h3>🚚 배송 정보 입력</h3>
-
-    <div style="margin-bottom:10px;">
-      <label>택배사</label>
-
-      <input
-        id="courierInput"
-        value="${escapeOrderHTML(o.courier||"")}"
-        placeholder="예: CJ대한통운"
-      >
-    </div>
-
-    <div style="margin-bottom:15px;">
-      <label>운송장번호</label>
-
-      <input
-        id="trackingNumberInput"
-        value="${escapeOrderHTML(o.tracking_number||"")}"
-        placeholder="운송장번호 입력"
-      >
-    </div>
-
-    <button onclick="saveShippingInfo(${index})">
-      배송정보 저장
-    </button>
-
-  `;
+  document.getElementById("orderDetailContent").innerHTML=
+    `<table class="order-detail-table">
+      <tr><th>주문상태</th><td>${statusSelect}</td></tr>
+      ${fields.map(([k,v])=>`<tr><th>${escapeOrderHTML(k)}</th><td>${escapeOrderHTML(v||"-")}</td></tr>`).join("")}
+    </table>`;
 
   document.getElementById("orderDetailModal").style.display="flex";
 }
 
-async function saveShippingInfo(index){
+async function updateOrderStatus(){
+  if(!currentOrderId) return;
 
-  const o = orderData[index];
+  const select = document.getElementById("orderStatusSelect");
+  if(!select) return;
 
-  if(!o) return;
-
-  const courier =
-    document.getElementById("courierInput").value.trim();
-
-  const trackingNumber =
-    document
-      .getElementById("trackingNumberInput")
-      .value
-      .trim();
-
-  if(!courier){
-    alert("택배사를 입력해주세요.");
-    return;
-  }
-
-  if(!trackingNumber){
-    alert("운송장번호를 입력해주세요.");
-    return;
-  }
+  const status = select.value;
 
   const { error } = await supabaseClient
     .from("orders")
-    .update({
-      courier: courier,
-      tracking_number: trackingNumber,
-      status: "배송중"
-    })
-    .eq("id", o.id);
+    .update({ status: status })
+    .eq("id", currentOrderId);
 
   if(error){
-
-    console.error(error);
-
-    alert(
-      "배송정보 저장 실패: " +
-      error.message
-    );
-
+    console.error("주문상태 저장 오류:", error);
+    alert("주문상태 저장 중 오류가 발생했습니다.\n\n" + error.message);
     return;
   }
 
-  alert("배송정보가 저장되었습니다. 🚚");
-
-  await loadOrders();
-
+  alert("주문상태가 저장되었습니다.");
   closeOrderDetail();
+  await loadOrders();
 }
 
 function closeOrderDetail(){
   document.getElementById("orderDetailModal").style.display="none";
+  currentOrderId = null;
 }
 
 document.addEventListener("click",e=>{

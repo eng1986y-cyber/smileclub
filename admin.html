@@ -1131,8 +1131,12 @@ async function loadOrders(){
     </div>`).join("");
 }
 
+let currentOrderId = null;
+
 function openOrderDetail(index){
-  const o=orderData[index];
+
+  const o = orderData[index];
+
   if(!o) return;
 
   currentOrderId = o.id;
@@ -1149,36 +1153,71 @@ function openOrderDetail(index){
     "주문취소"
   ];
 
+  const currentStatus = o.status || "주문접수";
+
   const statusSelect = `
     <select id="orderStatusSelect" class="order-status-select">
       ${statusOptions.map(status => `
-        <option value="${escapeOrderHTML(status)}" ${status === (o.status || "주문접수") ? "selected" : ""}>${escapeOrderHTML(status)}</option>
+        <option value="${escapeOrderHTML(status)}" ${status === currentStatus ? "selected" : ""}>
+          ${escapeOrderHTML(status)}
+        </option>
       `).join("")}
     </select>
-    <button type="button" class="order-status-save-btn" onclick="updateOrderStatus()">주문상태 저장</button>`;
+    <button
+      type="button"
+      class="order-status-save-btn"
+      onclick="updateOrderStatus()">
+      주문상태 저장
+    </button>
+  `;
 
-  const fields=[
-    ["주문번호",o.order_number],["주문자 이름",o.customer_name],
-    ["주문자 연락처",o.customer_phone],["이메일",o.customer_email],["상품명",o.product_name],
-    ["상품 URL",o.product_url],["옵션",o.product_option],["색상",o.product_color],
-    ["사이즈",o.product_size],["수량",o.quantity],["상품 가격",o.product_price],
-    ["요청사항",o.request_content],["받는 사람",o.receiver_name],["받는 사람 연락처",o.receiver_phone],
-    ["우편번호",o.zipcode],["배송 주소",o.address],["상세 주소",o.address_detail]
+  const fields = [
+    ["주문번호",o.order_number],
+    ["주문자 이름",o.customer_name],
+    ["주문자 연락처",o.customer_phone],
+    ["이메일",o.customer_email],
+    ["상품명",o.product_name],
+    ["상품 URL",o.product_url],
+    ["옵션",o.product_option],
+    ["색상",o.product_color],
+    ["사이즈",o.product_size],
+    ["수량",o.quantity],
+    ["상품 가격",o.product_price],
+    ["요청사항",o.request_content],
+    ["받는 사람",o.receiver_name],
+    ["받는 사람 연락처",o.receiver_phone],
+    ["우편번호",o.zipcode],
+    ["배송 주소",o.address],
+    ["상세 주소",o.address_detail]
   ];
 
-  document.getElementById("orderDetailContent").innerHTML=
-    `<table class="order-detail-table">
-      <tr><th>주문상태</th><td>${statusSelect}</td></tr>
-      ${fields.map(([k,v])=>`<tr><th>${escapeOrderHTML(k)}</th><td>${escapeOrderHTML(v||"-")}</td></tr>`).join("")}
-    </table>`;
+  document.getElementById("orderDetailContent").innerHTML = `
+    <table class="order-detail-table">
+      <tr>
+        <th>주문상태</th>
+        <td>${statusSelect}</td>
+      </tr>
+      ${fields.map(([k,v]) => `
+        <tr>
+          <th>${escapeOrderHTML(k)}</th>
+          <td>${escapeOrderHTML(v || "-")}</td>
+        </tr>
+      `).join("")}
+    </table>
+  `;
 
   document.getElementById("orderDetailModal").style.display="flex";
 }
 
 async function updateOrderStatus(){
-  if(!currentOrderId) return;
+
+  if(!currentOrderId){
+    alert("주문을 먼저 선택해주세요.");
+    return;
+  }
 
   const select = document.getElementById("orderStatusSelect");
+
   if(!select) return;
 
   const status = select.value;
@@ -1190,18 +1229,22 @@ async function updateOrderStatus(){
 
   if(error){
     console.error("주문상태 저장 오류:", error);
-    alert("주문상태 저장 중 오류가 발생했습니다.\n\n" + error.message);
+    alert("주문상태 저장에 실패했습니다.\n\n" + error.message);
     return;
   }
 
   alert("주문상태가 저장되었습니다.");
+
   closeOrderDetail();
+
   await loadOrders();
 }
 
 function closeOrderDetail(){
-  document.getElementById("orderDetailModal").style.display="none";
+
   currentOrderId = null;
+
+  document.getElementById("orderDetailModal").style.display="none";
 }
 
 document.addEventListener("click",e=>{

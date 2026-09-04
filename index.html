@@ -3401,6 +3401,9 @@ function openPurchaseOrder(){
 
   modal.style.display = "flex";
 
+  const result = document.getElementById("orderCheckResult");
+  if(result) result.innerHTML = "";
+
   document.body.classList.add("modal-open");
 
 }
@@ -3431,6 +3434,9 @@ function openOrderCheck(){
 
   modal.style.display = "flex";
 
+  const result = document.getElementById("orderCheckResult");
+  if(result) result.innerHTML = "";
+
   document.body.classList.add("modal-open");
   document.body.classList.add("order-modal-open");
 
@@ -3454,6 +3460,218 @@ function closeOrderCheck(){
 }
 
 
+/* =========================
+   주문 조회
+========================= */
+
+async function checkPurchaseOrder(){
+
+  const orderNumber =
+    document.getElementById("orderCheckNumber").value.trim();
+
+  const password =
+    document.getElementById("orderCheckPassword").value.trim();
+
+  const result =
+    document.getElementById("orderCheckResult");
+
+  if(!orderNumber){
+    alert("주문번호를 입력해주세요.");
+    return;
+  }
+
+  if(!password){
+    alert("주문조회 비밀번호를 입력해주세요.");
+    return;
+  }
+
+  result.innerHTML = '<div style="padding:14px;text-align:center;color:#777;">주문정보를 조회하고 있습니다...</div>';
+
+  const { data, error } = await supabaseClient.rpc(
+    "lookup_purchase_order",
+    {
+      p_order_number: orderNumber,
+      p_password: password
+    }
+  );
+
+  if(error){
+    console.error("주문 조회 오류:", error);
+    result.innerHTML = '<div style="padding:14px;color:#d33;background:#fff5f5;border:1px solid #f0caca;border-radius:8px;">주문 조회 중 오류가 발생했습니다.<br>잠시 후 다시 시도해주세요.</div>';
+    return;
+  }
+
+  const order = data && !Array.isArray(data) ? data : null;
+
+  if(!order || !order.order_number){
+    result.innerHTML = '<div style="padding:14px;color:#d33;background:#fff5f5;border:1px solid #f0caca;border-radius:8px;">주문번호 또는 주문조회 비밀번호가 일치하지 않습니다.</div>';
+    return;
+  }
+
+  const rows = [
+    ["주문번호", order.order_number],
+    ["주문상태", order.status || "주문접수"],
+    ["주문자", order.customer_name],
+    ["연락처", order.customer_phone],
+    ["이메일", order.customer_email],
+    ["상품명", order.product_name],
+    ["상품 URL", order.product_url],
+    ["옵션", order.product_option],
+    ["색상", order.product_color],
+    ["사이즈", order.product_size],
+    ["수량", order.quantity],
+    ["상품 가격", order.product_price],
+    ["요청사항", order.request_content],
+    ["받는 사람", order.receiver_name],
+    ["받는 사람 연락처", order.receiver_phone],
+    ["우편번호", order.zipcode],
+    ["배송 주소", order.address],
+    ["상세 주소", order.address_detail]
+  ];
+
+  const escape = value => String(value ?? "-")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/\"/g,"&quot;");
+
+  result.innerHTML = `
+    <div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;background:#fff;">
+      <div style="padding:12px 14px;font-weight:700;border-bottom:1px solid #eee;">조회된 주문정보</div>
+      <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        ${rows.map(([key,value]) => `
+          <tr>
+            <th style="width:110px;padding:10px;background:#fafafa;border-bottom:1px solid #eee;text-align:left;vertical-align:top;">${escape(key)}</th>
+            <td style="padding:10px;border-bottom:1px solid #eee;word-break:break-all;">${escape(value || "-")}</td>
+          </tr>
+        `).join("")}
+      </table>
+    </div>`;
+}
+
+
+/* =========================
+   주문조회 실행
+========================= */
+
+async function checkPurchaseOrder(){
+
+  const orderNumber =
+    document.getElementById("orderCheckNumber").value.trim();
+
+  const password =
+    document.getElementById("orderCheckPassword").value.trim();
+
+  const result =
+    document.getElementById("orderCheckResult");
+
+  if(!orderNumber){
+    alert("주문번호를 입력해주세요.");
+    return;
+  }
+
+  if(!password){
+    alert("주문조회 비밀번호를 입력해주세요.");
+    return;
+  }
+
+  if(result){
+    result.innerHTML =
+      '<div style="padding:15px;text-align:center;color:#777;">주문정보를 조회하고 있습니다...</div>';
+  }
+
+  try{
+
+    const { data, error } = await supabaseClient.rpc(
+      "lookup_purchase_order",
+      {
+        p_order_number: orderNumber,
+        p_password: password
+      }
+    );
+
+    if(error){
+      console.error("주문조회 오류:", error);
+
+      if(result){
+        result.innerHTML =
+          '<div style="padding:15px;color:#d00;background:#fff5f5;border-radius:8px;">주문조회 중 오류가 발생했습니다.<br>잠시 후 다시 시도해주세요.</div>';
+      }
+      return;
+    }
+
+    if(!data || typeof data !== "object" || Array.isArray(data) ||
+       Object.keys(data).length === 0){
+
+      if(result){
+        result.innerHTML =
+          '<div style="padding:15px;text-align:center;color:#d00;background:#fff5f5;border-radius:8px;">주문번호 또는 주문조회 비밀번호가 올바르지 않습니다.</div>';
+      }
+      return;
+    }
+
+    const safe = value =>
+      String(value ?? "-")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+    const rows = [
+      ["주문번호", data.order_number],
+      ["주문상태", data.status || "주문접수"],
+      ["주문자 이름", data.customer_name],
+      ["주문자 연락처", data.customer_phone],
+      ["이메일", data.customer_email],
+      ["상품명", data.product_name],
+      ["상품 옵션", data.product_option],
+      ["색상", data.product_color],
+      ["사이즈", data.product_size],
+      ["수량", data.quantity],
+      ["상품 가격", data.product_price],
+      ["요청사항", data.request_content],
+      ["받는 사람", data.receiver_name],
+      ["받는 사람 연락처", data.receiver_phone],
+      ["우편번호", data.zipcode],
+      ["배송 주소", data.address],
+      ["상세 주소", data.address_detail]
+    ];
+
+    if(result){
+      result.innerHTML = `
+        <div style="border:1px solid #eee;border-radius:10px;overflow:hidden;background:#fff;">
+          <div style="padding:12px 14px;background:#f7f7f7;font-weight:600;">
+            주문 조회 결과
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            ${rows.map(([key,value]) => `
+              <tr>
+                <th style="width:110px;padding:9px 10px;text-align:left;border-top:1px solid #eee;background:#fafafa;vertical-align:top;">
+                  ${safe(key)}
+                </th>
+                <td style="padding:9px 10px;border-top:1px solid #eee;word-break:break-all;">
+                  ${safe(value)}
+                </td>
+              </tr>
+            `).join("")}
+          </table>
+        </div>
+      `;
+    }
+
+  }catch(error){
+
+    console.error("주문조회 예외:", error);
+
+    if(result){
+      result.innerHTML =
+        '<div style="padding:15px;color:#d00;background:#fff5f5;border-radius:8px;">주문조회 중 오류가 발생했습니다.<br>잠시 후 다시 시도해주세요.</div>';
+    }
+  }
+}
+
+
 /* 주문 저장 */
 
 async function submitPurchaseOrder(){
@@ -3466,6 +3684,10 @@ async function submitPurchaseOrder(){
 
   const customerEmail =
     document.getElementById("orderCustomerEmail").value.trim();
+
+  
+  const orderPassword =
+    document.getElementById("orderPassword").value.trim();
 
 
   const productName =
@@ -3526,6 +3748,33 @@ async function submitPurchaseOrder(){
   if(!customerPhone){
 
     alert("주문자 연락처를 입력해주세요.");
+
+    return;
+
+  }
+
+  if(!orderPassword){
+    alert("주문조회 비밀번호를 입력해주세요.");
+    return;
+  }
+
+
+  if(!orderPassword){
+
+    alert("주문조회 비밀번호를 입력해주세요.");
+
+    document.getElementById("orderPassword").focus();
+
+    return;
+
+  }
+
+
+  if(orderPassword.length < 4){
+
+    alert("주문조회 비밀번호는 4자 이상 입력해주세요.");
+
+    document.getElementById("orderPassword").focus();
 
     return;
 
@@ -3613,6 +3862,8 @@ const { data, error } = await supabaseClient
   .insert([{
 
     order_number:orderNumber,
+    
+    order_password:orderPassword,order_password:orderPassword,
 
     customer_name:customerName,
     customer_phone:customerPhone,
@@ -3686,6 +3937,8 @@ function resetPurchaseOrder(){
     "orderCustomerName",
     "orderCustomerPhone",
     "orderCustomerEmail",
+    
+    "orderPassword",
 
     "orderProductName",
     "orderProductUrl",
@@ -4267,6 +4520,10 @@ align-items:center;
           주문 조회하기
 
         </button>
+
+        <div id="orderCheckResult" style="margin-top:15px;"></div>
+
+        <div id="orderCheckResult" style="margin-top:15px;"></div>
 
       </div>
 

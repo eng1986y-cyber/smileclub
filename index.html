@@ -1862,6 +1862,46 @@ body.order-modal-open{
   color:var(--main-color) !important;
 }
 
+/* ========================================
+   PC 메인 검색창 크기 조정
+   네이버 검색창 느낌으로 컴팩트하게
+======================================== */
+@media (min-width:769px){
+
+  .search-box{
+    width:100%;
+    max-width:650px;
+    margin:20px auto 30px;
+  }
+
+  .search-box-inner{
+    height:50px;
+    width:100%;
+    box-sizing:border-box;
+    border-radius:999px;
+  }
+
+  .search-box input{
+    font-size:16px;
+    padding-left:4px;
+    padding-right:8px;
+  }
+
+  .search-box button{
+    width:54px;
+    height:100%;
+    font-size:16px;
+  }
+
+  .search-logo-inside{
+    max-height:22px;
+    width:auto;
+    margin-left:12px;
+    margin-right:6px;
+  }
+
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 

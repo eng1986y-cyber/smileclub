@@ -1210,32 +1210,148 @@ function openOrderDetail(index){
 async function updateOrderStatus(){
 
   if(!currentOrderId){
+
     alert("주문을 먼저 선택해주세요.");
+
     return;
+
   }
 
-  const select = document.getElementById("orderStatusSelect");
 
-  if(!select) return;
+  const select =
+    document.getElementById("orderStatusSelect");
+
+
+  if(!select){
+
+    alert("주문상태 선택창을 찾을 수 없습니다.");
+
+    return;
+
+  }
+
 
   const status = select.value;
 
-  const { error } = await supabaseClient
-    .from("orders")
-    .update({ status: status })
-    .eq("id", currentOrderId);
 
-  if(error){
-    console.error("주문상태 저장 오류:", error);
-    alert("주문상태 저장에 실패했습니다.\n\n" + error.message);
+  if(!status){
+
+    alert("주문상태를 선택해주세요.");
+
     return;
+
   }
 
-  alert("주문상태가 저장되었습니다.");
 
-  closeOrderDetail();
+  const saveButton =
+    document.querySelector(".order-status-save-btn");
 
-  await loadOrders();
+
+  if(saveButton){
+
+    saveButton.disabled = true;
+
+    saveButton.textContent = "저장중...";
+
+  }
+
+
+  try{
+
+
+    console.log(
+      "주문상태 저장 시작",
+      currentOrderId,
+      status
+    );
+
+
+    const { data, error } =
+      await supabaseClient
+        .from("orders")
+        .update({
+          status: status
+        })
+        .eq("id", currentOrderId)
+        .select();
+
+
+    if(error){
+
+      console.error(
+        "주문상태 저장 오류:",
+        error
+      );
+
+
+      alert(
+        "주문상태 저장에 실패했습니다.\n\n" +
+        error.message
+      );
+
+
+      return;
+
+    }
+
+
+    if(!data || data.length === 0){
+
+      alert(
+        "주문상태가 변경되지 않았습니다.\n\n" +
+        "Supabase RLS 권한을 확인해주세요."
+      );
+
+
+      return;
+
+    }
+
+
+    console.log(
+      "주문상태 저장 완료:",
+      data
+    );
+
+
+    alert(
+      "주문상태가 저장되었습니다. ✅"
+    );
+
+
+    await loadOrders();
+
+
+    closeOrderDetail();
+
+
+  }catch(err){
+
+    console.error(
+      "주문상태 저장 시스템 오류:",
+      err
+    );
+
+
+    alert(
+      "주문상태 저장 중 오류가 발생했습니다."
+    );
+
+
+  }finally{
+
+
+    if(saveButton){
+
+      saveButton.disabled = false;
+
+      saveButton.textContent =
+        "주문상태 저장";
+
+    }
+
+  }
+
 }
 
 function closeOrderDetail(){

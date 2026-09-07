@@ -3685,6 +3685,9 @@ async function submitPurchaseOrder(){
   const customerEmail =
     document.getElementById("orderCustomerEmail").value.trim();
 
+  const customsNumber =
+    document.getElementById("orderCustomsNumber").value.trim();
+
   
   const orderPassword =
     document.getElementById("orderPassword").value.trim();
@@ -3752,6 +3755,25 @@ async function submitPurchaseOrder(){
     return;
 
   }
+
+  if(!customerEmail){
+
+   alert("이메일을 입력해주세요.");
+
+  document.getElementById("orderCustomerEmail").focus();
+
+  return;
+}
+
+
+if(!customsNumber){
+
+  alert("개인통관고유번호를 입력해주세요.");
+
+  document.getElementById("orderCustomsNumber").focus();
+
+  return;
+}
 
   if(!orderPassword){
     alert("주문조회 비밀번호를 입력해주세요.");
@@ -3868,6 +3890,7 @@ const { data, error } = await supabaseClient
     customer_name:customerName,
     customer_phone:customerPhone,
     customer_email:customerEmail,
+    customs_number:customsNumber,
 
     product_name:productName,
     product_url:productUrl,
@@ -3937,7 +3960,8 @@ function resetPurchaseOrder(){
     "orderCustomerName",
     "orderCustomerPhone",
     "orderCustomerEmail",
-    
+    "orderCustomsNumber",
+
     "orderPassword",
 
     "orderProductName",
@@ -4153,37 +4177,39 @@ align-items:center;
   </div>
 
 
-  <!-- 두번째 줄 : 이메일 / 개인통관고유번호 -->
-  <div class="order-two-column">
+<!-- 두번째 줄 : 이메일 / 개인통관고유번호 -->
+<div class="order-two-column">
 
-    <div class="order-field">
+  <div class="order-field">
 
-      <label>
-        이메일
-      </label>
+    <label>
+      이메일 <span>*</span>
+    </label>
 
-      <input
-        id="orderCustomerEmail"
-        type="email"
-        placeholder="이메일 주소">
-
-    </div>
-
-
-    <div class="order-field">
-
-      <label>
-        개인통관고유번호
-      </label>
-
-      <input
-        id="orderCustomsNumber"
-        type="text"
-        placeholder="개인통관고유번호 입력">
-
-    </div>
+    <input
+      id="orderCustomerEmail"
+      type="email"
+      placeholder="이메일 주소"
+      required>
 
   </div>
+
+
+  <div class="order-field">
+
+    <label>
+      개인통관고유번호 <span>*</span>
+    </label>
+
+    <input
+      id="orderCustomsNumber"
+      type="text"
+      placeholder="개인통관고유번호 입력"
+      required>
+
+  </div>
+
+</div>
 
 </div>
 

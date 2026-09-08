@@ -369,14 +369,6 @@ textarea{
   .order-status-save-btn{margin-left:4px;padding:0 10px;}
 }
 
-/* 주문서 관리 목록 5줄 높이 고정 */
-
-#orderAdminList{
-
-  min-height: 400px;
-
-}
-
 /* =========================
    주문서 페이지네이션
 ========================= */
@@ -433,6 +425,12 @@ textarea{
   border-color:var(--main-color);
 
   font-weight:bold;
+
+}
+
+.order-list-fixed{
+
+  min-height:385px;
 
 }
 
@@ -1271,75 +1269,51 @@ function renderOrderPage(){
     );
 
 
-  list.innerHTML =
+  list.innerHTML = `
 
-    pageOrders.map(
-      (o,i) => {
+  <div class="order-list-fixed">
 
-        const realIndex =
-          startIndex + i;
+    ${pageOrders.map((o,i) => {
 
+      const realIndex =
+        startIndex + i;
 
-        return `
+      return `
 
-          <div class="order-summary-item">
+        <div class="order-summary-item">
 
-            <div class="order-summary-text">
+          <div class="order-summary-text">
 
-              [
-                ${escapeOrderHTML(
-                  o.order_number || ""
-                )}
-              ]
-
-              ${escapeOrderHTML(
-                o.customer_name || ""
-              )}
-
-              |
-
-              ${escapeOrderHTML(
-                o.product_name || ""
-              )}
-
-              |
-
-              ${escapeOrderHTML(
-                o.quantity || 1
-              )}개
-
-              |
-
-              ${escapeOrderHTML(
-                o.status || "주문접수"
-              )}
-
-            </div>
-
-
-            <button
-              class="order-detail-btn"
-              onclick="openOrderDetail(${realIndex})">
-
-              주문상세보기
-
-            </button>
+            [${escapeOrderHTML(o.order_number || "")}]
+            ${escapeOrderHTML(o.customer_name || "")}
+            |
+            ${escapeOrderHTML(o.product_name || "")}
+            |
+            ${escapeOrderHTML(o.quantity || 1)}개
+            |
+            ${escapeOrderHTML(o.status || "주문접수")}
 
           </div>
 
-        `;
+          <button
+            class="order-detail-btn"
+            onclick="openOrderDetail(${realIndex})">
 
-      }
+            주문상세보기
 
-    ).join("")
+          </button>
 
+        </div>
 
-    +
+      `;
 
+    }).join("")}
 
-    renderOrderPagination(
-      totalPages
-    );
+  </div>
+
+  ${renderOrderPagination(totalPages)}
+
+`;
 
 }
 

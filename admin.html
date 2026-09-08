@@ -369,6 +369,65 @@ textarea{
   .order-status-save-btn{margin-left:4px;padding:0 10px;}
 }
 
+/* =========================
+   주문서 페이지네이션
+========================= */
+
+.order-pagination{
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:8px;
+
+  margin-top:20px;
+
+  flex-wrap:wrap;
+
+}
+
+
+.order-page-btn{
+
+  width:36px;
+
+  height:36px;
+
+  border:1px solid #ddd;
+
+  background:#fff;
+
+  border-radius:6px;
+
+  cursor:pointer;
+
+  font-size:14px;
+
+}
+
+
+.order-page-btn:hover{
+
+  opacity:0.8;
+
+}
+
+
+.order-page-btn.active{
+
+  background:var(--main-color);
+
+  color:#fff;
+
+  border-color:var(--main-color);
+
+  font-weight:bold;
+
+}
+
 </style>
 
 </head>
@@ -1106,29 +1165,241 @@ alert("저장 완료 ✅");
 let orderData = [];
 let currentOrderId = null;
 
+let currentOrderPage = 1;
+
+const ordersPerPage = 5;
+
+const maxOrderPages = 10;
+
 function escapeOrderHTML(v){
   return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
 
 async function loadOrders(){
-  const list=document.getElementById("orderAdminList");
+
+  const list =
+    document.getElementById("orderAdminList");
+
   if(!list) return;
-  const {data,error}=await supabaseClient.from("orders").select("*").order("id",{ascending:false});
+
+
+  const {data,error} =
+    await supabaseClient
+      .from("orders")
+      .select("*")
+      .order("id",{ascending:false});
+
+
   if(error){
-    console.error("주문서 불러오기 오류:",error);
-    list.innerHTML='<div class="card">주문서를 불러오지 못했습니다.</div>';
+
+    console.error(
+      "주문서 불러오기 오류:",
+      error
+    );
+
+    list.innerHTML =
+      '<div class="card">주문서를 불러오지 못했습니다.</div>';
+
     return;
+
   }
-  orderData=data||[];
+
+
+  orderData = data || [];
+
+
   if(!orderData.length){
-    list.innerHTML='<div class="card">접수된 주문서가 없습니다.</div>';
+
+    list.innerHTML =
+      '<div class="card">접수된 주문서가 없습니다.</div>';
+
     return;
+
   }
-  list.innerHTML=orderData.map((o,i)=>`
-    <div class="order-summary-item">
-      <div class="order-summary-text">[${escapeOrderHTML(o.order_number||"")}] ${escapeOrderHTML(o.customer_name||"")} | ${escapeOrderHTML(o.product_name||"")} | ${escapeOrderHTML(o.quantity||1)}개 | ${escapeOrderHTML(o.status||"주문접수")}</div>
-      <button class="order-detail-btn" onclick="openOrderDetail(${i})">주문상세보기</button>
-    </div>`).join("");
+
+
+  renderOrderPage();
+
+}
+
+function renderOrderPage(){
+
+  const list =
+    document.getElementById("orderAdminList");
+
+
+  const totalPages =
+    Math.min(
+      Math.ceil(
+        orderData.length /
+        ordersPerPage
+      ),
+      maxOrderPages
+    );
+
+
+  if(currentOrderPage > totalPages){
+
+    currentOrderPage = totalPages;
+
+  }
+
+
+  const startIndex =
+    (currentOrderPage - 1)
+    *
+    ordersPerPage;
+
+
+  const endIndex =
+    startIndex +
+    ordersPerPage;
+
+
+  const pageOrders =
+    orderData.slice(
+      startIndex,
+      endIndex
+    );
+
+
+  list.innerHTML =
+
+    pageOrders.map(
+      (o,i) => {
+
+        const realIndex =
+          startIndex + i;
+
+
+        return `
+
+          <div class="order-summary-item">
+
+            <div class="order-summary-text">
+
+              [
+                ${escapeOrderHTML(
+                  o.order_number || ""
+                )}
+              ]
+
+              ${escapeOrderHTML(
+                o.customer_name || ""
+              )}
+
+              |
+
+              ${escapeOrderHTML(
+                o.product_name || ""
+              )}
+
+              |
+
+              ${escapeOrderHTML(
+                o.quantity || 1
+              )}개
+
+              |
+
+              ${escapeOrderHTML(
+                o.status || "주문접수"
+              )}
+
+            </div>
+
+
+            <button
+              class="order-detail-btn"
+              onclick="openOrderDetail(${realIndex})">
+
+              주문상세보기
+
+            </button>
+
+          </div>
+
+        `;
+
+      }
+
+    ).join("")
+
+
+    +
+
+
+    renderOrderPagination(
+      totalPages
+    );
+
+}
+
+function renderOrderPagination(totalPages){
+
+  if(totalPages <= 1){
+
+    return "";
+
+  }
+
+
+  let html =
+
+    `
+    <div class="order-pagination">
+    `;
+
+
+  for(
+
+    let page = 1;
+
+    page <= totalPages;
+
+    page++
+
+  ){
+
+    html += `
+
+      <button
+
+        class="order-page-btn
+        ${
+          page === currentOrderPage
+            ? "active"
+            : ""
+        }"
+
+        onclick="changeOrderPage(${page})">
+
+        ${page}
+
+      </button>
+
+    `;
+
+  }
+
+
+  html +=
+
+    `
+    </div>
+    `;
+
+
+  return html;
+
+}
+
+function changeOrderPage(page){
+
+  currentOrderPage = page;
+
+  renderOrderPage();
+
 }
 
 function openOrderDetail(index){

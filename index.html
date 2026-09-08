@@ -3625,6 +3625,10 @@ async function checkPurchaseOrder(){
     const rows = [
       ["주문번호", data.order_number],
       ["주문상태", data.status || "주문접수"],
+
+      ["택배사", data.courier_company || "-"],
+      ["택배송장번호", data.tracking_number || "-"],
+
       ["주문자 이름", data.customer_name],
       ["주문자 연락처", data.customer_phone],
       ["이메일", data.customer_email],

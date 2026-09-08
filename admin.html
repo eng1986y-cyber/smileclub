@@ -411,6 +411,22 @@ textarea{
 
 }
 
+.order-delete-btn{
+
+  padding:8px 14px;
+
+  border:1px solid #ddd;
+
+  background:#fff;
+
+  color:#000;
+
+  cursor:pointer;
+
+  border-radius:4px;
+
+}
+
 </style>
 
 </head>
@@ -1280,6 +1296,22 @@ function renderOrderPage(){
 
           </button>
 
+<button
+  class="order-detail-btn"
+  onclick="openOrderDetail(${realIndex})">
+
+  주문상세보기
+
+</button>
+
+<button
+  class="order-delete-btn"
+  onclick="deleteOrder(${realIndex})">
+
+  삭제
+
+</button>
+
         </div>
 
       `;
@@ -1471,6 +1503,93 @@ function openOrderDetail(index){
   `;
 
   document.getElementById("orderDetailModal").style.display="flex";
+}
+
+async function deleteOrder(index){
+
+  const order = orderData[index];
+
+  if(!order){
+
+    alert("삭제할 주문을 찾을 수 없습니다.");
+
+    return;
+
+  }
+
+
+  const confirmDelete =
+    confirm(
+
+      "정말 이 주문서를 삭제하시겠습니까?\n\n" +
+      "주문번호: " +
+      order.order_number +
+      "\n\n삭제하면 복구할 수 없습니다."
+
+    );
+
+
+  if(!confirmDelete){
+
+    return;
+
+  }
+
+
+  const { error } =
+    await supabaseClient
+      .from("orders")
+      .delete()
+      .eq("id", order.id);
+
+
+  if(error){
+
+    console.error(
+      "주문 삭제 오류:",
+      error
+    );
+
+
+    alert(
+      "주문 삭제에 실패했습니다.\n\n" +
+      error.message
+    );
+
+
+    return;
+
+  }
+
+
+  alert(
+    "주문서가 삭제되었습니다."
+  );
+
+
+  await loadOrders();
+
+
+  const totalPages =
+    Math.ceil(
+      orderData.length /
+      ordersPerPage
+    );
+
+
+  if(
+    currentOrderPage > totalPages &&
+    totalPages > 0
+  ){
+
+    currentOrderPage =
+      totalPages;
+
+  }
+
+
+  renderOrderPage();
+
 }
 
 async function updateOrderStatus(){

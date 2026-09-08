@@ -1390,6 +1390,103 @@ async function updateOrderStatus(){
 
 }
 
+async function updateDeliveryInfo(){
+
+  if(!currentOrderId){
+
+    alert("주문을 먼저 선택해주세요.");
+
+    return;
+
+  }
+
+
+  const courierCompany =
+    document
+      .getElementById("courierCompany")
+      .value
+      .trim();
+
+
+  const trackingNumber =
+    document
+      .getElementById("trackingNumber")
+      .value
+      .trim();
+
+
+  if(!courierCompany){
+
+    alert("택배사를 입력해주세요.");
+
+    document
+      .getElementById("courierCompany")
+      .focus();
+
+    return;
+
+  }
+
+
+  if(!trackingNumber){
+
+    alert("택배송장번호를 입력해주세요.");
+
+    document
+      .getElementById("trackingNumber")
+      .focus();
+
+    return;
+
+  }
+
+
+  const { error } =
+    await supabaseClient
+      .from("orders")
+      .update({
+
+        courier_company:
+          courierCompany,
+
+        tracking_number:
+          trackingNumber
+
+      })
+      .eq(
+        "id",
+        currentOrderId
+      );
+
+
+  if(error){
+
+    console.error(
+      "배송정보 저장 오류:",
+      error
+    );
+
+
+    alert(
+      "배송정보 저장에 실패했습니다.\n\n" +
+      error.message
+    );
+
+
+    return;
+
+  }
+
+
+  alert(
+    "배송정보가 저장되었습니다."
+  );
+
+
+  await loadOrders();
+
+}
+
 function closeOrderDetail(){
 
   currentOrderId = null;

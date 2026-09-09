@@ -1110,31 +1110,48 @@ body{
   text-align:center;
 }
 
+/* ========================================
+   검색창 + 날씨정보
+======================================== */
+
+.search-weather-row{
+  width:100%;
+  max-width:900px;
+
+  margin:20px auto 30px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:18px;
+}
+
+.search-weather-row .search-box{
+  width:650px;
+  max-width:calc(100% - 180px);
+
+  margin:0;
+}
+
 .weather-box{
-  position:absolute;
-  top:12px;
-  right:14px;
+  position:static;
 
   min-width:150px;
 
-  /* 완전 제거 */
-  background:none;
+  background:transparent;
   border:none;
   box-shadow:none;
 
-  color:#1d4e6d;
+  color:#333;
 
   padding:0;
 
-  border-radius:0;
-
-  font-size:12px;
-
-  z-index:10;
+  font-size:13px;
 
   text-align:center;
 
-  overflow:visible;
+  white-space:nowrap;
 }
 
 /* 구름 제거 */
@@ -1143,18 +1160,22 @@ body{
   display:none;
 }
 
-/* 모바일 */
 @media(max-width:768px){
 
+  .search-weather-row{
+    flex-direction:column;
+    gap:6px;
+
+    margin:12px auto 18px;
+  }
+
+  .search-weather-row .search-box{
+    width:100%;
+    max-width:100%;
+  }
+
   .weather-box{
-    top:6px;
-    right:6px;
-
-    min-width:auto;
-
-    padding:0;
-
-    font-size:11px;
+    font-size:12px;
   }
 
 }
@@ -1939,35 +1960,42 @@ body.order-modal-open{
 
 <div class="container">
 
-<form class="search-box" onsubmit="search(); return false;">
+<div class="search-weather-row">
 
-  <div class="search-box-inner">
+  <form class="search-box" onsubmit="search(); return false;">
 
-    <!-- 로고 -->
-    <img id="searchLogo"
-         class="search-logo-inside"
-         style="display:none;">
+    <div class="search-box-inner">
 
-    <!-- 입력 -->
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="검색어를 입력하세요">
+      <!-- 로고 -->
+      <img id="searchLogo"
+           class="search-logo-inside"
+           style="display:none;">
 
-    <!-- 검색버튼 -->
-    <button type="submit">
-      <i class="fas fa-search"></i>
-    </button>
+      <!-- 입력 -->
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="검색어를 입력하세요">
 
+      <!-- 검색버튼 -->
+      <button type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+
+    </div>
+
+  </form>
+
+  <!-- 날씨정보 -->
+  <div id="weatherBox" class="weather-box">
+    날씨 로딩중...
   </div>
 
-</form>
+</div>
 
 <div id="adsenseArea"></div>
 
-<div class="top-banner" id="topBanner">
-  <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
-</div>
+<div class="top-banner" id="topBanner"></div>
 
 <div class="ad-section-box">
 
@@ -2734,14 +2762,13 @@ if(s.search_logo){
 
 if(s.banner_img){
   bannerBox.innerHTML = `
-    ${s.banner_link
-      ? `<a href="${s.banner_link}" target="_blank">
-           <img src="${s.banner_img}">
-         </a>`
-      : `<img src="${s.banner_img}">`
-    }
-    <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
-  `;
+  ${s.banner_link
+    ? `<a href="${s.banner_link}" target="_blank">
+         <img src="${s.banner_img}">
+       </a>`
+    : `<img src="${s.banner_img}">`
+  }
+`;
 }
 
     document.getElementById("ownerName").innerText=s.owner_name||"";

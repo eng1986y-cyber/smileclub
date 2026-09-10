@@ -563,38 +563,46 @@ textarea{
 
 .order-table-wrap{
   width:100%;
-  overflow-x:auto;
   background:#fff;
   border:1px solid #ddd;
   border-radius:8px;
+  overflow:hidden;
 }
 
 .order-admin-table{
   width:100%;
-  min-width:1500px;
   border-collapse:collapse;
   background:#fff;
+  table-layout:fixed;
 }
 
 .order-admin-table th{
   background:#f5f5f5;
   color:#111;
-  font-size:13px;
+  font-size:12px;
   font-weight:bold;
-  padding:12px 10px;
+  padding:10px 5px;
   border-bottom:1px solid #ddd;
   text-align:center;
-  white-space:nowrap;
+  white-space:normal;
+  word-break:keep-all;
 }
 
 .order-admin-table td{
-  padding:10px;
+  padding:8px 5px;
   border-bottom:1px solid #eee;
   text-align:center;
-  font-size:13px;
+  font-size:12px;
   color:#111;
   vertical-align:middle;
-  word-break:break-all;
+  word-break:break-word;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.order-admin-table td{
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .order-admin-table tr:last-child td{
@@ -605,41 +613,36 @@ textarea{
   background:#fafafa;
 }
 
-/* 배송주소 */
 .order-address-cell{
-  min-width:180px;
   text-align:left !important;
 }
 
-/* 이메일 */
 .order-email-cell{
-  min-width:160px;
+  font-size:12px;
 }
 
-/* 개인통관고유번호 */
 .order-customs-cell{
-  min-width:160px;
+  font-size:12px;
 }
 
-/* 상세주소 */
 .order-address-detail-cell{
-  min-width:140px;
+  font-size:12px;
 }
 
-/* 상품 바로가기 버튼 */
 .order-product-link-btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  height:34px;
-  padding:0 12px;
+  height:30px;
+  padding:0 7px;
   background:#fff;
   color:#111;
   border:1px solid #333;
-  border-radius:5px;
+  border-radius:4px;
   text-decoration:none;
   white-space:nowrap;
   cursor:pointer;
+  font-size:11px;
 }
 
 .order-product-link-btn:hover{

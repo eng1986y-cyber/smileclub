@@ -557,6 +557,111 @@ textarea{
 
 }
 
+/* =========================
+   주문서 관리 목록 테이블
+========================= */
+
+.order-table-wrap{
+  width:100%;
+  overflow-x:auto;
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:8px;
+}
+
+.order-admin-table{
+  width:100%;
+  min-width:1500px;
+  border-collapse:collapse;
+  background:#fff;
+}
+
+.order-admin-table th{
+  background:#f5f5f5;
+  color:#111;
+  font-size:13px;
+  font-weight:bold;
+  padding:12px 10px;
+  border-bottom:1px solid #ddd;
+  text-align:center;
+  white-space:nowrap;
+}
+
+.order-admin-table td{
+  padding:10px;
+  border-bottom:1px solid #eee;
+  text-align:center;
+  font-size:13px;
+  color:#111;
+  vertical-align:middle;
+  word-break:break-all;
+}
+
+.order-admin-table tr:last-child td{
+  border-bottom:none;
+}
+
+.order-admin-table tr:hover{
+  background:#fafafa;
+}
+
+/* 배송주소 */
+.order-address-cell{
+  min-width:180px;
+  text-align:left !important;
+}
+
+/* 이메일 */
+.order-email-cell{
+  min-width:160px;
+}
+
+/* 개인통관고유번호 */
+.order-customs-cell{
+  min-width:160px;
+}
+
+/* 상세주소 */
+.order-address-detail-cell{
+  min-width:140px;
+}
+
+/* 상품 바로가기 버튼 */
+.order-product-link-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:34px;
+  padding:0 12px;
+  background:#fff;
+  color:#111;
+  border:1px solid #333;
+  border-radius:5px;
+  text-decoration:none;
+  white-space:nowrap;
+  cursor:pointer;
+}
+
+.order-product-link-btn:hover{
+  background:#f5f5f5;
+  color:#111;
+}
+
+/* 주문 상세보기 버튼 */
+.order-detail-btn{
+  background:#fff;
+  color:#111;
+  border:1px solid #333;
+  border-radius:5px;
+}
+
+/* 삭제 버튼 */
+.order-delete-btn{
+  background:#fff;
+  color:#111;
+  border:1px solid #333;
+}
+
 </style>
 
 </head>
@@ -1368,15 +1473,12 @@ function renderOrderPage(){
 
 
   if(currentOrderPage > totalPages){
-
     currentOrderPage = totalPages;
-
   }
 
 
   const startIndex =
-    (currentOrderPage - 1)
-    *
+    (currentOrderPage - 1) *
     ordersPerPage;
 
 
@@ -1394,57 +1496,198 @@ function renderOrderPage(){
 
   list.innerHTML = `
 
-  <div class="order-list-fixed">
+    <div class="order-table-wrap">
 
-    ${pageOrders.map((o,i) => {
+      <table class="order-admin-table">
 
-      const realIndex =
-        startIndex + i;
+        <thead>
 
-      return `
+          <tr>
 
-        <div class="order-summary-item">
+            <th>주문번호</th>
 
-          <div class="order-summary-text">
+            <th>받는사람 이름</th>
 
-            [${escapeOrderHTML(o.order_number || "")}]
-            ${escapeOrderHTML(o.customer_name || "")}
-            |
-            ${escapeOrderHTML(o.product_name || "")}
-            |
-            ${escapeOrderHTML(o.quantity || 1)}개
-            |
-            ${escapeOrderHTML(o.status || "주문접수")}
+            <th>연락처</th>
 
-          </div>
+            <th>이메일</th>
 
-          <button
-            class="order-detail-btn"
-            onclick="openOrderDetail(${realIndex})">
+            <th>개인통관고유번호</th>
 
-            주문상세보기
+            <th>배송주소</th>
 
-          </button>
+            <th>상세주소</th>
 
-<button
-  class="order-delete-btn"
-  onclick="deleteOrder(${realIndex})">
+            <th>택배사</th>
 
-  삭제
+            <th>송장번호</th>
 
-</button>
+            <th>상품링크</th>
 
-        </div>
+            <th>상세</th>
 
-      `;
+            <th>삭제</th>
 
-    }).join("")}
+          </tr>
 
-  </div>
+        </thead>
 
-  ${renderOrderPagination(totalPages)}
 
-`;
+        <tbody>
+
+          ${pageOrders.map((o,i)=>{
+
+            const realIndex =
+              startIndex + i;
+
+
+            const productUrl =
+              o.product_url || "";
+
+
+            return `
+
+              <tr>
+
+                <!-- 주문번호 -->
+                <td>
+                  ${escapeOrderHTML(
+                    o.order_number || "-"
+                  )}
+                </td>
+
+
+                <!-- 받는사람 이름 -->
+                <td>
+                  ${escapeOrderHTML(
+                    o.receiver_name || "-"
+                  )}
+                </td>
+
+
+                <!-- 연락처 -->
+                <td>
+                  ${escapeOrderHTML(
+                    o.receiver_phone || "-"
+                  )}
+                </td>
+
+
+                <!-- 이메일 -->
+                <td class="order-email-cell">
+                  ${escapeOrderHTML(
+                    o.customer_email || "-"
+                  )}
+                </td>
+
+
+                <!-- 개인통관고유번호 -->
+                <td class="order-customs-cell">
+                  ${escapeOrderHTML(
+                    o.customs_number || "-"
+                  )}
+                </td>
+
+
+                <!-- 배송주소 -->
+                <td class="order-address-cell">
+                  ${escapeOrderHTML(
+                    o.address || "-"
+                  )}
+                </td>
+
+
+                <!-- 상세주소 -->
+                <td class="order-address-detail-cell">
+                  ${escapeOrderHTML(
+                    o.address_detail || "-"
+                  )}
+                </td>
+
+
+                <!-- 택배사 -->
+                <td>
+                  ${escapeOrderHTML(
+                    o.courier_company || "-"
+                  )}
+                </td>
+
+
+                <!-- 송장번호 -->
+                <td>
+                  ${escapeOrderHTML(
+                    o.tracking_number || "-"
+                  )}
+                </td>
+
+
+                <!-- 상품링크 -->
+                <td>
+
+                  ${
+                    productUrl
+                    ?
+                    `
+                    <a
+                      href="${escapeOrderHTML(productUrl)}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="order-product-link-btn">
+
+                      상품 바로가기
+
+                    </a>
+                    `
+                    :
+                    "-"
+                  }
+
+                </td>
+
+
+                <!-- 상세보기 -->
+                <td>
+
+                  <button
+                    class="order-detail-btn"
+                    onclick="openOrderDetail(${realIndex})">
+
+                    상세보기
+
+                  </button>
+
+                </td>
+
+
+                <!-- 삭제 -->
+                <td>
+
+                  <button
+                    class="order-delete-btn"
+                    onclick="deleteOrder(${realIndex})">
+
+                    삭제
+
+                  </button>
+
+                </td>
+
+              </tr>
+
+            `;
+
+          }).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    ${renderOrderPagination(totalPages)}
+
+  `;
 
 }
 

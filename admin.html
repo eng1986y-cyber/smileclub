@@ -1784,94 +1784,709 @@ function openOrderDetail(index){
 
   const currentStatus = o.status || "주문접수";
 
-  const statusSelect = `
-    <select id="orderStatusSelect" class="order-status-select">
-      ${statusOptions.map(status => `
-        <option value="${escapeOrderHTML(status)}" ${status === currentStatus ? "selected" : ""}>
-          ${escapeOrderHTML(status)}
-        </option>
-      `).join("")}
-    </select>
-    <button
-      type="button"
-      class="order-status-save-btn"
-      onclick="updateOrderStatus()">
-      주문상태 저장
-    </button>
-  `;
 
-  const fields = [
-    ["주문번호",o.order_number],
-    ["주문자 이름",o.customer_name],
-    ["주문자 연락처",o.customer_phone],
-    ["이메일",o.customer_email],
-    ["개인통관고유번호",o.customs_number],
-    ["상품명",o.product_name],
-    ["상품 URL",o.product_url],
-    ["옵션",o.product_option],
-    ["색상",o.product_color],
-    ["사이즈",o.product_size],
-    ["수량",o.quantity],
-    ["상품 가격",o.product_price],
-    ["요청사항",o.request_content],
-    ["받는 사람",o.receiver_name],
-    ["받는 사람 연락처",o.receiver_phone],
-    ["우편번호",o.zipcode],
-    ["배송 주소",o.address],
-    ["상세 주소",o.address_detail]
-  ];
+  function inputField(id, value="", type="text", placeholder=""){
+    return `
+      <input
+        type="${type}"
+        id="${id}"
+        value="${escapeOrderHTML(value || "")}"
+        placeholder="${placeholder}">
+    `;
+  }
+
+
+  function textareaField(id, value="", placeholder=""){
+    return `
+      <textarea
+        id="${id}"
+        placeholder="${placeholder}"
+        style="
+          width:100%;
+          min-height:100px;
+          box-sizing:border-box;
+          resize:vertical;
+        "
+      >${escapeOrderHTML(value || "")}</textarea>
+    `;
+  }
+
 
   document.getElementById("orderDetailContent").innerHTML = `
+
     <table class="order-detail-table">
+
+
+      <!-- 주문상태 -->
+
       <tr>
+
         <th>주문상태</th>
-        <td>${statusSelect}</td>
+
+        <td>
+
+          <select
+            id="editOrderStatus"
+            class="order-status-select">
+
+            ${statusOptions.map(status => `
+
+              <option
+                value="${escapeOrderHTML(status)}"
+                ${status === currentStatus ? "selected" : ""}>
+
+                ${escapeOrderHTML(status)}
+
+              </option>
+
+            `).join("")}
+
+          </select>
+
+        </td>
+
       </tr>
-      ${fields.map(([k,v]) => `
-        <tr>
-          <th>${escapeOrderHTML(k)}</th>
-          <td>${escapeOrderHTML(v || "-")}</td>
-        </tr>
-      `).join("")}
+
+
+      <!-- 주문번호 -->
 
       <tr>
+
+        <th>주문번호</th>
+
+        <td>
+
+          ${inputField(
+            "editOrderNumber",
+            o.order_number,
+            "text",
+            "주문번호"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 주문자 이름 -->
+
+      <tr>
+
+        <th>주문자 이름</th>
+
+        <td>
+
+          ${inputField(
+            "editCustomerName",
+            o.customer_name,
+            "text",
+            "주문자 이름"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 주문자 연락처 -->
+
+      <tr>
+
+        <th>주문자 연락처</th>
+
+        <td>
+
+          ${inputField(
+            "editCustomerPhone",
+            o.customer_phone,
+            "text",
+            "연락처"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 이메일 -->
+
+      <tr>
+
+        <th>이메일</th>
+
+        <td>
+
+          ${inputField(
+            "editCustomerEmail",
+            o.customer_email,
+            "email",
+            "이메일"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 개인통관고유번호 -->
+
+      <tr>
+
+        <th>개인통관고유번호</th>
+
+        <td>
+
+          ${inputField(
+            "editCustomsNumber",
+            o.customs_number,
+            "text",
+            "개인통관고유번호"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 상품명 -->
+
+      <tr>
+
+        <th>상품명</th>
+
+        <td>
+
+          ${inputField(
+            "editProductName",
+            o.product_name,
+            "text",
+            "상품명"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 상품 URL -->
+
+      <tr>
+
+        <th>상품 URL</th>
+
+        <td>
+
+          ${inputField(
+            "editProductUrl",
+            o.product_url,
+            "text",
+            "상품 URL"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 옵션 -->
+
+      <tr>
+
+        <th>옵션</th>
+
+        <td>
+
+          ${inputField(
+            "editProductOption",
+            o.product_option,
+            "text",
+            "옵션"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 색상 -->
+
+      <tr>
+
+        <th>색상</th>
+
+        <td>
+
+          ${inputField(
+            "editProductColor",
+            o.product_color,
+            "text",
+            "색상"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 사이즈 -->
+
+      <tr>
+
+        <th>사이즈</th>
+
+        <td>
+
+          ${inputField(
+            "editProductSize",
+            o.product_size,
+            "text",
+            "사이즈"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 수량 -->
+
+      <tr>
+
+        <th>수량</th>
+
+        <td>
+
+          ${inputField(
+            "editQuantity",
+            o.quantity,
+            "number",
+            "수량"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 상품 가격 -->
+
+      <tr>
+
+        <th>상품 가격</th>
+
+        <td>
+
+          ${inputField(
+            "editProductPrice",
+            o.product_price,
+            "text",
+            "상품 가격"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 요청사항 -->
+
+      <tr>
+
+        <th>요청사항</th>
+
+        <td>
+
+          ${textareaField(
+            "editRequestContent",
+            o.request_content,
+            "요청사항"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 받는 사람 -->
+
+      <tr>
+
+        <th>받는 사람</th>
+
+        <td>
+
+          ${inputField(
+            "editReceiverName",
+            o.receiver_name,
+            "text",
+            "받는 사람 이름"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 받는 사람 연락처 -->
+
+      <tr>
+
+        <th>받는 사람 연락처</th>
+
+        <td>
+
+          ${inputField(
+            "editReceiverPhone",
+            o.receiver_phone,
+            "text",
+            "받는 사람 연락처"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 우편번호 -->
+
+      <tr>
+
+        <th>우편번호</th>
+
+        <td>
+
+          ${inputField(
+            "editZipcode",
+            o.zipcode,
+            "text",
+            "우편번호"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 배송 주소 -->
+
+      <tr>
+
+        <th>배송 주소</th>
+
+        <td>
+
+          ${inputField(
+            "editAddress",
+            o.address,
+            "text",
+            "배송 주소"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 상세 주소 -->
+
+      <tr>
+
+        <th>상세 주소</th>
+
+        <td>
+
+          ${inputField(
+            "editAddressDetail",
+            o.address_detail,
+            "text",
+            "상세 주소"
+          )}
+
+        </td>
+
+      </tr>
+
+
+      <!-- 택배사 -->
+
+      <tr>
+
         <th>택배사</th>
+
         <td>
-          <input
-            type="text"
-            id="courierCompany"
-            value="${escapeOrderHTML(o.courier_company || "")}"
-            placeholder="택배사를 입력하세요">
+
+          ${inputField(
+            "editCourierCompany",
+            o.courier_company,
+            "text",
+            "택배사"
+          )}
+
         </td>
+
       </tr>
 
+
+      <!-- 송장번호 -->
+
       <tr>
+
         <th>택배송장번호</th>
+
         <td>
-          <input
-            type="text"
-            id="trackingNumber"
-            value="${escapeOrderHTML(o.tracking_number || "")}"
-            placeholder="송장번호를 입력하세요">
+
+          ${inputField(
+            "editTrackingNumber",
+            o.tracking_number,
+            "text",
+            "송장번호"
+          )}
+
         </td>
+
       </tr>
 
+
+      <!-- 전체 저장 -->
+
       <tr>
-        <th>배송정보 저장</th>
+
+        <th>주문정보 저장</th>
+
         <td>
+
           <button
             type="button"
             class="order-status-save-btn"
-            onclick="updateDeliveryInfo()">
-            배송정보 저장
+            onclick="updateOrderDetail()">
+
+            주문 상세내역 저장
+
           </button>
+
         </td>
+
       </tr>
 
+
     </table>
+
   `;
 
-  document.getElementById("orderDetailModal").style.display="flex";
+
+  document
+    .getElementById("orderDetailModal")
+    .style.display = "flex";
+
+}
+
+async function updateOrderDetail(){
+
+  if(!currentOrderId){
+
+    alert("주문을 먼저 선택해주세요.");
+
+    return;
+
+  }
+
+
+  const getValue = (id) => {
+
+    const el =
+      document.getElementById(id);
+
+    return el
+      ? el.value.trim()
+      : "";
+
+  };
+
+
+  const updateData = {
+
+
+    /* 주문상태 */
+
+    status:
+      getValue("editOrderStatus"),
+
+
+    /* 주문자 정보 */
+
+    order_number:
+      getValue("editOrderNumber"),
+
+    customer_name:
+      getValue("editCustomerName"),
+
+    customer_phone:
+      getValue("editCustomerPhone"),
+
+    customer_email:
+      getValue("editCustomerEmail"),
+
+    customs_number:
+      getValue("editCustomsNumber"),
+
+
+    /* 상품 정보 */
+
+    product_name:
+      getValue("editProductName"),
+
+    product_url:
+      getValue("editProductUrl"),
+
+    product_option:
+      getValue("editProductOption"),
+
+    product_color:
+      getValue("editProductColor"),
+
+    product_size:
+      getValue("editProductSize"),
+
+    quantity:
+      getValue("editQuantity"),
+
+    product_price:
+      getValue("editProductPrice"),
+
+    request_content:
+      getValue("editRequestContent"),
+
+
+    /* 배송받는 사람 */
+
+    receiver_name:
+      getValue("editReceiverName"),
+
+    receiver_phone:
+      getValue("editReceiverPhone"),
+
+    zipcode:
+      getValue("editZipcode"),
+
+    address:
+      getValue("editAddress"),
+
+    address_detail:
+      getValue("editAddressDetail"),
+
+
+    /* 배송정보 */
+
+    courier_company:
+      getValue("editCourierCompany"),
+
+    tracking_number:
+      getValue("editTrackingNumber")
+
+  };
+
+
+  const saveButton =
+    document.querySelector(
+      "#orderDetailContent .order-status-save-btn"
+    );
+
+
+  if(saveButton){
+
+    saveButton.disabled = true;
+
+    saveButton.textContent =
+      "저장중...";
+
+  }
+
+
+  try{
+
+
+    const { data, error } =
+      await supabaseClient
+        .from("orders")
+        .update(updateData)
+        .eq("id", currentOrderId)
+        .select();
+
+
+    if(error){
+
+      console.error(
+        "주문 상세내역 저장 오류:",
+        error
+      );
+
+
+      alert(
+        "주문 상세내역 저장에 실패했습니다.\n\n" +
+        error.message
+      );
+
+
+      return;
+
+    }
+
+
+    if(
+      !data ||
+      data.length === 0
+    ){
+
+      alert(
+        "주문정보가 변경되지 않았습니다.\n\n" +
+        "Supabase RLS 권한을 확인해주세요."
+      );
+
+
+      return;
+
+    }
+
+
+    alert(
+      "주문 상세내역이 저장되었습니다. ✅"
+    );
+
+
+    await loadOrders();
+
+
+    closeOrderDetail();
+
+
+  }catch(err){
+
+
+    console.error(
+      "주문 상세내역 저장 시스템 오류:",
+      err
+    );
+
+
+    alert(
+      "주문 상세내역 저장 중 오류가 발생했습니다."
+    );
+
+
+  }finally{
+
+
+    if(saveButton){
+
+      saveButton.disabled = false;
+
+      saveButton.textContent =
+        "주문 상세내역 저장";
+
+    }
+
+  }
+
 }
 
 async function deleteOrder(index){

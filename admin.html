@@ -382,41 +382,37 @@ textarea{
 }
 
 
-/* =========================
-   주문 상세내역 팝업
-========================= */
+/* 주문 상세 팝업 전체 */
 
 .order-detail-modal{
   display:none;
   position:fixed;
   inset:0;
-
   background:rgba(0,0,0,.35);
-
   z-index:10000;
 
-  padding:20px;
+  overflow-y:auto;
+
+  padding:30px 15px;
 
   box-sizing:border-box;
 
-  align-items:center;
+  align-items:flex-start;
   justify-content:center;
-
-  overflow:hidden;
 }
 
 
-/* 주문 상세 박스 */
+/* 주문 상세 내용 박스 */
 
 .order-detail-box{
 
-  width:95vw;
-
-  max-width:1200px;
+  width:min(700px,100%);
 
   height:auto;
 
-  max-height:calc(100vh - 40px);
+  max-height:none;
+
+  overflow:visible;
 
   background:#fff;
 
@@ -428,73 +424,9 @@ textarea{
 
   box-sizing:border-box;
 
-  overflow:hidden;
-
+  margin:auto;
 }
 
-/* 주문 상세내역 테이블 화면에 맞게 */
-
-.order-detail-table{
-
-  width:100%;
-
-  table-layout:auto;
-
-}
-
-
-/* 팝업 안 입력칸 */
-
-.order-detail-box input{
-
-  width:100%;
-
-  box-sizing:border-box;
-
-}
-
-
-/* 태블릿 */
-
-@media(max-width:1200px){
-
-  .order-detail-box{
-
-    width:96vw;
-
-    max-width:none;
-
-    padding:20px;
-
-  }
-
-}
-
-
-/* 모바일 */
-
-@media(max-width:768px){
-
-  .order-detail-modal{
-
-    padding:10px;
-
-  }
-
-
-  .order-detail-box{
-
-    width:100%;
-
-    max-height:calc(100vh - 20px);
-
-    padding:15px;
-
-    border-radius:10px;
-
-  }
-
-}
 
 /* 닫기 버튼 */
 

@@ -1868,85 +1868,111 @@ function openOrderDetail(index){
       </tr>
 
 
-      <!-- 주문자 이름 -->
+      <!-- 주문자 정보 -->
 
-      <tr>
+<tr>
 
-        <th>주문자 이름</th>
+  <th colspan="2">
+    주문자 정보
+  </th>
 
-        <td>
-
-          ${inputField(
-            "editCustomerName",
-            o.customer_name,
-            "text",
-            "주문자 이름"
-          )}
-
-        </td>
-
-      </tr>
+</tr>
 
 
-      <!-- 주문자 연락처 -->
+<tr>
 
-      <tr>
+  <!-- 주문자 이름 -->
 
-        <th>주문자 연락처</th>
+  <td style="width:50%;">
 
-        <td>
+    <div style="
+      font-size:13px;
+      font-weight:bold;
+      margin-bottom:6px;
+    ">
+      주문자 이름
+    </div>
 
-          ${inputField(
-            "editCustomerPhone",
-            o.customer_phone,
-            "text",
-            "연락처"
-          )}
+    ${inputField(
+      "editCustomerName",
+      o.customer_name,
+      "text",
+      "주문자 이름"
+    )}
 
-        </td>
-
-      </tr>
-
-
-      <!-- 이메일 -->
-
-      <tr>
-
-        <th>이메일</th>
-
-        <td>
-
-          ${inputField(
-            "editCustomerEmail",
-            o.customer_email,
-            "email",
-            "이메일"
-          )}
-
-        </td>
-
-      </tr>
+  </td>
 
 
-      <!-- 개인통관고유번호 -->
+  <!-- 주문자 연락처 -->
 
-      <tr>
+  <td style="width:50%;">
 
-        <th>개인통관고유번호</th>
+    <div style="
+      font-size:13px;
+      font-weight:bold;
+      margin-bottom:6px;
+    ">
+      주문자 연락처
+    </div>
 
-        <td>
+    ${inputField(
+      "editCustomerPhone",
+      o.customer_phone,
+      "text",
+      "연락처"
+    )}
 
-          ${inputField(
-            "editCustomsNumber",
-            o.customs_number,
-            "text",
-            "개인통관고유번호"
-          )}
+  </td>
 
-        </td>
+</tr>
 
-      </tr>
 
+<tr>
+
+  <!-- 이메일 -->
+
+  <td style="width:50%;">
+
+    <div style="
+      font-size:13px;
+      font-weight:bold;
+      margin-bottom:6px;
+    ">
+      이메일
+    </div>
+
+    ${inputField(
+      "editCustomerEmail",
+      o.customer_email,
+      "email",
+      "이메일"
+    )}
+
+  </td>
+
+
+  <!-- 개인통관고유번호 -->
+
+  <td style="width:50%;">
+
+    <div style="
+      font-size:13px;
+      font-weight:bold;
+      margin-bottom:6px;
+    ">
+      개인통관고유번호
+    </div>
+
+    ${inputField(
+      "editCustomsNumber",
+      o.customs_number,
+      "text",
+      "개인통관고유번호"
+    )}
+
+  </td>
+
+</tr>
 
       <!-- 상품명 -->
 

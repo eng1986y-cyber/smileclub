@@ -666,19 +666,43 @@ textarea{
   border:1px solid #333;
 }
 
-/* 주문자 정보 2칸 동일 크기 */
+/* 주문자 정보 2열 정렬 */
 
-.order-customer-row td{
-  width:50% !important;
-  box-sizing:border-box;
-  padding:10px;
+.order-customer-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:12px;
+  width:100%;
 }
 
-.order-customer-row input{
-  width:100% !important;
-  height:36px;
+.order-input-group{
+  width:100%;
+  min-width:0;
   box-sizing:border-box;
-  margin:0;
+}
+
+.order-input-group label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.order-input-group input{
+  display:block;
+  width:100% !important;
+  height:36px !important;
+  margin:0 !important;
+  box-sizing:border-box !important;
+}
+
+/* 모바일에서는 한 줄씩 */
+@media(max-width:768px){
+
+  .order-customer-grid{
+    grid-template-columns:1fr;
+  }
+
 }
 
 </style>
@@ -1882,104 +1906,79 @@ function openOrderDetail(index){
 
       </tr>
 
-
-      <!-- 주문자 정보 -->
+<!-- 주문자 정보 -->
 
 <tr>
 
-  <th colspan="2">
+  <th>
     주문자 정보
   </th>
 
-</tr>
-
-
-<tr class="order-customer-row">
-
   <td>
 
-    <div style="
-      font-size:13px;
-      font-weight:bold;
-      margin-bottom:6px;
-    ">
-      주문자 이름
+    <div class="order-customer-grid">
+
+      <div class="order-input-group">
+
+        <label>주문자 이름</label>
+
+        ${inputField(
+          "editCustomerName",
+          o.customer_name,
+          "text",
+          "주문자 이름"
+        )}
+
+      </div>
+
+
+      <div class="order-input-group">
+
+        <label>주문자 연락처</label>
+
+        ${inputField(
+          "editCustomerPhone",
+          o.customer_phone,
+          "text",
+          "연락처"
+        )}
+
+      </div>
+
+
+      <div class="order-input-group">
+
+        <label>이메일</label>
+
+        ${inputField(
+          "editCustomerEmail",
+          o.customer_email,
+          "email",
+          "이메일"
+        )}
+
+      </div>
+
+
+      <div class="order-input-group">
+
+        <label>개인통관고유번호</label>
+
+        ${inputField(
+          "editCustomsNumber",
+          o.customs_number,
+          "text",
+          "개인통관고유번호"
+        )}
+
+      </div>
+
     </div>
-
-    ${inputField(
-      "editCustomerName",
-      o.customer_name,
-      "text",
-      "주문자 이름"
-    )}
-
-  </td>
-
-
-  <td>
-
-    <div style="
-      font-size:13px;
-      font-weight:bold;
-      margin-bottom:6px;
-    ">
-      주문자 연락처
-    </div>
-
-    ${inputField(
-      "editCustomerPhone",
-      o.customer_phone,
-      "text",
-      "연락처"
-    )}
-
-  </td>
-
-</tr>
-
-
-<tr class="order-customer-row">
-
-  <td>
-
-    <div style="
-      font-size:13px;
-      font-weight:bold;
-      margin-bottom:6px;
-    ">
-      이메일
-    </div>
-
-    ${inputField(
-      "editCustomerEmail",
-      o.customer_email,
-      "email",
-      "이메일"
-    )}
-
-  </td>
-
-
-  <td>
-
-    <div style="
-      font-size:13px;
-      font-weight:bold;
-      margin-bottom:6px;
-    ">
-      개인통관고유번호
-    </div>
-
-    ${inputField(
-      "editCustomsNumber",
-      o.customs_number,
-      "text",
-      "개인통관고유번호"
-    )}
 
   </td>
 
 </tr>
+ 
       <!-- 상품명 -->
 
       <tr>

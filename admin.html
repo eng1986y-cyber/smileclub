@@ -696,15 +696,6 @@ textarea{
   box-sizing:border-box !important;
 }
 
-/* 모바일에서는 한 줄씩 */
-@media(max-width:768px){
-
-  .order-customer-grid{
-    grid-template-columns:1fr;
-  }
-
-}
-
 </style>
 
 </head>
@@ -2238,44 +2229,54 @@ function openOrderDetail(index){
       </tr>
 
 
+<!-- 배송정보 -->
+
+<tr>
+
+  <th>
+    배송정보
+  </th>
+
+  <td>
+
+    <div class="order-customer-grid">
+
       <!-- 택배사 -->
 
-      <tr>
+      <div class="order-input-group">
 
-        <th>택배사</th>
+        <label>택배사</label>
 
-        <td>
+        ${inputField(
+          "editCourierCompany",
+          o.courier_company,
+          "text",
+          "택배사"
+        )}
 
-          ${inputField(
-            "editCourierCompany",
-            o.courier_company,
-            "text",
-            "택배사"
-          )}
-
-        </td>
-
-      </tr>
+      </div>
 
 
-      <!-- 송장번호 -->
+      <!-- 택배송장번호 -->
 
-      <tr>
+      <div class="order-input-group">
 
-        <th>택배송장번호</th>
+        <label>택배송장번호</label>
 
-        <td>
+        ${inputField(
+          "editTrackingNumber",
+          o.tracking_number,
+          "text",
+          "송장번호"
+        )}
 
-          ${inputField(
-            "editTrackingNumber",
-            o.tracking_number,
-            "text",
-            "송장번호"
-          )}
+      </div>
 
-        </td>
+    </div>
 
-      </tr>
+  </td>
+
+</tr>
 
 
       <!-- 전체 저장 -->

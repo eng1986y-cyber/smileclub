@@ -696,6 +696,28 @@ textarea{
   box-sizing:border-box !important;
 }
 
+/* 우편번호 + 배송주소 */
+
+.order-address-grid{
+  display:grid;
+  grid-template-columns:140px minmax(0, 1fr);
+  gap:12px;
+  width:100%;
+}
+
+.order-address-grid .order-input-group{
+  width:100%;
+  min-width:0;
+}
+
+.order-address-grid input{
+  display:block;
+  width:100% !important;
+  height:36px !important;
+  margin:0 !important;
+  box-sizing:border-box !important;
+}
+
 </style>
 
 </head>
@@ -2129,85 +2151,104 @@ function openOrderDetail(index){
       </tr>
 
 
+<!-- 받는 사람 정보 -->
+
+<tr>
+
+  <th>
+    받는 사람 정보
+  </th>
+
+  <td>
+
+    <div class="order-customer-grid">
+
       <!-- 받는 사람 -->
 
-      <tr>
+      <div class="order-input-group">
 
-        <th>받는 사람</th>
+        <label>받는 사람</label>
 
-        <td>
+        ${inputField(
+          "editReceiverName",
+          o.receiver_name,
+          "text",
+          "받는 사람 이름"
+        )}
 
-          ${inputField(
-            "editReceiverName",
-            o.receiver_name,
-            "text",
-            "받는 사람 이름"
-          )}
-
-        </td>
-
-      </tr>
+      </div>
 
 
       <!-- 받는 사람 연락처 -->
 
-      <tr>
+      <div class="order-input-group">
 
-        <th>받는 사람 연락처</th>
+        <label>받는 사람 연락처</label>
 
-        <td>
+        ${inputField(
+          "editReceiverPhone",
+          o.receiver_phone,
+          "text",
+          "받는 사람 연락처"
+        )}
 
-          ${inputField(
-            "editReceiverPhone",
-            o.receiver_phone,
-            "text",
-            "받는 사람 연락처"
-          )}
+      </div>
 
-        </td>
+    </div>
 
-      </tr>
+  </td>
 
+</tr>
+
+
+<!-- 배송 주소 -->
+
+<tr>
+
+  <th>
+    배송 주소
+  </th>
+
+  <td>
+
+    <div class="order-address-grid">
 
       <!-- 우편번호 -->
 
-      <tr>
+      <div class="order-input-group">
 
-        <th>우편번호</th>
+        <label>우편번호</label>
 
-        <td>
+        ${inputField(
+          "editZipcode",
+          o.zipcode,
+          "text",
+          "우편번호"
+        )}
 
-          ${inputField(
-            "editZipcode",
-            o.zipcode,
-            "text",
-            "우편번호"
-          )}
-
-        </td>
-
-      </tr>
+      </div>
 
 
-      <!-- 배송 주소 -->
+      <!-- 배송주소 -->
 
-      <tr>
+      <div class="order-input-group">
 
-        <th>배송 주소</th>
+        <label>배송주소</label>
 
-        <td>
+        ${inputField(
+          "editAddress",
+          o.address,
+          "text",
+          "배송 주소"
+        )}
 
-          ${inputField(
-            "editAddress",
-            o.address,
-            "text",
-            "배송 주소"
-          )}
+      </div>
 
-        </td>
+    </div>
 
-      </tr>
+  </td>
 
+</tr>
 
       <!-- 상세 주소 -->
 

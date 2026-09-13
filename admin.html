@@ -1249,6 +1249,22 @@ style="width:100%; height:330px; margin-bottom:10px; padding:10px;"></textarea>
 
 <div class="board-content">
 
+<!-- 게시판 검색 -->
+<div class="board-search-admin">
+
+  <input
+    type="text"
+    id="boardSearchInput"
+    placeholder="제목 또는 내용 검색"
+    oninput="searchBoardPosts()"
+  >
+
+  <button onclick="searchBoardPosts()">
+    검색
+  </button>
+
+</div>
+
 <div id="boardAdminList"></div>
 
 </div>

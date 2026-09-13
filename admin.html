@@ -2959,10 +2959,10 @@ async function deleteOrder(index){
 
 
   const totalPages =
-    Math.ceil(
-      orderData.length /
-      ordersPerPage
-    );
+  Math.ceil(
+    filteredBoardData.length /
+    rowsPerPage
+  );
 
 
   if(
@@ -3365,10 +3365,34 @@ function renderBoard(){
 
   boardAdminList.innerHTML="";
 
-  const start = (currentPage-1)*rowsPerPage;
-  const end = start+rowsPerPage;
+  const start =
+  (currentPage-1)*rowsPerPage;
 
-  const pageItems = boardData.slice(start,end);
+  const end =
+  start+rowsPerPage;
+
+  const pageItems =
+  filteredBoardData.slice(start,end);
+
+if(pageItems.length === 0){
+
+  boardAdminList.innerHTML = `
+    <div
+      style="
+        padding:30px;
+        text-align:center;
+        color:#888;
+      "
+    >
+      검색 결과가 없습니다.
+    </div>
+  `;
+
+  boardPagination.innerHTML = "";
+
+  return;
+
+}
 
   pageItems.forEach(post=>{
 

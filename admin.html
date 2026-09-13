@@ -2325,86 +2325,100 @@ function openOrderDetail(index){
 
       </tr>
 
+<!-- 색상 + 사이즈 -->
+
+<tr>
+
+  <th>상품 정보</th>
+
+  <td>
+
+    <div class="order-customer-grid">
 
       <!-- 색상 -->
 
-      <tr>
+      <div class="order-input-group">
 
-        <th>색상</th>
+        <label>색상</label>
 
-        <td>
+        ${inputField(
+          "editProductColor",
+          o.product_color,
+          "text",
+          "색상"
+        )}
 
-          ${inputField(
-            "editProductColor",
-            o.product_color,
-            "text",
-            "색상"
-          )}
-
-        </td>
-
-      </tr>
+      </div>
 
 
       <!-- 사이즈 -->
 
-      <tr>
+      <div class="order-input-group">
 
-        <th>사이즈</th>
+        <label>사이즈</label>
 
-        <td>
+        ${inputField(
+          "editProductSize",
+          o.product_size,
+          "text",
+          "사이즈"
+        )}
 
-          ${inputField(
-            "editProductSize",
-            o.product_size,
-            "text",
-            "사이즈"
-          )}
+      </div>
 
-        </td>
+    </div>
 
-      </tr>
+  </td>
 
+</tr>
+
+
+<!-- 수량 + 상품 가격 -->
+
+<tr>
+
+  <th>수량 / 가격</th>
+
+  <td>
+
+    <div class="order-customer-grid">
 
       <!-- 수량 -->
 
-      <tr>
+      <div class="order-input-group">
 
-        <th>수량</th>
+        <label>수량</label>
 
-        <td>
+        ${inputField(
+          "editQuantity",
+          o.quantity,
+          "number",
+          "수량"
+        )}
 
-          ${inputField(
-            "editQuantity",
-            o.quantity,
-            "number",
-            "수량"
-          )}
-
-        </td>
-
-      </tr>
+      </div>
 
 
       <!-- 상품 가격 -->
 
-      <tr>
+      <div class="order-input-group">
 
-        <th>상품 가격</th>
+        <label>상품 가격</label>
 
-        <td>
+        ${inputField(
+          "editProductPrice",
+          o.product_price,
+          "text",
+          "상품 가격"
+        )}
 
-          ${inputField(
-            "editProductPrice",
-            o.product_price,
-            "text",
-            "상품 가격"
-          )}
+      </div>
 
-        </td>
+    </div>
 
-      </tr>
+  </td>
 
+</tr>
 
       <!-- 요청사항 -->
 

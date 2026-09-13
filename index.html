@@ -1936,6 +1936,164 @@ body.order-modal-open{
 
 }
 
+/* =========================
+   하단 사이트 정보 메뉴
+========================= */
+
+.site-info-menu{
+  margin:60px auto 20px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+
+  gap:18px;
+
+  text-align:center;
+}
+
+.site-info-menu button{
+  border:none;
+  background:transparent;
+
+  padding:0;
+
+  color:#666 !important;
+
+  font-size:14px;
+
+  cursor:pointer;
+
+  transition:0.2s;
+}
+
+.site-info-menu button:hover{
+  color:var(--main-color) !important;
+}
+
+
+/* =========================
+   사이트 정보 팝업
+========================= */
+
+.site-info-modal{
+  display:none;
+
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,0.35);
+
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+
+  justify-content:center;
+  align-items:center;
+
+  z-index:20000;
+
+  padding:15px;
+
+  box-sizing:border-box;
+}
+
+
+.site-info-box{
+  width:100%;
+  max-width:550px;
+
+  background:#fff;
+
+  border-radius:14px;
+
+  box-shadow:0 15px 40px rgba(0,0,0,0.2);
+
+  position:relative;
+
+  overflow:hidden;
+}
+
+
+.site-info-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:18px 20px;
+
+  border-bottom:1px solid #eee;
+}
+
+
+.site-info-header h2{
+  margin:0;
+
+  font-size:18px;
+
+  color:#222;
+}
+
+
+.site-info-close{
+  width:34px;
+  height:34px;
+
+  border:none;
+
+  border-radius:50%;
+
+  background:#f3f3f3;
+
+  color:#333 !important;
+
+  font-size:17px;
+
+  cursor:pointer;
+}
+
+
+.site-info-body{
+  padding:22px 20px;
+
+  color:#555;
+
+  font-size:14px;
+
+  line-height:1.8;
+
+  white-space:pre-line;
+
+  max-height:65vh;
+
+  overflow-y:auto;
+}
+
+
+@media(max-width:768px){
+
+  .site-info-menu{
+    margin:40px auto 15px;
+
+    gap:12px;
+  }
+
+  .site-info-menu button{
+    font-size:13px;
+  }
+
+  .site-info-box{
+    max-width:100%;
+  }
+
+  .site-info-body{
+    font-size:13px;
+
+    max-height:60vh;
+  }
+
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -2020,7 +2178,7 @@ body.order-modal-open{
 <div class="ad-section-box">
 
   <h2 class="ad-section-title">
-    China Pink ! 공식글로벌대행
+    공식 글로벌대행 China Pink !
   </h2>
 
   <div class="product-slider-wrap">
@@ -2163,7 +2321,25 @@ body.order-modal-open{
 
 </div>
 
-<div class="site-description" id="siteDescription"></div>
+<div class="site-info-menu">
+
+  <button onclick="openSiteInfo('policy')">
+    &lt;운영정책&gt;
+  </button>
+
+  <button onclick="openSiteInfo('purpose')">
+    &lt;운영목적&gt;
+  </button>
+
+  <button onclick="openSiteInfo('privacy')">
+    &lt;정보보호&gt;
+  </button>
+
+  <button onclick="openSiteInfo('customer')">
+    &lt;고객센터&gt;
+  </button>
+
+</div>
 
 <h1 style="
 font-family:'Microsoft YaHei','微软雅黑',sans-serif;
@@ -2206,6 +2382,131 @@ margin:0 auto;">
 <script src="supabase.js"></script>
 
 <script>
+
+/* =========================
+   사이트 정보 팝업
+========================= */
+
+function openSiteInfo(type){
+
+  const modal =
+    document.getElementById("siteInfoModal");
+
+  const title =
+    document.getElementById("siteInfoTitle");
+
+  const content =
+    document.getElementById("siteInfoContent");
+
+
+  const siteInfo = {
+
+    policy:{
+      title:"운영정책",
+
+      content:`
+본 사이트는 지역 생활정보와 다양한 정보를 공유하는 플랫폼입니다.
+
+모든 게시물은 이용자가 직접 등록한 정보일 수 있으며,
+운영자는 서비스 운영을 위해 필요한 경우 게시물을 수정하거나 삭제할 수 있습니다.
+
+허위정보, 불법광고, 타인에게 피해를 주는 게시물은
+사전 안내 없이 삭제될 수 있습니다.
+      `
+    },
+
+
+    purpose:{
+      title:"운영목적",
+
+      content:`
+본 사이트는 지역 주민들이 생활정보를 쉽고 편리하게 공유할 수 있도록 운영됩니다.
+
+지역정보, 구인구직, 광고, 추천정보 등
+다양한 정보를 자유롭게 공유할 수 있는 플랫폼을 목표로 합니다.
+
+보다 편리하고 유용한 지역 정보서비스를 제공하기 위해
+지속적으로 개선해 나가겠습니다.
+      `
+    },
+
+
+    privacy:{
+      title:"정보보호",
+
+      content:`
+본 사이트는 서비스 이용에 필요한 최소한의 정보만 처리합니다.
+
+이용자의 개인정보는 관련 법령 및 개인정보 보호 원칙에 따라 관리합니다.
+
+수집된 정보는 서비스 제공 및 운영 목적으로만 사용되며,
+이용자의 동의 없이 제3자에게 제공되지 않습니다.
+      `
+    },
+
+
+    customer:{
+      title:"고객센터",
+
+      content:`
+사이트 이용 중 불편사항이나 문의사항이 있으시면
+게시판의 불편신고를 이용해주세요.
+
+확인 후 가능한 빠르게 처리하겠습니다.
+
+광고문의 및 기타 문의사항은
+운영자 SNS를 통해 연락하실 수 있습니다.
+      `
+    }
+
+  };
+
+
+  const info = siteInfo[type];
+
+  if(!info) return;
+
+
+  title.innerText =
+    info.title;
+
+  content.innerText =
+    info.content.trim();
+
+
+  modal.style.display =
+    "flex";
+
+
+  document.body.classList.add(
+    "modal-open"
+  );
+
+}
+
+
+function closeSiteInfo(event){
+
+  if(
+    event &&
+    event.target !==
+    document.getElementById("siteInfoModal")
+  ){
+    return;
+  }
+
+
+  document
+    .getElementById("siteInfoModal")
+    .style.display =
+    "none";
+
+
+  document.body.classList.remove(
+    "modal-open"
+  );
+
+}
 
 /* ================= 구글 애드센스 출력 ================= */
 
@@ -2772,7 +3073,6 @@ if(s.banner_img){
 }
 
     document.getElementById("ownerName").innerText=s.owner_name||"";
-    document.getElementById("siteDescription").innerText=s.site_description||"";
 
     const snsBox=document.getElementById("ownerSNS");
     snsBox.innerHTML="";
@@ -4530,6 +4830,44 @@ align-items:center;
       </div>
 
     </div>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     사이트 정보 팝업
+========================= -->
+
+<div
+  id="siteInfoModal"
+  class="site-info-modal"
+  onclick="closeSiteInfo(event)"
+>
+
+  <div
+    class="site-info-box"
+    onclick="event.stopPropagation()"
+  >
+
+    <div class="site-info-header">
+
+      <h2 id="siteInfoTitle"></h2>
+
+      <button
+        class="site-info-close"
+        onclick="closeSiteInfo()"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <div
+      id="siteInfoContent"
+      class="site-info-body"
+    ></div>
 
   </div>
 

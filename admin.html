@@ -992,55 +992,6 @@ textarea{
   box-sizing:border-box !important;
 }
 
-/* =========================
-   관리자 게시판 검색
-========================= */
-
-.board-search-admin{
-  display:flex;
-  gap:8px;
-
-  margin-bottom:15px;
-
-  width:100%;
-}
-
-.board-search-admin input{
-  flex:1;
-
-  height:42px;
-
-  padding:0 12px;
-
-  box-sizing:border-box;
-
-  border:1px solid #ddd;
-
-  border-radius:6px;
-
-  font-size:14px;
-}
-
-.board-search-admin button{
-  width:80px;
-
-  height:42px;
-
-  border:none;
-
-  border-radius:6px;
-
-  cursor:pointer;
-}
-
-.board-list-card{
-  min-height:120px;
-  height:100px;
-  box-sizing:border-box;
-  position:relative;
-  overflow:hidden;
-}
-
 </style>
 
 </head>
@@ -1297,22 +1248,6 @@ style="width:100%; height:330px; margin-bottom:10px; padding:10px;"></textarea>
 <div class="board-box">
 
 <div class="board-content">
-
-<!-- 게시판 검색 -->
-<div class="board-search-admin">
-
-  <input
-    type="text"
-    id="boardSearchInput"
-    placeholder="제목 또는 내용 검색"
-    oninput="searchBoardPosts()"
-  >
-
-  <button onclick="searchBoardPosts()">
-    검색
-  </button>
-
-</div>
 
 <div id="boardAdminList"></div>
 
@@ -2967,10 +2902,10 @@ async function deleteOrder(index){
 
 
   const totalPages =
-  Math.ceil(
-    filteredBoardData.length /
-    rowsPerPage
-  );
+    Math.ceil(
+      orderData.length /
+      ordersPerPage
+    );
 
 
   if(
@@ -3270,11 +3205,7 @@ const boardAdminList = document.getElementById("boardAdminList");
 const boardPagination = document.getElementById("boardPagination");
 
 let boardData = [];
-
-let filteredBoardData = [];
-
 let currentPage = 1;
-
 let editingPostId = null;
 
 const rowsPerPage = 5;
@@ -3290,70 +3221,9 @@ async function loadBoardData(){
     .order("id",{ascending:false});
 
   boardData = data || [];
-
-  filteredBoardData = [...boardData];
-
   currentPage = 1;
 
   renderBoard();
-
-}
-
-/* =========================
-   게시판 검색
-========================= */
-
-function searchBoardPosts(){
-
-  const input =
-    document.getElementById("boardSearchInput");
-
-  const keyword =
-    input.value.trim().toLowerCase();
-
-
-  if(!keyword){
-
-    filteredBoardData =
-      [...boardData];
-
-  }else{
-
-    filteredBoardData =
-      boardData.filter(post=>{
-
-        const title =
-          String(post.title || "")
-          .toLowerCase();
-
-        const content =
-          String(post.content || "")
-          .toLowerCase();
-
-        const category =
-          String(post.category || "")
-          .toLowerCase();
-
-
-        return (
-
-          title.includes(keyword) ||
-
-          content.includes(keyword) ||
-
-          category.includes(keyword)
-
-        );
-
-      });
-
-  }
-
-
-  currentPage = 1;
-
-  renderBoard();
-
 }
 
 /* 게시판 출력 */
@@ -3373,39 +3243,15 @@ function renderBoard(){
 
   boardAdminList.innerHTML="";
 
-  const start =
-  (currentPage-1)*rowsPerPage;
+  const start = (currentPage-1)*rowsPerPage;
+  const end = start+rowsPerPage;
 
-  const end =
-  start+rowsPerPage;
-
-  const pageItems =
-  filteredBoardData.slice(start,end);
-
-if(pageItems.length === 0){
-
-  boardAdminList.innerHTML = `
-    <div
-      style="
-        padding:30px;
-        text-align:center;
-        color:#888;
-      "
-    >
-      검색 결과가 없습니다.
-    </div>
-  `;
-
-  boardPagination.innerHTML = "";
-
-  return;
-
-}
+  const pageItems = boardData.slice(start,end);
 
   pageItems.forEach(post=>{
 
     const div=document.createElement("div");
-    div.className="card board-list-card";
+    div.className="card";
 
     div.innerHTML=`
 <button class="delete-btn"

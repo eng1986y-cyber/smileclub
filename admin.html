@@ -381,8 +381,9 @@ textarea{
   color:#fff;
 }
 
-
-/* 주문 상세 팝업 전체 */
+/* =========================
+   주문 상세 팝업
+========================= */
 
 .order-detail-modal{
   display:none;
@@ -391,42 +392,315 @@ textarea{
   background:rgba(0,0,0,.35);
   z-index:10000;
 
-  overflow-y:auto;
-
-  padding:30px 15px;
+  padding:20px;
 
   box-sizing:border-box;
 
-  align-items:flex-start;
+  align-items:center;
   justify-content:center;
+
+  overflow:hidden;
 }
 
 
-/* 주문 상세 내용 박스 */
+/* 팝업창 */
 
 .order-detail-box{
 
-  width:min(700px,100%);
+  width:min(1200px, calc(100vw - 40px));
 
   height:auto;
 
-  max-height:none;
-
-  overflow:visible;
+  max-height:calc(100vh - 40px);
 
   background:#fff;
 
   border-radius:12px;
 
-  padding:24px;
+  padding:20px 24px;
 
   position:relative;
 
   box-sizing:border-box;
 
-  margin:auto;
+  overflow:hidden;
+
 }
 
+
+/* 제목 */
+
+.order-detail-box h2{
+
+  margin:0 0 15px;
+
+  font-size:22px;
+
+}
+
+
+/* 주문 상세 테이블 */
+
+.order-detail-table{
+
+  width:100%;
+
+  border-collapse:collapse;
+
+  table-layout:fixed;
+
+  margin-top:0;
+
+}
+
+
+/* 테이블 */
+
+.order-detail-table th,
+.order-detail-table td{
+
+  border-bottom:1px solid #eee;
+
+  padding:8px 10px;
+
+  text-align:left;
+
+  vertical-align:middle;
+
+  box-sizing:border-box;
+
+}
+
+
+/* 왼쪽 제목 */
+
+.order-detail-table th{
+
+  width:120px;
+
+  background:#fafafa;
+
+  font-size:13px;
+
+  white-space:nowrap;
+
+}
+
+
+/* 오른쪽 내용 */
+
+.order-detail-table td{
+
+  width:auto;
+
+}
+
+
+/* 입력창 */
+
+.order-detail-table input{
+
+  width:100% !important;
+
+  height:34px !important;
+
+  margin:0 !important;
+
+  box-sizing:border-box !important;
+
+}
+
+
+/* 텍스트영역 */
+
+.order-detail-table textarea{
+
+  width:100% !important;
+
+  min-height:70px !important;
+
+  max-height:70px;
+
+  margin:0 !important;
+
+  box-sizing:border-box !important;
+
+  resize:none;
+
+}
+
+
+/* 닫기 버튼 */
+
+.order-detail-close{
+
+  position:absolute;
+
+  right:15px;
+
+  top:12px;
+
+  width:34px;
+
+  height:34px;
+
+  padding:0;
+
+  background:#eee;
+
+  color:#333;
+
+  border-radius:6px;
+
+}
+
+
+/* =========================
+   2열 입력 영역
+========================= */
+
+.order-customer-grid{
+
+  display:grid;
+
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+
+  gap:8px 12px;
+
+  width:100%;
+
+}
+
+
+.order-input-group{
+
+  width:100%;
+
+  min-width:0;
+
+}
+
+
+.order-input-group label{
+
+  display:block;
+
+  font-size:12px;
+
+  font-weight:bold;
+
+  margin-bottom:4px;
+
+}
+
+
+/* 우편번호 + 배송주소 */
+
+.order-address-grid{
+
+  display:grid;
+
+  grid-template-columns:130px minmax(0, 1fr);
+
+  gap:12px;
+
+  width:100%;
+
+}
+
+
+/* 주문 상태 */
+
+.order-status-select{
+
+  height:34px;
+
+  min-width:180px;
+
+}
+
+
+/* 저장 버튼 */
+
+.order-status-save-btn{
+
+  height:36px;
+
+}
+
+
+/* =========================
+   작은 PC 화면
+========================= */
+
+@media(max-width:1000px){
+
+  .order-detail-box{
+
+    width:calc(100vw - 30px);
+
+    padding:18px;
+
+  }
+
+  .order-detail-table th{
+
+    width:100px;
+
+  }
+
+}
+
+
+/* =========================
+   모바일
+========================= */
+
+@media(max-width:768px){
+
+  .order-detail-modal{
+
+    padding:10px;
+
+    overflow-y:auto;
+
+    align-items:flex-start;
+
+  }
+
+  .order-detail-box{
+
+    width:100%;
+
+    max-height:none;
+
+    padding:18px 12px;
+
+    overflow:visible;
+
+  }
+
+  .order-detail-table th{
+
+    width:85px;
+
+    font-size:12px;
+
+  }
+
+  .order-customer-grid{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .order-address-grid{
+
+    grid-template-columns:100px minmax(0, 1fr);
+
+  }
+
+}
 
 /* 닫기 버튼 */
 

@@ -3262,7 +3262,11 @@ const boardAdminList = document.getElementById("boardAdminList");
 const boardPagination = document.getElementById("boardPagination");
 
 let boardData = [];
+
+let filteredBoardData = [];
+
 let currentPage = 1;
+
 let editingPostId = null;
 
 const rowsPerPage = 5;
@@ -3278,9 +3282,70 @@ async function loadBoardData(){
     .order("id",{ascending:false});
 
   boardData = data || [];
+
+  filteredBoardData = [...boardData];
+
   currentPage = 1;
 
   renderBoard();
+
+}
+
+/* =========================
+   게시판 검색
+========================= */
+
+function searchBoardPosts(){
+
+  const input =
+    document.getElementById("boardSearchInput");
+
+  const keyword =
+    input.value.trim().toLowerCase();
+
+
+  if(!keyword){
+
+    filteredBoardData =
+      [...boardData];
+
+  }else{
+
+    filteredBoardData =
+      boardData.filter(post=>{
+
+        const title =
+          String(post.title || "")
+          .toLowerCase();
+
+        const content =
+          String(post.content || "")
+          .toLowerCase();
+
+        const category =
+          String(post.category || "")
+          .toLowerCase();
+
+
+        return (
+
+          title.includes(keyword) ||
+
+          content.includes(keyword) ||
+
+          category.includes(keyword)
+
+        );
+
+      });
+
+  }
+
+
+  currentPage = 1;
+
+  renderBoard();
+
 }
 
 /* 게시판 출력 */

@@ -992,6 +992,173 @@ textarea{
   box-sizing:border-box !important;
 }
 
+/* ========================================
+   구매대행 추천 태그 관리
+======================================== */
+
+.purchase-tag-admin-form{
+
+  display:grid;
+
+  grid-template-columns:
+  1fr
+  2fr
+  120px;
+
+  gap:10px;
+
+  margin-bottom:15px;
+
+}
+
+
+.purchase-tag-admin-form input{
+
+  width:100%;
+
+  height:40px;
+
+  margin:0;
+
+  box-sizing:border-box;
+
+}
+
+
+.purchase-tag-admin-form button{
+
+  width:100%;
+
+  height:40px;
+
+  margin:0;
+
+}
+
+
+/* 태그 목록 */
+
+.purchase-tag-admin-list{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:8px;
+
+}
+
+
+/* 태그 한줄 */
+
+.purchase-tag-admin-item{
+
+  display:grid;
+
+  grid-template-columns:
+  150px
+  1fr
+  80px
+  80px;
+
+  gap:10px;
+
+  align-items:center;
+
+  padding:12px;
+
+  background:#fff;
+
+  border:1px solid #ddd;
+
+  border-radius:8px;
+
+}
+
+
+/* 태그명 */
+
+.purchase-tag-admin-name{
+
+  font-weight:bold;
+
+  color:#111;
+
+}
+
+
+/* 링크 */
+
+.purchase-tag-admin-link{
+
+  font-size:13px;
+
+  color:#666;
+
+  overflow:hidden;
+
+  text-overflow:ellipsis;
+
+  white-space:nowrap;
+
+}
+
+
+/* 수정 버튼 */
+
+.purchase-tag-edit-btn{
+
+  background:#fff;
+
+  color:#111;
+
+  border:1px solid #333;
+
+}
+
+
+/* 삭제 버튼 */
+
+.purchase-tag-delete-btn{
+
+  background:#fff;
+
+  color:#111;
+
+  border:1px solid #333;
+
+}
+
+
+/* 모바일 */
+
+@media(max-width:768px){
+
+  .purchase-tag-admin-form{
+
+    grid-template-columns:1fr;
+
+  }
+
+
+  .purchase-tag-admin-item{
+
+    grid-template-columns:
+    1fr
+    auto
+    auto;
+
+  }
+
+
+  .purchase-tag-admin-link{
+
+    grid-column:1 / -1;
+
+  }
+
+}
+
 </style>
 
 </head>
@@ -1127,6 +1294,64 @@ style="height:123px; resize:none;"></textarea>
 </div>
 </div>
 </div>
+
+</div>
+
+<!-- ================== 구매대행 태그 관리 ================== -->
+
+<div class="section">
+
+  <div class="ad-header">
+
+    <div class="ad-title">
+      구매대행 추천 태그 관리
+    </div>
+
+    <button
+      class="add-btn"
+      onclick="addPurchaseTag()">
+
+      + 추가
+
+    </button>
+
+  </div>
+
+
+  <!-- 태그 추가 / 수정 -->
+
+  <div class="purchase-tag-admin-form">
+
+    <input
+      id="purchaseTagTitle"
+      type="text"
+      placeholder="태그명 입력 예: 원피스">
+
+
+    <input
+      id="purchaseTagLink"
+      type="url"
+      placeholder="연결할 상품 또는 사이트 링크">
+
+
+    <button
+      id="purchaseTagSaveBtn"
+      onclick="savePurchaseTag()">
+
+      태그 추가
+
+    </button>
+
+  </div>
+
+
+  <!-- 등록된 태그 목록 -->
+
+  <div
+    class="purchase-tag-admin-list"
+    id="purchaseTagAdminList">
+
+  </div>
 
 </div>
 

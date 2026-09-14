@@ -1159,6 +1159,63 @@ textarea{
 
 }
 
+/* ========================================
+   구매대행 태그 페이지
+======================================== */
+
+.purchase-tag-pagination{
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:6px;
+
+  margin-top:20px;
+
+}
+
+
+.purchase-tag-pagination button{
+
+  min-width:34px;
+
+  height:34px;
+
+  padding:0 10px;
+
+  background:#fff;
+
+  color:#111;
+
+  border:1px solid #ddd;
+
+  border-radius:5px;
+
+  cursor:pointer;
+
+}
+
+
+.purchase-tag-pagination button:hover{
+
+  border-color:#333;
+
+}
+
+
+.purchase-tag-pagination button.active{
+
+  background:#333;
+
+  color:#fff;
+
+  border-color:#333;
+
+}
+
 </style>
 
 </head>
@@ -1534,6 +1591,21 @@ let dragItem=null;
 let purchaseTagData = [];
 
 let editingPurchaseTagId = null;
+
+
+/* 현재 페이지 */
+
+let currentPurchaseTagPage = 1;
+
+
+/* 페이지당 표시 개수 */
+
+const purchaseTagsPerPage = 5;
+
+
+/* 최대 페이지 번호 표시 */
+
+const maxPurchaseTagPages = 10;
 
 async function adminLogin(){
 
@@ -3461,8 +3533,10 @@ async function loadPurchaseTags(){
       error
     );
 
+
     list.innerHTML =
       '<div class="card">태그를 불러오지 못했습니다.</div>';
+
 
     return;
 
@@ -3472,13 +3546,36 @@ async function loadPurchaseTags(){
   purchaseTagData = data || [];
 
 
+  /* 현재 페이지가 전체 페이지보다 크면 조정 */
+
+  const totalPages =
+    Math.ceil(
+      purchaseTagData.length /
+      purchaseTagsPerPage
+    );
+
+
+  if(
+    currentPurchaseTagPage >
+    totalPages
+  ){
+
+    currentPurchaseTagPage =
+      Math.max(
+        1,
+        totalPages
+      );
+
+  }
+
+
   renderPurchaseTags();
 
 }
 
 
 /* ========================================
-   태그 목록 출력
+   구매대행 태그 목록 출력
 ======================================== */
 
 function renderPurchaseTags(){
@@ -3488,33 +3585,115 @@ function renderPurchaseTags(){
       "purchaseTagAdminList"
     );
 
+
+  const pagination =
+    document.getElementById(
+      "purchaseTagPagination"
+    );
+
+
   if(!list) return;
 
 
   list.innerHTML = "";
 
 
+  if(pagination){
+
+    pagination.innerHTML = "";
+
+  }
+
+
+  /* 태그가 없을 경우 */
+
   if(!purchaseTagData.length){
 
     list.innerHTML = `
-      <div class="card"
+
+      <div
+      class="card"
       style="
-      text-align:center;
-      color:#888;
-      padding:20px;
+        text-align:center;
+        color:#888;
+        padding:20px;
       ">
 
         등록된 태그가 없습니다.
 
       </div>
+
     `;
+
 
     return;
 
   }
 
 
-  purchaseTagData.forEach((tag,index)=>{
+  /* 전체 페이지 */
+
+  const totalPages =
+    Math.ceil(
+
+      purchaseTagData.length /
+
+      purchaseTagsPerPage
+
+    );
+
+
+  /* 최대 10페이지까지만 */
+
+  const displayPages =
+    Math.min(
+
+      totalPages,
+
+      maxPurchaseTagPages
+
+    );
+
+
+  /* 시작 위치 */
+
+  const startIndex =
+
+    (
+      currentPurchaseTagPage - 1
+    )
+
+    *
+
+    purchaseTagsPerPage;
+
+
+  /* 끝 위치 */
+
+  const endIndex =
+
+    startIndex +
+
+    purchaseTagsPerPage;
+
+
+  /* 현재 페이지 데이터 */
+
+  const pageTags =
+
+    purchaseTagData.slice(
+
+      startIndex,
+
+      endIndex
+
+    );
+
+
+  /* 태그 출력 */
+
+  pageTags.forEach(tag=>{
+
 
     const item =
       document.createElement("div");
@@ -3575,7 +3754,153 @@ function renderPurchaseTags(){
 
     list.appendChild(item);
 
+
   });
+
+
+  /* =========================
+     페이지네이션 생성
+  ========================= */
+
+  if(
+
+    pagination &&
+
+    totalPages > 1
+
+  ){
+
+
+    /* 이전 버튼 */
+
+    if(
+
+      currentPurchaseTagPage > 1
+
+    ){
+
+
+      const prev =
+        document.createElement(
+          "button"
+        );
+
+
+      prev.textContent =
+        "◀";
+
+
+      prev.onclick = ()=>{
+
+        currentPurchaseTagPage--;
+
+
+        renderPurchaseTags();
+
+      };
+
+
+      pagination.appendChild(
+        prev
+      );
+
+    }
+
+
+    /* 페이지 번호 */
+
+    for(
+
+      let page = 1;
+
+      page <= displayPages;
+
+      page++
+
+    ){
+
+
+      const btn =
+        document.createElement(
+          "button"
+        );
+
+
+      btn.textContent =
+        page;
+
+
+      /* 현재 페이지 */
+
+      if(
+
+        page ===
+        currentPurchaseTagPage
+
+      ){
+
+        btn.classList.add(
+          "active"
+        );
+
+      }
+
+
+      btn.onclick = ()=>{
+
+        currentPurchaseTagPage =
+          page;
+
+
+        renderPurchaseTags();
+
+      };
+
+
+      pagination.appendChild(
+        btn
+      );
+
+    }
+
+
+    /* 다음 버튼 */
+
+    if(
+
+      currentPurchaseTagPage <
+      totalPages
+
+    ){
+
+
+      const next =
+        document.createElement(
+          "button"
+        );
+
+
+      next.textContent =
+        "▶";
+
+
+      next.onclick = ()=>{
+
+        currentPurchaseTagPage++;
+
+
+        renderPurchaseTags();
+
+      };
+
+
+      pagination.appendChild(
+        next
+      );
+
+    }
+
+  }
 
 }
 

@@ -1529,6 +1529,14 @@ const ownerBlog=document.getElementById("ownerBlog");
 
 let dragItem=null;
 
+/* ========================================
+   구매대행 추천 태그 관리
+======================================== */
+
+let purchaseTagData = [];
+
+let editingPurchaseTagId = null;
+
 async function adminLogin(){
 
   const email = document.getElementById("loginEmail").value;
@@ -1554,6 +1562,7 @@ async function adminLogin(){
     await loadBoardData();
     await loadVisitStats();
     await loadOrders();
+    await loadPurchaseTags();
   }catch(e){
     console.error("로그인 후 로딩 에러:", e);
   }
@@ -3418,9 +3427,498 @@ async function init(){
     await loadData();
     await loadBoardData();
     await loadVisitStats();
-    await loadOrders();   // ⭐ 주문서 불러오기 추가
+    await loadOrders();
+    await loadPurchaseTags();
 
   }
+
+}
+
+/* ========================================
+   구매대행 추천 태그 불러오기
+======================================== */
+
+async function loadPurchaseTags(){
+
+  const list =
+    document.getElementById(
+      "purchaseTagAdminList"
+    );
+
+  if(!list) return;
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("purchase_tags")
+      .select("*")
+      .order("sort",{ascending:true})
+      .order("id",{ascending:true});
+
+
+  if(error){
+
+    console.error(
+      "구매대행 태그 불러오기 오류:",
+      error
+    );
+
+    list.innerHTML =
+      '<div class="card">태그를 불러오지 못했습니다.</div>';
+
+    return;
+
+  }
+
+
+  purchaseTagData = data || [];
+
+
+  renderPurchaseTags();
+
+}
+
+
+/* ========================================
+   태그 목록 출력
+======================================== */
+
+function renderPurchaseTags(){
+
+  const list =
+    document.getElementById(
+      "purchaseTagAdminList"
+    );
+
+  if(!list) return;
+
+
+  list.innerHTML = "";
+
+
+  if(!purchaseTagData.length){
+
+    list.innerHTML = `
+      <div class="card"
+      style="
+      text-align:center;
+      color:#888;
+      padding:20px;
+      ">
+
+        등록된 태그가 없습니다.
+
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  purchaseTagData.forEach((tag,index)=>{
+
+    const item =
+      document.createElement("div");
+
+
+    item.className =
+      "purchase-tag-admin-item";
+
+
+    item.innerHTML = `
+
+      <div
+      class="purchase-tag-admin-name">
+
+        #${escapePurchaseTagHTML(
+          tag.title
+        )}
+
+      </div>
+
+
+      <div
+      class="purchase-tag-admin-link"
+      title="${escapePurchaseTagHTML(
+        tag.link_url
+      )}">
+
+        ${escapePurchaseTagHTML(
+          tag.link_url
+        )}
+
+      </div>
+
+
+      <button
+      class="purchase-tag-edit-btn"
+      onclick="editPurchaseTag(
+        ${tag.id}
+      )">
+
+        수정
+
+      </button>
+
+
+      <button
+      class="purchase-tag-delete-btn"
+      onclick="deletePurchaseTag(
+        ${tag.id}
+      )">
+
+        삭제
+
+      </button>
+
+    `;
+
+
+    list.appendChild(item);
+
+  });
+
+}
+
+
+/* ========================================
+   HTML 보안 처리
+======================================== */
+
+function escapePurchaseTagHTML(value){
+
+  return String(value ?? "")
+
+    .replace(/&/g,"&amp;")
+
+    .replace(/</g,"&lt;")
+
+    .replace(/>/g,"&gt;")
+
+    .replace(/"/g,"&quot;")
+
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* ========================================
+   새 태그 추가 버튼
+======================================== */
+
+function addPurchaseTag(){
+
+  editingPurchaseTagId = null;
+
+
+  document.getElementById(
+    "purchaseTagTitle"
+  ).value = "";
+
+
+  document.getElementById(
+    "purchaseTagLink"
+  ).value = "";
+
+
+  document.getElementById(
+    "purchaseTagSaveBtn"
+  ).textContent = "태그 추가";
+
+
+  document.getElementById(
+    "purchaseTagTitle"
+  ).focus();
+
+}
+
+
+/* ========================================
+   태그 저장
+======================================== */
+
+async function savePurchaseTag(){
+
+  const title =
+    document.getElementById(
+      "purchaseTagTitle"
+    )
+    .value
+    .trim();
+
+
+  const linkUrl =
+    document.getElementById(
+      "purchaseTagLink"
+    )
+    .value
+    .trim();
+
+
+  if(!title){
+
+    alert(
+      "태그명을 입력해주세요."
+    );
+
+    return;
+
+  }
+
+
+  if(!linkUrl){
+
+    alert(
+      "연결할 링크를 입력해주세요."
+    );
+
+    return;
+
+  }
+
+
+  let error;
+
+
+  /* 수정 */
+
+  if(editingPurchaseTagId){
+
+    const result =
+      await supabaseClient
+        .from("purchase_tags")
+        .update({
+
+          title:title,
+
+          link_url:linkUrl
+
+        })
+        .eq(
+          "id",
+          editingPurchaseTagId
+        );
+
+
+    error =
+      result.error;
+
+  }
+
+
+  /* 새로 추가 */
+
+  else{
+
+    const nextSort =
+      purchaseTagData.length;
+
+
+    const result =
+      await supabaseClient
+        .from("purchase_tags")
+        .insert({
+
+          title:title,
+
+          link_url:linkUrl,
+
+          sort:nextSort
+
+        });
+
+
+    error =
+      result.error;
+
+  }
+
+
+  if(error){
+
+    console.error(
+      "구매대행 태그 저장 오류:",
+      error
+    );
+
+
+    alert(
+      "태그 저장에 실패했습니다.\n\n" +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    editingPurchaseTagId
+      ? "태그가 수정되었습니다."
+      : "태그가 추가되었습니다."
+  );
+
+
+  editingPurchaseTagId = null;
+
+
+  document.getElementById(
+    "purchaseTagTitle"
+  ).value = "";
+
+
+  document.getElementById(
+    "purchaseTagLink"
+  ).value = "";
+
+
+  document.getElementById(
+    "purchaseTagSaveBtn"
+  ).textContent = "태그 추가";
+
+
+  await loadPurchaseTags();
+
+}
+
+
+/* ========================================
+   태그 수정
+======================================== */
+
+function editPurchaseTag(id){
+
+  const tag =
+    purchaseTagData.find(
+      item =>
+        item.id === id
+    );
+
+
+  if(!tag) return;
+
+
+  editingPurchaseTagId =
+    id;
+
+
+  document.getElementById(
+    "purchaseTagTitle"
+  ).value =
+    tag.title || "";
+
+
+  document.getElementById(
+    "purchaseTagLink"
+  ).value =
+    tag.link_url || "";
+
+
+  document.getElementById(
+    "purchaseTagSaveBtn"
+  ).textContent =
+    "태그 수정";
+
+
+  document.getElementById(
+    "purchaseTagTitle"
+  ).focus();
+
+
+  window.scrollTo({
+
+    top:
+      document.getElementById(
+        "purchaseTagTitle"
+      )
+      .getBoundingClientRect()
+      .top +
+
+      window.scrollY -
+
+      100,
+
+    behavior:"smooth"
+
+  });
+
+}
+
+
+/* ========================================
+   태그 삭제
+======================================== */
+
+async function deletePurchaseTag(id){
+
+  const tag =
+    purchaseTagData.find(
+      item =>
+        item.id === id
+    );
+
+
+  if(!tag) return;
+
+
+  const ok =
+    confirm(
+
+      `#${tag.title} 태그를 삭제하시겠습니까?`
+
+    );
+
+
+  if(!ok) return;
+
+
+  const { error } =
+    await supabaseClient
+
+      .from("purchase_tags")
+
+      .delete()
+
+      .eq(
+        "id",
+        id
+      );
+
+
+  if(error){
+
+    console.error(
+      "구매대행 태그 삭제 오류:",
+      error
+    );
+
+
+    alert(
+      "태그 삭제에 실패했습니다.\n\n" +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    "태그가 삭제되었습니다."
+  );
+
+
+  if(
+    editingPurchaseTagId === id
+  ){
+
+    addPurchaseTag();
+
+  }
+
+
+  await loadPurchaseTags();
 
 }
 

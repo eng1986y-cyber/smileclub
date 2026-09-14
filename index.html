@@ -1567,6 +1567,104 @@ body.modal-open{
 }
 
 /* ========================================
+   구매대행 추천 태그
+======================================== */
+
+.purchase-tag-box{
+  width:100%;
+
+  background:#fff;
+
+  border:1px solid #e1edf5;
+
+  border-radius:12px;
+
+  padding:14px 16px;
+
+  box-sizing:border-box;
+
+  margin:30px auto 10px;
+
+  box-shadow:0 2px 8px rgba(0,0,0,0.03);
+}
+
+
+.purchase-tag-list{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  align-items:center;
+
+  gap:8px;
+}
+
+
+.purchase-tag{
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:8px 13px;
+
+  border:1px solid #e1e1e1;
+
+  border-radius:20px;
+
+  background:#fff;
+
+  color:#333;
+
+  font-size:14px;
+
+  font-weight:500;
+
+  text-decoration:none;
+
+  cursor:pointer;
+
+  transition:all .2s ease;
+}
+
+
+.purchase-tag:hover{
+  border-color:var(--main-color);
+
+  background:var(--main-color);
+
+  color:#fff;
+
+  transform:translateY(-2px);
+}
+
+
+/* 모바일 */
+
+@media(max-width:768px){
+
+  .purchase-tag-box{
+    margin:20px auto 8px;
+
+    padding:12px;
+  }
+
+
+  .purchase-tag-list{
+    gap:6px;
+  }
+
+
+  .purchase-tag{
+    padding:7px 11px;
+
+    font-size:13px;
+  }
+
+}
+
+/* ========================================
    해외상품 구매대행 주문서
 ======================================== */
 
@@ -2195,6 +2293,18 @@ body.order-modal-open{
 
 
 <!-- ================= 해외상품 구매대행 ================= -->
+
+<!-- 구매대행 추천 태그 -->
+
+<div class="purchase-tag-box">
+
+  <div
+    class="purchase-tag-list"
+    id="purchaseTagList">
+
+  </div>
+
+</div>
 
 <div class="purchase-order-area">
 
@@ -3036,6 +3146,61 @@ setTimeout(()=>{
 },100);
 
   }
+
+/* ================= 구매대행 추천 태그 ================= */
+
+const purchaseTagList =
+  document.getElementById("purchaseTagList");
+
+if(purchaseTagList){
+
+  const { data: purchaseTags, error } =
+    await supabaseClient
+      .from("purchase_tags")
+      .select("*")
+      .order("sort",{ascending:true});
+
+  purchaseTagList.innerHTML="";
+
+
+  if(!error && purchaseTags){
+
+    purchaseTags.forEach(tag=>{
+
+      if(!tag.title || !tag.link_url) return;
+
+
+      const a =
+        document.createElement("a");
+
+
+      a.className =
+        "purchase-tag";
+
+
+      a.href =
+        tag.link_url;
+
+
+      a.target =
+        "_blank";
+
+
+      a.rel =
+        "noopener noreferrer";
+
+
+      a.textContent =
+        "#" + tag.title;
+
+
+      purchaseTagList.appendChild(a);
+
+    });
+
+  }
+
+}
 
   /* ================= 설정 ================= */
 

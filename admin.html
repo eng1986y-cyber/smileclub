@@ -628,6 +628,12 @@ textarea{
 
 }
 
+.order-status-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  width:100%;
+}
 
 /* =========================
    작은 PC 화면
@@ -766,11 +772,32 @@ textarea{
 .order-detail-table th,.order-detail-table td{border-bottom:1px solid #eee;padding:10px;text-align:left;vertical-align:top;word-break:break-all;}
 .order-detail-table th{width:140px;background:#fafafa;}
 .order-status-select{height:36px;min-width:180px;padding:0 10px;border:1px solid #ccc;border-radius:6px;background:#fff;}
-.order-status-save-btn{margin-left:8px;height:36px;padding:0 14px;border:0;border-radius:6px;background:#87CEEB;color:#fff;cursor:pointer;}
-.order-status-save-btn:hover{opacity:.9;}
+
+.order-status-save-btn{
+  margin-left:0;
+  height:36px;
+  padding:0 14px;
+  border:0;
+  border-radius:6px;
+  background:#87CEEB;
+  color:#fff;
+  cursor:pointer;
+}
+
+.order-status-save-btn:hover{
+  opacity:.9;
+}
+
 @media(max-width:768px){
-  .order-status-select{min-width:140px;max-width:100%;}
-  .order-status-save-btn{margin-left:4px;padding:0 10px;}
+  .order-status-select{
+    min-width:140px;
+    max-width:100%;
+  }
+
+  .order-status-save-btn{
+    margin-left:0;
+    padding:0 10px;
+  }
 }
 
 /* =========================
@@ -2440,26 +2467,31 @@ function openOrderDetail(index){
         <th>주문상태</th>
 
         <td>
+  <div class="order-status-row">
 
-          <select
-            id="editOrderStatus"
-            class="order-status-select">
+    <select
+      id="editOrderStatus"
+      class="order-status-select">
 
-            ${statusOptions.map(status => `
+      ${statusOptions.map(status => `
+        <option
+          value="${escapeOrderHTML(status)}"
+          ${status === currentStatus ? "selected" : ""}>
+          ${escapeOrderHTML(status)}
+        </option>
+      `).join("")}
 
-              <option
-                value="${escapeOrderHTML(status)}"
-                ${status === currentStatus ? "selected" : ""}>
+    </select>
 
-                ${escapeOrderHTML(status)}
+    <button
+      type="button"
+      class="order-status-save-btn"
+      onclick="updateOrderDetail()">
+      주문정보 저장
+    </button>
 
-              </option>
-
-            `).join("")}
-
-          </select>
-
-        </td>
+  </div>
+</td>
 
       </tr>
 
@@ -2896,29 +2928,6 @@ function openOrderDetail(index){
   </td>
 
 </tr>
-
-
-      <!-- 전체 저장 -->
-
-      <tr>
-
-        <th>주문정보 저장</th>
-
-        <td>
-
-          <button
-            type="button"
-            class="order-status-save-btn"
-            onclick="updateOrderDetail()">
-
-            주문 상세내역 저장
-
-          </button>
-
-        </td>
-
-      </tr>
-
 
     </table>
 

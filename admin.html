@@ -1186,9 +1186,11 @@ textarea{
   flex-direction:column;
   gap:8px;
 
-  /* 항상 5개가 있는 높이 유지 */
-  min-height:240px;
+  /* 항상 5개 태그가 있는 높이 유지 */
+  height:264px;
+  min-height:264px;
   box-sizing:border-box;
+  overflow:hidden;
 }
 
 /* 태그 한줄 */
@@ -1306,19 +1308,17 @@ textarea{
 ======================================== */
 
 .purchase-tag-pagination{
-
   display:flex;
-
   justify-content:center;
-
   align-items:center;
-
   gap:6px;
 
   margin-top:20px;
 
+  height:34px;
+  min-height:34px;
+  box-sizing:border-box;
 }
-
 
 .purchase-tag-pagination button{
 

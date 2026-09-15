@@ -636,27 +636,61 @@ textarea{
 }
 
 /* =========================
-   작은 PC 화면
+   태블릿 자동 크기 조절
+   모바일은 제외
 ========================= */
+@media(min-width:769px) and (max-width:1100px){
 
-@media(max-width:1000px){
+  .order-detail-modal{
+    padding:20px;
+    box-sizing:border-box;
+  }
 
   .order-detail-box{
+    width:min(94vw, 900px);
+    max-width:900px;
+    box-sizing:border-box;
+    padding:20px;
+    margin:auto;
+  }
 
-    width:calc(100vw - 30px);
-
-    padding:18px;
-
+  .order-detail-table{
+    width:100%;
+    table-layout:fixed;
   }
 
   .order-detail-table th{
-
-    width:100px;
-
+    width:110px;
+    box-sizing:border-box;
   }
 
-}
+  .order-detail-table td{
+    width:auto;
+    min-width:0;
+    box-sizing:border-box;
+  }
 
+  .order-detail-table input,
+  .order-detail-table textarea,
+  .order-detail-table select{
+    max-width:100%;
+    box-sizing:border-box;
+  }
+
+  .order-customer-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    width:100%;
+  }
+
+  .order-address-grid{
+    grid-template-columns:110px minmax(0, 1fr);
+    width:100%;
+  }
+
+  .order-input-group{
+    min-width:0;
+  }
+}
 
 /* =========================
    모바일

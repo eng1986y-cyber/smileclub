@@ -1236,18 +1236,20 @@ body{
     flex-direction:column;
   }
 
-  /* 공지사항 */
-  .board-box:first-child{
-    height:250px;
-    min-height:250px;
-    max-height:250px;
-  }
-
-  /* 지역정보 */
+  /* 지역정보 → 모바일에서 첫 번째 */
   .board-box:last-child{
+    order:1;
     height:420px;
     min-height:420px;
     max-height:420px;
+  }
+
+  /* 공지사항 → 모바일에서 두 번째 */
+  .board-box:first-child{
+    order:2;
+    height:250px;
+    min-height:250px;
+    max-height:250px;
   }
 
 }

@@ -1236,19 +1236,19 @@ body{
     flex-direction:column;
   }
 
-/* 모바일 지역정보 */
-.board-box:first-child{
-  height:420px;
-  min-height:420px;
-  max-height:420px;
-}
+  /* 공지사항 */
+  .board-box:first-child{
+    height:250px;
+    min-height:250px;
+    max-height:250px;
+  }
 
-/* 모바일 공지사항 */
-.board-box:last-child{
-  height:250px;
-  min-height:250px;
-  max-height:250px;
-}
+  /* 지역정보 */
+  .board-box:last-child{
+    height:420px;
+    min-height:420px;
+    max-height:420px;
+  }
 
 }
 
@@ -2433,18 +2433,16 @@ button:hover{
 
 <div class="board-wrapper">
 
-  <!-- 지역정보 -->
-  <div class="board-box">
-    <h3>지역정보 ( 구인,구직,아르바이트 )</h3>
-    <div id="regionList" class="board-list"></div>
-    <div id="regionPagination"></div>
-  </div>
-
-  <!-- 공지사항 -->
   <div class="board-box">
     <h3>공지사항</h3>
     <div id="noticeList" class="board-list"></div>
     <div id="noticePagination"></div>
+  </div>
+
+  <div class="board-box">
+    <h3>지역정보 ( 구인,구직,아르바이트 )</h3>
+    <div id="regionList" class="board-list"></div>
+    <div id="regionPagination"></div>
   </div>
 
 </div>

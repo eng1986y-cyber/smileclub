@@ -2014,7 +2014,7 @@ body.order-modal-open{
 
 /* 메인 검색창 돋보기 아이콘 */
 .search-box button i{
-  color:#fff !important;
+  color:var(--main-color) !important;
 }
 
 /* ========================================
@@ -2242,6 +2242,24 @@ button:hover{
 /* 검색 돋보기 색상 */
 .search-box button i{
   color:var(--main-color) !important;
+}
+
+/* 모바일 메인 검색창 돋보기 위치 */
+@media (max-width:768px){
+
+  .search-box button{
+    position:relative;
+  }
+
+  .search-box button i{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -100%);
+    color:#fff !important;
+    z-index:10;
+  }
+
 }
 
 </style>

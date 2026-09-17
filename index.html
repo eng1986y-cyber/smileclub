@@ -356,12 +356,19 @@ button,
 @media(max-width:768px){
 
   .floating-right{
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:8px;
-    top:auto;
-    transform:none;
+    position:fixed !important;
+    left:0 !important;
+    right:0 !important;
+    bottom:8px !important;
+    top:auto !important;
+    transform:none !important;
+
+  .floating-right button{
+    position:relative !important;
+    bottom:auto !important;
+    top:auto !important;
+    transform:none !important;
+}
 
     display:flex;
     flex-direction:row;

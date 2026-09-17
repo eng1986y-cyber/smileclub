@@ -354,25 +354,50 @@ button,
 }
 
 @media(max-width:768px){
+
   .floating-right{
     position:fixed;
     left:0;
     right:0;
-    bottom:45px;
+    bottom:0;
     top:auto;
     transform:none;
 
+    display:flex;
     flex-direction:row;
-    justify-content:space-around;
+    justify-content:center;
     align-items:center;
+    gap:18px;
 
-    width:100%;
-    padding:6px 0;
-
-    background:#111;
-    box-shadow:0 -4px 10px rgba(0,0,0,0.2);
-    z-index:9999;
+    z-index:99999;
   }
+
+  .floating-right .float-btn,
+  .floating-right button{
+    width:42px;
+    height:42px;
+
+    background:#fff !important;
+    color:#fff !important;
+
+    border:none !important;
+    border-radius:50%;
+    box-shadow:none !important;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .floating-right button i{
+    color:#fff !important;
+  }
+
+  .floating-right button:hover{
+    background:#fff !important;
+    color:#fff !important;
+  }
+
 }
 
 #pagination button{

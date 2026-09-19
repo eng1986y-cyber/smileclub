@@ -3142,7 +3142,7 @@ if(ad.video_url){
 }
 
 /* ========================================
-   추천사이트 접속
+   추천사이트 자동 접속
    기본주소 → 예비주소1 → 예비주소2
 ======================================== */
 
@@ -3158,11 +3158,18 @@ async function openRecommendedSite(element){
     element.getAttribute("data-fallback-2") || "";
 
 
-  /*
-    주소가 하나도 없으면 종료
-  */
+  const urls = [
+    primary,
+    fallback1,
+    fallback2
+  ]
+  .map(url => url.trim())
+  .filter(Boolean);
 
-  if(!primary && !fallback1 && !fallback2){
+
+  /* 주소가 하나도 없는 경우 */
+
+  if(urls.length === 0){
 
     alert("등록된 사이트 주소가 없습니다.");
 
@@ -3171,20 +3178,23 @@ async function openRecommendedSite(element){
   }
 
 
-  /*
-    우선 기본주소로 이동
+  /* ====================================
+     팝업 차단 방지
+     클릭 즉시 빈 창을 먼저 열어둠
+  ==================================== */
 
-    브라우저에서 다른 사이트의 접속 가능 여부를
-    직접 확인하는 것은 CORS 등의 제한이 있기 때문에
-    여기서는 우선 새 탭으로 기본주소를 엽니다.
-  */
-
-  if(primary){
-
+  const newWindow =
     window.open(
-      primary,
-      "_blank",
-      "noopener,noreferrer"
+      "about:blank",
+      "_blank"
+    );
+
+
+  if(!newWindow){
+
+    alert(
+      "팝업이 차단되었습니다.\n\n" +
+      "이 사이트의 팝업을 허용해주세요."
     );
 
     return;
@@ -3192,36 +3202,89 @@ async function openRecommendedSite(element){
   }
 
 
-  /*
-    기본주소가 없으면 예비주소 1
-  */
+  try{
 
-  if(fallback1){
+    newWindow.document.title =
+      "사이트 확인중...";
 
-    window.open(
-      fallback1,
-      "_blank",
-      "noopener,noreferrer"
+
+    /* ====================================
+       Supabase Edge Function 호출
+    ==================================== */
+
+    const { data, error } =
+      await supabaseClient.functions.invoke(
+        "check-recommended-site",
+        {
+          body:{
+            urls: urls
+          }
+        }
+      );
+
+
+    /* 오류 발생 */
+
+    if(error){
+
+      console.error(
+        "추천사이트 확인 오류:",
+        error
+      );
+
+      newWindow.close();
+
+      alert(
+        "추천사이트 확인 중 오류가 발생했습니다."
+      );
+
+      return;
+
+    }
+
+
+    /* ====================================
+       접속 가능한 사이트 발견
+    ==================================== */
+
+    if(
+      data &&
+      data.success &&
+      data.url
+    ){
+
+      newWindow.location.href =
+        data.url;
+
+      return;
+
+    }
+
+
+    /* ====================================
+       3개 모두 접속 불가
+    ==================================== */
+
+    newWindow.close();
+
+    alert(
+      "등록된 추천사이트에\n" +
+      "접속할 수 없습니다."
     );
 
-    return;
 
-  }
+  }catch(error){
 
-
-  /*
-    예비주소 2
-  */
-
-  if(fallback2){
-
-    window.open(
-      fallback2,
-      "_blank",
-      "noopener,noreferrer"
+    console.error(
+      "추천사이트 오류:",
+      error
     );
 
-    return;
+    newWindow.close();
+
+    alert(
+      "추천사이트 확인 중 오류가 발생했습니다."
+    );
 
   }
 

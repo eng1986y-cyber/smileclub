@@ -3085,14 +3085,147 @@ if(ad.video_url){
 }
 
       if(ad.type==="text"){
-        const a=document.createElement("a");
-        a.className="text-ad ad-item";
-        a.href=ad.link_url||"#";
-        a.target="_blank";
-        a.innerText=ad.title||"텍스트광고";
-        a.setAttribute("data-title",(ad.title||"").toLowerCase());
-        txtBox.appendChild(a);
-      }
+
+  const a=document.createElement("a");
+
+  a.className="text-ad ad-item";
+
+  a.href=ad.link_url || "#";
+
+  a.target="_blank";
+
+  a.innerText=ad.title || "텍스트광고";
+
+  a.setAttribute(
+    "data-title",
+    (ad.title || "").toLowerCase()
+  );
+
+  /*
+    추천사이트 접속 주소 저장
+
+    기본 주소
+    예비 주소 1
+    예비 주소 2
+  */
+
+  a.setAttribute(
+    "data-primary-url",
+    ad.link_url || ""
+  );
+
+  a.setAttribute(
+    "data-fallback-1",
+    ad.fallback_url_1 || ""
+  );
+
+  a.setAttribute(
+    "data-fallback-2",
+    ad.fallback_url_2 || ""
+  );
+
+  /*
+    일반 링크 이동을 막고
+    우리가 만든 주소 확인 기능 실행
+  */
+
+  a.addEventListener("click", function(e){
+
+    e.preventDefault();
+
+    openRecommendedSite(this);
+
+  });
+
+  txtBox.appendChild(a);
+
+}
+
+/* ========================================
+   추천사이트 접속
+   기본주소 → 예비주소1 → 예비주소2
+======================================== */
+
+async function openRecommendedSite(element){
+
+  const primary =
+    element.getAttribute("data-primary-url") || "";
+
+  const fallback1 =
+    element.getAttribute("data-fallback-1") || "";
+
+  const fallback2 =
+    element.getAttribute("data-fallback-2") || "";
+
+
+  /*
+    주소가 하나도 없으면 종료
+  */
+
+  if(!primary && !fallback1 && !fallback2){
+
+    alert("등록된 사이트 주소가 없습니다.");
+
+    return;
+
+  }
+
+
+  /*
+    우선 기본주소로 이동
+
+    브라우저에서 다른 사이트의 접속 가능 여부를
+    직접 확인하는 것은 CORS 등의 제한이 있기 때문에
+    여기서는 우선 새 탭으로 기본주소를 엽니다.
+  */
+
+  if(primary){
+
+    window.open(
+      primary,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+    return;
+
+  }
+
+
+  /*
+    기본주소가 없으면 예비주소 1
+  */
+
+  if(fallback1){
+
+    window.open(
+      fallback1,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+    return;
+
+  }
+
+
+  /*
+    예비주소 2
+  */
+
+  if(fallback2){
+
+    window.open(
+      fallback2,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+    return;
+
+  }
+
+}
 
       if(ad.type==="square"){
 

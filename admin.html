@@ -1836,11 +1836,21 @@ oninput="validateYoutube(this)">
   );
 }
 
-function addTextAd(title="",link=""){
+function addTextAd(
+  title="",
+  link="",
+  fallback1="",
+  fallback2=""
+){
   textAdmin.appendChild(
     createCard(`
-      <input value="${title}" placeholder="광고 제목">
-      <input value="${link}" placeholder="클릭 링크">
+      <input value="${title}" placeholder="추천사이트 이름">
+
+      <input value="${link}" placeholder="기본 주소">
+
+      <input value="${fallback1}" placeholder="예비 주소 1">
+
+      <input value="${fallback2}" placeholder="예비 주소 2">
     `)
   );
 }
@@ -1952,11 +1962,13 @@ ads.forEach(ad=>{
   }
 
   if(ad.type==="text"){
-    addTextAd(
-      ad.title,
-      ad.link_url
-    );
-  }
+  addTextAd(
+    ad.title,
+    ad.link_url,
+    ad.fallback_url_1,
+    ad.fallback_url_2
+  );
+}
 
   if(ad.type==="square"){
 
@@ -2062,15 +2074,24 @@ for(const [index, block] of [...imageAdmin.children].entries()){
 
 for(const [index, block] of [...textAdmin.children].entries()){
 
-  const i=block.querySelectorAll("input");
+  const i = block.querySelectorAll("input");
 
   if(i[0].value.trim()){
 
     await supabaseClient.from("ads").insert([{
+
       type:"text",
+
       title:i[0].value.trim(),
+
       link_url:i[1].value.trim(),
+
+      fallback_url_1:i[2].value.trim(),
+
+      fallback_url_2:i[3].value.trim(),
+
       sort:index
+
     }]);
 
   }

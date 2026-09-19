@@ -2262,6 +2262,68 @@ button:hover{
   color:var(--main-color) !important;
 }
 
+/* =========================
+   상품주소복사 버튼
+========================= */
+
+.product-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  margin-top:10px;
+  width:100%;
+}
+
+.product-title-row .ad-title{
+  margin-top:0;
+  width:auto;
+}
+
+.copy-product-link-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+
+  padding:4px 8px;
+
+  border:1px solid #ccc !important;
+  border-radius:5px;
+
+  background:#fff !important;
+  color:#333 !important;
+
+  font-size:11px;
+  line-height:1;
+  cursor:pointer;
+
+  white-space:nowrap;
+}
+
+.copy-product-link-btn:hover{
+  background:#f5f5f5 !important;
+  color:#111 !important;
+  border-color:#999 !important;
+}
+
+.copy-product-link-btn i{
+  font-size:10px;
+}
+
+@media(max-width:768px){
+
+  .product-title-row{
+    gap:5px;
+  }
+
+  .copy-product-link-btn{
+    padding:4px 6px;
+    font-size:10px;
+  }
+
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -3008,6 +3070,67 @@ function focusSearch(){
   document.getElementById("searchInput").focus();
 }
 
+async function copyProductLink(encodedUrl, button){
+
+  const url = decodeURIComponent(encodedUrl);
+
+  if(!url){
+    alert("복사할 상품주소가 없습니다.");
+    return;
+  }
+
+  try{
+
+    await navigator.clipboard.writeText(url);
+
+    const originalHTML = button.innerHTML;
+
+    button.innerHTML = `
+      <i class="fas fa-check"></i>
+      복사완료
+    `;
+
+    setTimeout(()=>{
+      button.innerHTML = originalHTML;
+    },1500);
+
+  }catch(error){
+
+    /* 브라우저 보안정책 등으로 clipboard가 막힌 경우 */
+    const textarea = document.createElement("textarea");
+
+    textarea.value = url;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+
+    document.body.appendChild(textarea);
+
+    textarea.select();
+
+    try{
+      document.execCommand("copy");
+
+      const originalHTML = button.innerHTML;
+
+      button.innerHTML = `
+        <i class="fas fa-check"></i>
+        복사완료
+      `;
+
+      setTimeout(()=>{
+        button.innerHTML = originalHTML;
+      },1500);
+
+    }catch(e){
+
+      alert("상품주소 복사에 실패했습니다.");
+
+    }
+
+    document.body.removeChild(textarea);
+  }
+}
+
 async function loadSite(){
 
   const boardSection=document.getElementById("boardSection");
@@ -3335,11 +3458,31 @@ async function openRecommendedSite(element){
       onclick="openImageModal('${ad.detail_url ? ad.detail_url : ad.image_url}')">`;
 
   wrap.innerHTML=`
-    <div class="square-ad">${link}</div>
+  <div class="square-ad">${link}</div>
+
+  <div class="product-title-row">
+
     <div class="ad-title">
       ${escapeHTML(ad.main_title||"")}
     </div>
-  `;
+
+    ${
+      ad.link_url
+      ? `
+        <button
+          type="button"
+          class="copy-product-link-btn"
+          onclick="copyProductLink('${encodeURIComponent(ad.link_url)}', this)"
+        >
+          <i class="fas fa-copy"></i>
+          상품주소복사
+        </button>
+      `
+      : ""
+    }
+
+  </div>
+`;
 
   currentPage.appendChild(wrap);
 }

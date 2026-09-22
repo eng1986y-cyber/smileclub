@@ -2509,6 +2509,34 @@ button:hover{
         <option value="불편신고">불편신고</option>
       </select>
 
+<label>작성자 이름</label>
+<input
+  id="userPostAuthorName"
+  type="text"
+  maxlength="30"
+  placeholder="이름을 입력하세요">
+
+<label>별명</label>
+<input
+  id="userPostNickname"
+  type="text"
+  maxlength="30"
+  placeholder="별명을 입력하세요">
+
+<label>회사명</label>
+<input
+  id="userPostCompany"
+  type="text"
+  maxlength="50"
+  placeholder="회사명을 입력하세요">
+
+<label>연락처</label>
+<input
+  id="userPostPhone"
+  type="tel"
+  maxlength="20"
+  placeholder="010-0000-0000">
+
       <label>제목</label>
       <input id="userPostTitle" placeholder="제목을 입력하세요">
 
@@ -4043,9 +4071,26 @@ function closeWritePost(){
 
 async function submitPost(){
 
-  const title=document.getElementById("userPostTitle").value.trim();
-  const content=document.getElementById("userPostContent").value.trim();
-  const category=document.getElementById("userPostCategory").value;
+const title =
+  document.getElementById("userPostTitle").value.trim();
+
+const content =
+  document.getElementById("userPostContent").value.trim();
+
+const category =
+  document.getElementById("userPostCategory").value;
+
+const authorName =
+  document.getElementById("userPostAuthorName").value.trim();
+
+const nickname =
+  document.getElementById("userPostNickname").value.trim();
+
+const companyName =
+  document.getElementById("userPostCompany").value.trim();
+
+const authorPhone =
+  document.getElementById("userPostPhone").value.trim();
 
 const answer = document
   .getElementById("captchaAnswer")
@@ -4062,12 +4107,17 @@ if(parseInt(answer) !== captchaValue){
     return;
   }
 
-  const {error}=await supabaseClient
+const {error}=await supabaseClient
   .from("board_posts")
   .insert([{
-    title:title,
-    content:content,
-    category:category
+    title: title,
+    content: content,
+    category: category,
+
+    author_name: authorName,
+    author_nickname: nickname,
+    company_name: companyName,
+    author_phone: authorPhone
   }]);
 
   if(error){

@@ -325,6 +325,15 @@ button,
   z-index:9999;
 }
 
+/* 모바일 팝업이 열려 있으면 하단 버튼 숨김 */
+@media(max-width:768px){
+
+  body.modal-open .floating-right{
+    display:none !important;
+  }
+
+}
+
 .floating-right .float-btn{
   width:48px;
   height:48px;
@@ -4130,15 +4139,24 @@ function search(){
 }
 
 function openModal(title,content,date,views){
+
   document.getElementById("modalTitle").innerText=title;
+
   document.getElementById("modalContent").innerText=content;
+
   document.getElementById("modalMeta").innerText=
     date + " · 조회 " + views;
+
   document.getElementById("boardModal").style.display="flex";
+
+  document.body.classList.add("modal-open");
 }
 
 function closeModal(){
+
   document.getElementById("boardModal").style.display="none";
+
+  document.body.classList.remove("modal-open");
 }
 
 const boardModal = document.getElementById("boardModal");
@@ -4162,13 +4180,21 @@ window.addEventListener("DOMContentLoaded", function(){
 });
 
 function openWritePost(){
+
   document.getElementById("writeModal").style.display="flex";
+
   document.getElementById("captchaAnswer").value="";
+
   generateCaptcha();
+
+  document.body.classList.add("modal-open");
 }
 
 function closeWritePost(){
+
   document.getElementById("writeModal").style.display="none";
+
+  document.body.classList.remove("modal-open");
 }
 
 async function submitPost(){

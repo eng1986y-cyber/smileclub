@@ -454,8 +454,7 @@ textarea{
 }
 
 .order-search-box input{
-  flex:1 1 auto;
-  width:auto;
+  flex:1;
   min-width:0;
   height:42px;
   padding:0 14px;
@@ -464,17 +463,14 @@ textarea{
   border-radius:6px;
   font-size:14px;
   outline:none;
-}
-
-.order-search-box input:focus{
-  border-color:#87CEEB;
-  box-shadow:0 0 0 2px rgba(135,206,235,.2);
+  margin:0;
 }
 
 .order-search-box button{
-  flex:0 0 auto;
+  flex:0 0 90px;
   width:90px;
   height:42px;
+  margin:0;
   padding:0;
   border:none;
   border-radius:6px;
@@ -483,7 +479,15 @@ textarea{
   cursor:pointer;
   font-size:14px;
   font-weight:600;
+  line-height:42px;
   white-space:nowrap;
+  box-sizing:border-box;
+  vertical-align:middle;
+}
+
+.order-search-box input:focus{
+  border-color:#87CEEB;
+  box-shadow:0 0 0 2px rgba(135,206,235,.2);
 }
 
 .order-search-box button:hover{

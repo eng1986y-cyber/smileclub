@@ -496,6 +496,37 @@ textarea{
   color:#666;
 }
 
+
+/* =========================
+   모바일
+========================= */
+
+@media(max-width:768px){
+
+  .order-search-box{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    gap:6px;
+  }
+
+  .order-search-box input{
+    flex:1 1 auto;
+    width:auto;
+    min-width:0;
+    height:42px;
+  }
+
+  .order-search-box button{
+    flex:0 0 72px;
+    width:72px;
+    height:42px;
+    padding:0;
+    font-size:13px;
+  }
+
+}
+
 .order-summary-item{
   display:flex;
   align-items:center;

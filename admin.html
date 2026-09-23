@@ -440,6 +440,78 @@ textarea{
   gap:8px;
 }
 
+/* =========================
+   주문서 검색
+========================= */
+
+.order-search-box{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin:15px 0;
+  flex-wrap:wrap;
+}
+
+.order-search-box input{
+  flex:1;
+  min-width:260px;
+  height:42px;
+  padding:0 14px;
+  box-sizing:border-box;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:14px;
+  outline:none;
+}
+
+.order-search-box input:focus{
+  border-color:#87CEEB;
+  box-shadow:0 0 0 2px rgba(135,206,235,.2);
+}
+
+.order-search-box button{
+  height:42px;
+  padding:0 18px;
+  border:none;
+  border-radius:6px;
+  background:#87CEEB;
+  color:#fff;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+}
+
+.order-search-box button:hover{
+  background:#6bbfe0;
+}
+
+.order-search-result-text{
+  margin:0 0 10px;
+  font-size:13px;
+  color:#666;
+}
+
+
+/* 모바일 */
+
+@media(max-width:768px){
+
+  .order-search-box{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .order-search-box input{
+    width:100%;
+    min-width:0;
+  }
+
+  .order-search-box button{
+    width:100%;
+  }
+
+}
+
 .order-summary-item{
   display:flex;
   align-items:center;
@@ -1555,8 +1627,48 @@ style="height:123px; resize:none;"></textarea>
 
 <!-- ================== 주문서 관리 ================== -->
 <div class="section">
-  <div class="ad-header"><div class="ad-title">주문서 관리</div></div>
-  <div class="order-summary-list" id="orderAdminList"></div>
+
+  <div class="ad-header">
+    <div class="ad-title">주문서 관리</div>
+  </div>
+
+
+  <!-- 주문 검색 -->
+  <div class="order-search-box">
+
+    <input
+      type="text"
+      id="orderSearchInput"
+      placeholder="주문번호 / 받는사람 이름 / 송장번호 검색"
+      autocomplete="off"
+    >
+
+    <button
+      type="button"
+      onclick="searchOrders()">
+      검색
+    </button>
+
+    <button
+      type="button"
+      onclick="resetOrderSearch()">
+      전체보기
+    </button>
+
+  </div>
+
+
+  <div
+    id="orderSearchResultText"
+    class="order-search-result-text">
+  </div>
+
+
+  <div
+    class="order-summary-list"
+    id="orderAdminList">
+  </div>
+
 </div>
 
 <div id="orderDetailModal" class="order-detail-modal">
@@ -2193,6 +2305,8 @@ alert("저장 완료 ✅");
 
 /* ================= 주문서 관리 ================= */
 let orderData = [];
+let allOrderData = [];
+
 let currentOrderId = null;
 
 let currentOrderPage = 1;
@@ -2235,7 +2349,8 @@ async function loadOrders(){
   }
 
 
-  orderData = data || [];
+  allOrderData = data || [];
+  orderData = [...allOrderData];
 
 
   if(!orderData.length){
@@ -2251,6 +2366,163 @@ async function loadOrders(){
   renderOrderPage();
 
 }
+
+/* =========================
+   주문서 검색
+   주문번호 / 받는사람 / 송장번호
+========================= */
+
+function searchOrders(){
+
+  const input =
+    document.getElementById(
+      "orderSearchInput"
+    );
+
+  const resultText =
+    document.getElementById(
+      "orderSearchResultText"
+    );
+
+
+  if(!input){
+    return;
+  }
+
+
+  const keyword =
+    input.value
+      .trim()
+      .toLowerCase();
+
+
+  /* 검색어가 없으면 전체보기 */
+
+  if(!keyword){
+
+    resetOrderSearch();
+
+    return;
+
+  }
+
+
+  orderData =
+    allOrderData.filter(order => {
+
+      const orderNumber =
+        String(
+          order.order_number || ""
+        ).toLowerCase();
+
+
+      const receiverName =
+        String(
+          order.receiver_name || ""
+        ).toLowerCase();
+
+
+      const trackingNumber =
+        String(
+          order.tracking_number || ""
+        ).toLowerCase();
+
+
+      return (
+
+        orderNumber.includes(keyword) ||
+
+        receiverName.includes(keyword) ||
+
+        trackingNumber.includes(keyword)
+
+      );
+
+    });
+
+
+  currentOrderPage = 1;
+
+
+  if(resultText){
+
+    resultText.textContent =
+      `검색 결과: ${orderData.length}건`;
+
+  }
+
+
+  renderOrderPage();
+
+}
+
+
+/* =========================
+   주문서 전체보기
+========================= */
+
+function resetOrderSearch(){
+
+  const input =
+    document.getElementById(
+      "orderSearchInput"
+    );
+
+  const resultText =
+    document.getElementById(
+      "orderSearchResultText"
+    );
+
+
+  if(input){
+
+    input.value = "";
+
+  }
+
+
+  orderData =
+    [...allOrderData];
+
+
+  currentOrderPage = 1;
+
+
+  if(resultText){
+
+    resultText.textContent = "";
+
+  }
+
+
+  renderOrderPage();
+
+}
+
+document.addEventListener(
+  "keydown",
+  function(e){
+
+    const input =
+      document.getElementById(
+        "orderSearchInput"
+      );
+
+
+    if(
+      input &&
+      document.activeElement === input &&
+      e.key === "Enter"
+    ){
+
+      e.preventDefault();
+
+      searchOrders();
+
+    }
+
+  }
+);
 
 function renderOrderPage(){
 

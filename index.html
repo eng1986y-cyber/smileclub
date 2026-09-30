@@ -3970,11 +3970,15 @@ div.onclick = async (e) => {
   }
 
   openModal(
-    post.title,
-    post.content,
-    date,
-    finalViews
-  );
+  post.title,
+  post.content,
+  date,
+  finalViews,
+  post.author_name,
+  post.author_nickname,
+  post.company_name,
+  post.author_phone
+);
 };
 
     target.appendChild(div);
@@ -4145,14 +4149,31 @@ function search(){
   }
 }
 
-function openModal(title,content,date,views){
+function openModal(title, content, date, views, authorName, nickname, companyName, authorPhone){
 
-  document.getElementById("modalTitle").innerText=title;
+  document.getElementById("modalTitle").innerText = title;
 
-  document.getElementById("modalContent").innerText=content;
+  document.getElementById("modalContent").innerText = content;
 
-  document.getElementById("modalMeta").innerText=
-    date + " · 조회 " + views;
+  document.getElementById("modalMeta").innerHTML = `
+    <div style="
+      margin-bottom:12px;
+      padding:10px 12px;
+      background:#f8f8f8;
+      border:1px solid #eee;
+      border-radius:8px;
+      line-height:1.8;
+      color:#555;
+    ">
+      <div><b>작성자 이름</b> : ${authorName || "-"}</div>
+      <div><b>별명</b> : ${nickname || "-"}</div>
+      <div><b>회사명</b> : ${companyName || "-"}</div>
+      <div><b>연락처</b> : ${authorPhone || "-"}</div>
+      <div style="margin-top:5px;color:#999;">
+        ${date} · 조회 ${views}
+      </div>
+    </div>
+  `;
 
   document.getElementById("boardModal").style.display="flex";
 

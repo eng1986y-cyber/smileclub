@@ -4256,65 +4256,83 @@ function openModal(
     // 연락처 + 전화걸기
     // =========================
 
-    if(authorPhone && authorPhone.trim()){
+if(authorPhone && authorPhone.trim()){
+  const row = document.createElement("div");
 
-      const row = document.createElement("div");
+  row.style.cssText = `
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+  `;
 
-      row.style.cssText = `
-        display:flex;
-        align-items:center;
-        gap:8px;
-        flex-wrap:wrap;
-      `;
+  const phoneLabel = document.createElement("b");
+  phoneLabel.innerText = "연락처";
 
-      const phoneLabel = document.createElement("b");
-      phoneLabel.innerText = "연락처";
+  const phoneText = document.createElement("span");
+  phoneText.innerText = " : " + authorPhone;
 
-      const phoneText = document.createElement("span");
-      phoneText.innerText = " : " + authorPhone;
+  row.appendChild(phoneLabel);
+  row.appendChild(phoneText);
 
-      row.appendChild(phoneLabel);
-      row.appendChild(phoneText);
+  // 전화번호에서 숫자와 +만 남김
+  const phoneNumber =
+    authorPhone.replace(/[^\d+]/g, "");
+
+  // 📞 전화 아이콘
+  const callButton = document.createElement("a");
+
+  callButton.href = "tel:" + phoneNumber;
+  callButton.innerText = "📞";
+  callButton.title = "전화걸기";
+  callButton.setAttribute("aria-label", "전화걸기");
+
+  callButton.style.cssText = `
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:32px;
+    height:32px;
+    margin-left:4px;
+    background:#87CEEB;
+    color:#fff;
+    border-radius:50%;
+    text-decoration:none;
+    font-size:16px;
+    cursor:pointer;
+    box-sizing:border-box;
+  `;
+
+  row.appendChild(callButton);
 
 
-      // =========================
-      // 전화걸기 버튼
-      // =========================
+  // 💬 문자 아이콘
+  const smsButton = document.createElement("a");
 
-      const callButton = document.createElement("a");
+  smsButton.href = "sms:" + phoneNumber;
+  smsButton.innerText = "💬";
+  smsButton.title = "문자보내기";
+  smsButton.setAttribute("aria-label", "문자보내기");
 
-      // 숫자와 +만 남김
-      const phoneNumber =
-        authorPhone.replace(/[^\d+]/g, "");
+  smsButton.style.cssText = `
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:32px;
+    height:32px;
+    background:#6bbfe0;
+    color:#fff;
+    border-radius:50%;
+    text-decoration:none;
+    font-size:16px;
+    cursor:pointer;
+    box-sizing:border-box;
+  `;
 
-      callButton.href =
-        "tel:" + phoneNumber;
+  row.appendChild(smsButton);
 
-      callButton.innerText =
-        "📞 전화걸기";
-
-      callButton.style.cssText = `
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        padding:5px 10px;
-        margin-left:4px;
-        background:#87CEEB;
-        color:#fff;
-        border-radius:6px;
-        text-decoration:none;
-        font-size:12px;
-        font-weight:600;
-        white-space:nowrap;
-        cursor:pointer;
-        box-sizing:border-box;
-      `;
-
-      row.appendChild(callButton);
-
-      info.appendChild(row);
-    }
-
+  info.appendChild(row);
+}
 
     meta.appendChild(info);
   }

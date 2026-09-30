@@ -4149,14 +4149,40 @@ function search(){
   }
 }
 
-function openModal(title, content, date, views, authorName, nickname, companyName, authorPhone){
+function openModal(
+  title,
+  content,
+  date,
+  views,
+  authorName,
+  nickname,
+  companyName,
+  authorPhone
+){
 
   document.getElementById("modalTitle").innerText = title;
 
   document.getElementById("modalContent").innerText = content;
 
-  document.getElementById("modalMeta").innerHTML = `
-    <div style="
+  const meta = document.getElementById("modalMeta");
+
+  meta.innerHTML = "";
+
+  // 작성자 정보가 하나라도 있는지 확인
+  const hasAuthorInfo =
+    (authorName && authorName.trim()) ||
+    (nickname && nickname.trim()) ||
+    (companyName && companyName.trim()) ||
+    (authorPhone && authorPhone.trim());
+
+  // =========================
+  // 사용자 등록 글
+  // =========================
+  if(hasAuthorInfo){
+
+    const info = document.createElement("div");
+
+    info.style.cssText = `
       margin-bottom:12px;
       padding:10px 12px;
       background:#f8f8f8;
@@ -4164,18 +4190,50 @@ function openModal(title, content, date, views, authorName, nickname, companyNam
       border-radius:8px;
       line-height:1.8;
       color:#555;
-    ">
-      <div><b>작성자 이름</b> : ${authorName || "-"}</div>
-      <div><b>별명</b> : ${nickname || "-"}</div>
-      <div><b>회사명</b> : ${companyName || "-"}</div>
-      <div><b>연락처</b> : ${authorPhone || "-"}</div>
-      <div style="margin-top:5px;color:#999;">
-        ${date} · 조회 ${views}
-      </div>
-    </div>
-  `;
+    `;
 
-  document.getElementById("boardModal").style.display="flex";
+    const fields = [
+      ["작성자 이름", authorName],
+      ["별명", nickname],
+      ["회사명", companyName],
+      ["연락처", authorPhone]
+    ];
+
+    fields.forEach(([label, value]) => {
+
+      if(!value || !value.trim()) return;
+
+      const row = document.createElement("div");
+
+      const bold = document.createElement("b");
+      bold.innerText = label;
+
+      row.appendChild(bold);
+      row.appendChild(
+        document.createTextNode(" : " + value)
+      );
+
+      info.appendChild(row);
+    });
+
+    meta.appendChild(info);
+  }
+
+  // =========================
+  // 날짜 / 조회수
+  // =========================
+
+  const metaLine = document.createElement("div");
+
+  metaLine.style.cssText =
+    "margin-top:5px;color:#999;";
+
+  metaLine.innerText =
+    date + " · 조회 " + views;
+
+  meta.appendChild(metaLine);
+
+  document.getElementById("boardModal").style.display = "flex";
 
   document.body.classList.add("modal-open");
 }

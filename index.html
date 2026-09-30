@@ -4279,57 +4279,58 @@ if(authorPhone && authorPhone.trim()){
   const phoneNumber =
     authorPhone.replace(/[^\d+]/g, "");
 
-  // 📞 전화 아이콘
-  const callButton = document.createElement("a");
+// 📞 전화 아이콘
+const callButton = document.createElement("a");
 
-  callButton.href = "tel:" + phoneNumber;
-  callButton.innerText = "📞";
-  callButton.title = "전화걸기";
-  callButton.setAttribute("aria-label", "전화걸기");
+callButton.href = "tel:" + phoneNumber;
+callButton.innerHTML = '<i class="fa-solid fa-phone"></i>';
+callButton.title = "전화걸기";
+callButton.setAttribute("aria-label", "전화걸기");
 
-  callButton.style.cssText = `
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    width:32px;
-    height:32px;
-    margin-left:4px;
-    background:#87CEEB;
-    color:#fff;
-    border-radius:50%;
-    text-decoration:none;
-    font-size:16px;
-    cursor:pointer;
-    box-sizing:border-box;
-  `;
+callButton.style.cssText = `
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;
+  height:28px;
+  margin-left:5px;
+  background:none;
+  border:none;
+  color:#87CEEB;
+  text-decoration:none;
+  font-size:18px;
+  cursor:pointer;
+  box-sizing:border-box;
+`;
 
-  row.appendChild(callButton);
+row.appendChild(callButton);
 
 
-  // 💬 문자 아이콘
-  const smsButton = document.createElement("a");
+// 💬 문자 아이콘
+const smsButton = document.createElement("a");
 
-  smsButton.href = "sms:" + phoneNumber;
-  smsButton.innerText = "💬";
-  smsButton.title = "문자보내기";
-  smsButton.setAttribute("aria-label", "문자보내기");
+smsButton.href = "sms:" + phoneNumber;
+smsButton.innerHTML = '<i class="fa-solid fa-comment-sms"></i>';
+smsButton.title = "문자보내기";
+smsButton.setAttribute("aria-label", "문자보내기");
 
-  smsButton.style.cssText = `
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    width:32px;
-    height:32px;
-    background:#6bbfe0;
-    color:#fff;
-    border-radius:50%;
-    text-decoration:none;
-    font-size:16px;
-    cursor:pointer;
-    box-sizing:border-box;
-  `;
+smsButton.style.cssText = `
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;
+  height:28px;
+  margin-left:2px;
+  background:none;
+  border:none;
+  color:#87CEEB;
+  text-decoration:none;
+  font-size:18px;
+  cursor:pointer;
+  box-sizing:border-box;
+`;
 
-  row.appendChild(smsButton);
+row.appendChild(smsButton);
 
   info.appendChild(row);
 }

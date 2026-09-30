@@ -4168,70 +4168,179 @@ function openModal(
 
   meta.innerHTML = "";
 
-  // 작성자 정보가 하나라도 있는지 확인
+  // =====================================
+  // 사용자 작성자 정보가 있는 경우만 표시
+  // =====================================
+
   const hasAuthorInfo =
     (authorName && authorName.trim()) ||
     (nickname && nickname.trim()) ||
     (companyName && companyName.trim()) ||
     (authorPhone && authorPhone.trim());
 
-  // =========================
-  // 사용자 등록 글
-  // =========================
   if(hasAuthorInfo){
 
     const info = document.createElement("div");
 
     info.style.cssText = `
       margin-bottom:12px;
-      padding:10px 12px;
+      padding:12px 14px;
       background:#f8f8f8;
       border:1px solid #eee;
-      border-radius:8px;
+      border-radius:10px;
       line-height:1.8;
       color:#555;
     `;
 
-    const fields = [
-      ["작성자 이름", authorName],
-      ["별명", nickname],
-      ["회사명", companyName],
-      ["연락처", authorPhone]
-    ];
+    // =========================
+    // 작성자 이름
+    // =========================
 
-    fields.forEach(([label, value]) => {
-
-      if(!value || !value.trim()) return;
+    if(authorName && authorName.trim()){
 
       const row = document.createElement("div");
 
       const bold = document.createElement("b");
-      bold.innerText = label;
+      bold.innerText = "작성자 이름";
 
       row.appendChild(bold);
       row.appendChild(
-        document.createTextNode(" : " + value)
+        document.createTextNode(" : " + authorName)
       );
 
       info.appendChild(row);
-    });
+    }
+
+
+    // =========================
+    // 별명
+    // =========================
+
+    if(nickname && nickname.trim()){
+
+      const row = document.createElement("div");
+
+      const bold = document.createElement("b");
+      bold.innerText = "별명";
+
+      row.appendChild(bold);
+      row.appendChild(
+        document.createTextNode(" : " + nickname)
+      );
+
+      info.appendChild(row);
+    }
+
+
+    // =========================
+    // 회사명
+    // =========================
+
+    if(companyName && companyName.trim()){
+
+      const row = document.createElement("div");
+
+      const bold = document.createElement("b");
+      bold.innerText = "회사명";
+
+      row.appendChild(bold);
+      row.appendChild(
+        document.createTextNode(" : " + companyName)
+      );
+
+      info.appendChild(row);
+    }
+
+
+    // =========================
+    // 연락처 + 전화걸기
+    // =========================
+
+    if(authorPhone && authorPhone.trim()){
+
+      const row = document.createElement("div");
+
+      row.style.cssText = `
+        display:flex;
+        align-items:center;
+        gap:8px;
+        flex-wrap:wrap;
+      `;
+
+      const phoneLabel = document.createElement("b");
+      phoneLabel.innerText = "연락처";
+
+      const phoneText = document.createElement("span");
+      phoneText.innerText = " : " + authorPhone;
+
+      row.appendChild(phoneLabel);
+      row.appendChild(phoneText);
+
+
+      // =========================
+      // 전화걸기 버튼
+      // =========================
+
+      const callButton = document.createElement("a");
+
+      // 숫자와 +만 남김
+      const phoneNumber =
+        authorPhone.replace(/[^\d+]/g, "");
+
+      callButton.href =
+        "tel:" + phoneNumber;
+
+      callButton.innerText =
+        "📞 전화걸기";
+
+      callButton.style.cssText = `
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        padding:5px 10px;
+        margin-left:4px;
+        background:#87CEEB;
+        color:#fff;
+        border-radius:6px;
+        text-decoration:none;
+        font-size:12px;
+        font-weight:600;
+        white-space:nowrap;
+        cursor:pointer;
+        box-sizing:border-box;
+      `;
+
+      row.appendChild(callButton);
+
+      info.appendChild(row);
+    }
+
 
     meta.appendChild(info);
   }
 
-  // =========================
+
+  // =====================================
   // 날짜 / 조회수
-  // =========================
+  // =====================================
 
   const metaLine = document.createElement("div");
 
-  metaLine.style.cssText =
-    "margin-top:5px;color:#999;";
+  metaLine.style.cssText = `
+    margin-top:5px;
+    color:#999;
+    font-size:12px;
+  `;
 
   metaLine.innerText =
     date + " · 조회 " + views;
 
   meta.appendChild(metaLine);
+
+
+  // =====================================
+  // 게시글 모달 열기
+  // =====================================
 
   document.getElementById("boardModal").style.display = "flex";
 

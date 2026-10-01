@@ -1531,15 +1531,21 @@ box-shadow:0 10px 30px rgba(0,0,0,0.1);
 
 <input id="bannerImg" placeholder="배너 이미지 URL">
 
-<button onclick="deleteBannerImage()"
-  style="background:#ff5c5c;margin-bottom:6px;">
-  배너 삭제
-</button>
+<div style="display:flex;align-items:center;gap:6px;margin-top:5px;">
 
-<input type="file" accept="image/*"
-  onchange="uploadBannerImage(this)">
+  <input type="file"
+         accept="image/*"
+         onchange="uploadBannerImage(this)">
 
-<input id="bannerLink" placeholder="배너 클릭 링크">
+  <button onclick="deleteBannerImage()"
+          style="background:#ff5c5c;margin:0;white-space:nowrap;">
+    배너 삭제
+  </button>
+
+</div>
+
+<input id="bannerLink"
+       placeholder="배너 클릭 링크">
 
 <hr style="margin:15px 0;">
 
@@ -1549,13 +1555,18 @@ box-shadow:0 10px 30px rgba(0,0,0,0.1);
 
 <input id="searchLogoInput" placeholder="로고 URL">
 
-<button onclick="deleteSearchLogo()"
-  style="background:#ff5c5c;margin-bottom:6px;">
-  로고 삭제
-</button>
+<div style="display:flex;align-items:center;gap:6px;margin-top:5px;">
 
-<input type="file" accept="image/*"
-  onchange="uploadSearchLogo(this)">
+  <input type="file"
+         accept="image/*"
+         onchange="uploadSearchLogo(this)">
+
+  <button onclick="deleteSearchLogo()"
+          style="background:#ff5c5c;margin:0;white-space:nowrap;">
+    로고 삭제
+  </button>
+
+</div>
 
 <img id="searchLogoPreview"
      style="height:40px;margin-top:5px;">

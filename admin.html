@@ -1531,13 +1531,13 @@ box-shadow:0 10px 30px rgba(0,0,0,0.1);
 
 <input id="bannerImg" placeholder="배너 이미지 URL">
 
+<button onclick="deleteBannerImage()"
+  style="background:#ff5c5c;margin-bottom:6px;">
+  배너 삭제
+</button>
+
 <input type="file" accept="image/*"
   onchange="uploadBannerImage(this)">
-
-<button onclick="deleteBannerImage()" 
-style="background:#ff5c5c;margin-bottom:6px;">
-배너 삭제
-</button>
 
 <input id="bannerLink" placeholder="배너 클릭 링크">
 
@@ -1548,6 +1548,11 @@ style="background:#ff5c5c;margin-bottom:6px;">
 </div>
 
 <input id="searchLogoInput" placeholder="로고 URL">
+
+<button onclick="deleteSearchLogo()"
+  style="background:#ff5c5c;margin-bottom:6px;">
+  로고 삭제
+</button>
 
 <input type="file" accept="image/*"
   onchange="uploadSearchLogo(this)">
@@ -5256,30 +5261,220 @@ function scrollToBottom(){
 async function deleteBannerImage(){
 
   const imageUrl = bannerImg.value.trim();
-  if(!imageUrl) return;
 
-  const confirmDelete = confirm("배너 이미지를 삭제하시겠습니까?");
-  if(!confirmDelete) return;
-
-  const filePath = decodeURIComponent(
-    imageUrl.split("/storage/v1/object/public/yb365/")[1]
-  );
-
-  const { error } = await supabaseClient
-    .storage
-    .from("yb365")
-    .remove([filePath]);
-
-  if(error){
-    console.log(error);
-    alert("배너 삭제 실패");
+  if(!imageUrl){
+    alert("삭제할 배너가 없습니다.");
     return;
   }
+
+  const confirmDelete =
+    confirm("배너 이미지를 삭제하시겠습니까?\n\nSupabase Storage에서도 삭제됩니다.");
+
+  if(!confirmDelete) return;
+
+
+  /* =========================
+     Supabase Storage 파일 삭제
+  ========================= */
+
+  const storageBase =
+    "/storage/v1/object/public/yb365/";
+
+  if(imageUrl.includes(storageBase)){
+
+    const filePath =
+      decodeURIComponent(
+        imageUrl.split(storageBase)[1]
+      );
+
+    const { error: storageError } =
+      await supabaseClient
+        .storage
+        .from("yb365")
+        .remove([filePath]);
+
+    if(storageError){
+
+      console.error(
+        "배너 Storage 삭제 오류:",
+        storageError
+      );
+
+      alert(
+        "배너 파일 삭제 실패:\n" +
+        storageError.message
+      );
+
+      return;
+    }
+  }
+
+
+  /* =========================
+     site_settings에서도 삭제
+  ========================= */
+
+  const { error: dbError } =
+    await supabaseClient
+      .from("site_settings")
+      .update({
+        banner_img: "",
+        banner_link: ""
+      })
+      .eq("id", 1);
+
+  if(dbError){
+
+    console.error(
+      "배너 설정 삭제 오류:",
+      dbError
+    );
+
+    alert(
+      "배너 설정 삭제 실패:\n" +
+      dbError.message
+    );
+
+    return;
+  }
+
+
+  /* 화면에서도 삭제 */
 
   bannerImg.value = "";
   bannerLink.value = "";
 
+  const bannerFile =
+    document.querySelector(
+      'input[type="file"][onchange="uploadBannerImage(this)"]'
+    );
+
+  if(bannerFile){
+    bannerFile.value = "";
+  }
+
+
   alert("배너 삭제 완료 ✅");
+}
+
+async function deleteSearchLogo(){
+
+  const logoInput =
+    document.getElementById("searchLogoInput");
+
+  const logoPreview =
+    document.getElementById("searchLogoPreview");
+
+  const imageUrl =
+    logoInput ? logoInput.value.trim() : "";
+
+
+  if(!imageUrl){
+
+    alert("삭제할 로고가 없습니다.");
+
+    return;
+  }
+
+
+  const confirmDelete =
+    confirm(
+      "사이트 로고를 삭제하시겠습니까?\n\n" +
+      "Supabase Storage에서도 삭제됩니다."
+    );
+
+  if(!confirmDelete) return;
+
+
+  /* =========================
+     Supabase Storage 파일 삭제
+  ========================= */
+
+  const storageBase =
+    "/storage/v1/object/public/yb365/";
+
+  if(imageUrl.includes(storageBase)){
+
+    const filePath =
+      decodeURIComponent(
+        imageUrl.split(storageBase)[1]
+      );
+
+    const { error: storageError } =
+      await supabaseClient
+        .storage
+        .from("yb365")
+        .remove([filePath]);
+
+    if(storageError){
+
+      console.error(
+        "로고 Storage 삭제 오류:",
+        storageError
+      );
+
+      alert(
+        "로고 파일 삭제 실패:\n" +
+        storageError.message
+      );
+
+      return;
+    }
+  }
+
+
+  /* =========================
+     site_settings에서도 삭제
+  ========================= */
+
+  const { error: dbError } =
+    await supabaseClient
+      .from("site_settings")
+      .update({
+        search_logo: ""
+      })
+      .eq("id", 1);
+
+  if(dbError){
+
+    console.error(
+      "로고 설정 삭제 오류:",
+      dbError
+    );
+
+    alert(
+      "로고 설정 삭제 실패:\n" +
+      dbError.message
+    );
+
+    return;
+  }
+
+
+  /* =========================
+     화면에서도 삭제
+  ========================= */
+
+  if(logoInput){
+    logoInput.value = "";
+  }
+
+  if(logoPreview){
+    logoPreview.src = "";
+  }
+
+
+  const logoFile =
+    document.querySelector(
+      'input[type="file"][onchange="uploadSearchLogo(this)"]'
+    );
+
+  if(logoFile){
+    logoFile.value = "";
+  }
+
+
+  alert("사이트 로고 삭제 완료 ✅");
 }
 
 async function uploadSearchLogo(input){

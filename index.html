@@ -5536,7 +5536,7 @@ align-items:center;
             <input
               id="orderProductSize"
               type="text"
-              placeholder="예: 270">
+              placeholder="예: S,M,L">
 
           </div>
 
@@ -5649,18 +5649,40 @@ align-items:center;
 </div>
 
 
-        <div class="order-field">
+        <div class="order-two-column">
 
-          <label>
-            우편번호
-          </label>
+  <div class="order-field">
 
-          <input
-            id="orderZipcode"
-            type="text"
-            placeholder="우편번호">
+    <label>
+      우편번호
+    </label>
 
-        </div>
+    <input
+      id="orderZipcode"
+      type="text"
+      placeholder="우편번호">
+
+  </div>
+
+
+  <div class="order-field">
+
+    <label>
+      주문조회 비밀번호 <span>*</span>
+    </label>
+
+    <input
+      id="orderPassword"
+      type="password"
+      name="order-password-new"
+      autocomplete="new-password"
+      value=""
+      placeholder="주문 조회 시 사용할 비밀번호를 입력하세요"
+      required>
+
+  </div>
+
+</div>
 
 
         <div class="order-field">
@@ -5689,23 +5711,6 @@ align-items:center;
             placeholder="상세주소">
 
         </div>
-
-<div class="order-field">
-
-  <label>
-    주문조회 비밀번호 <span>*</span>
-  </label>
-
-  <input
-    id="orderPassword"
-    type="password"
-    name="order-password-new"
-    autocomplete="new-password"
-    value=""
-    placeholder="주문 조회 시 사용할 비밀번호를 입력하세요"
-    required>
-
-</div>
 
       </div>
 

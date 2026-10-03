@@ -2340,6 +2340,14 @@ button:hover{
   white-space:nowrap;
 }
 
+.product-price{
+  margin-top:6px;
+  font-size:14px;
+  font-weight:700;
+  color:#333;
+  text-align:left;
+}
+
 .copy-product-link-btn:hover{
   background:#f5f5f5 !important;
   color:#111 !important;
@@ -2359,6 +2367,15 @@ button:hover{
   .copy-product-link-btn{
     padding:4px 6px;
     font-size:10px;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .product-price{
+    margin-top:5px;
+    font-size:13px;
   }
 
 }
@@ -3608,13 +3625,10 @@ async function openRecommendedSite(element){
   );
 
   const link = ad.link_url
-    ? `<a href="${ad.link_url}" target="_blank">
-         <img src="${ad.image_url}">
-       </a>`
-    : ad.video_url
-    ? `<img src="${ad.image_url}"
-       onclick="openPayModal('${ad.video_url}')">`
-    : `<img src="${ad.image_url}"
+  ? `<a href="${ad.link_url}" target="_blank">
+       <img src="${ad.image_url}">
+     </a>`
+  : `<img src="${ad.image_url}"
       onclick="openImageModal('${ad.detail_url ? ad.detail_url : ad.image_url}')">`;
 
   wrap.innerHTML=`
@@ -3642,6 +3656,16 @@ async function openRecommendedSite(element){
     }
 
   </div>
+
+  ${
+    ad.product_price
+    ? `
+      <div class="product-price">
+        ${escapeHTML(ad.product_price)}
+      </div>
+    `
+    : ""
+  }
 `;
 
   currentPage.appendChild(wrap);

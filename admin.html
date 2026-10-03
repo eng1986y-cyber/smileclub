@@ -2020,7 +2020,10 @@ function addSquareAd(
 
       <input value="${link}" placeholder="클릭 링크">
 
-      <input value="${price}" placeholder="상품가격">
+      <input
+  value="${price}"
+  placeholder="상품가격"
+  inputmode="decimal">
 
       <input value="${detail}" placeholder="상품상세 이미지 링크">
   `);
@@ -2129,7 +2132,10 @@ if(ad.type==="square"){
 
     <input value="${ad.link_url || ""}" placeholder="클릭 링크">
 
-    <input value="${ad.product_price || ""}" placeholder="상품가격">
+    <input
+  value="${ad.product_price || ""}"
+  placeholder="상품가격"
+  inputmode="decimal">
 
     <input value="${ad.detail_url || ""}" placeholder="상품상세 이미지 링크">
   `);

@@ -3658,14 +3658,20 @@ async function openRecommendedSite(element){
   </div>
 
   ${
-    ad.product_price
-    ? `
-      <div class="product-price">
-        ${escapeHTML(ad.product_price)}
-      </div>
-    `
-    : ""
-  }
+  ad.product_price
+  ? `
+    <div class="product-price">
+      ₩${Number(ad.product_price).toLocaleString("ko-KR", {
+        minimumFractionDigits:
+          String(ad.product_price).includes(".")
+            ? String(ad.product_price).split(".")[1].length
+            : 0,
+        maximumFractionDigits: 20
+      })}
+    </div>
+  `
+  : ""
+}
 `;
 
   currentPage.appendChild(wrap);

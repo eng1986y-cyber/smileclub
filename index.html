@@ -2442,6 +2442,14 @@ button:hover{
 
 }
 
+/* 구매대행 추천 태그 검색 결과 */
+
+.purchase-tag.highlight{
+  background:#E2C65C !important;
+  color:#fff !important;
+  border-color:#C9A227 !important;
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -4135,6 +4143,33 @@ function search(){
     }
   });
 
+/* ===== 구매대행 추천 태그 검색 ===== */
+
+const purchaseTags =
+  document.querySelectorAll(".purchase-tag");
+
+purchaseTags.forEach(tag => {
+
+  tag.classList.remove("highlight");
+
+  const text =
+    tag.innerText.toLowerCase();
+
+  if(text.includes(keyword)){
+
+    tag.classList.add("highlight");
+
+    found = true;
+
+    tag.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+  }
+
+});
+
   /* ===== 게시판 검색 ===== */
   const boards=document.querySelectorAll(".board-card");
 
@@ -5359,7 +5394,7 @@ align-items:center;
 
       <h2>
         <i class="fas fa-cart-shopping"></i>
-        해외상품 구매대행 주문
+        해외상품 구매대행 주문서작성
       </h2>
 
       <button

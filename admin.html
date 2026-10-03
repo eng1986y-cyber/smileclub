@@ -2034,15 +2034,6 @@ function addSquareAd(
 
 }
 
-  const oldCards =
-    [...squareAdmin.querySelectorAll(".card")];
-
-  const allCards = [card, ...oldCards];
-
-  rebuildSquarePages(allCards);
-
-}
-
 function rebuildSquarePages(cards = null){
 
   if(!cards){

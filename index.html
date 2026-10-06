@@ -5509,6 +5509,50 @@ align-items:center;
 
 </div>
 
+/* =========================================
+   연락처 자동 하이픈 입력
+========================================= */
+
+function formatPhoneNumber(value) {
+
+  // 숫자만 남기기
+  const numbers = value.replace(/\D/g, "");
+
+  // 010-1234-5678
+  if (numbers.length <= 3) {
+    return numbers;
+  }
+
+  if (numbers.length <= 7) {
+    return numbers.slice(0, 3) + "-" +
+           numbers.slice(3);
+  }
+
+  return numbers.slice(0, 3) + "-" +
+         numbers.slice(3, 7) + "-" +
+         numbers.slice(7, 11);
+}
+
+
+/* 주문자 연락처 */
+document
+  .getElementById("orderCustomerPhone")
+  ?.addEventListener("input", function () {
+
+    this.value = formatPhoneNumber(this.value);
+
+  });
+
+
+/* 받는 사람 연락처 */
+document
+  .getElementById("orderReceiverPhone")
+  ?.addEventListener("input", function () {
+
+    this.value = formatPhoneNumber(this.value);
+
+  });
+
 </script>
 
 <!-- ========================================

@@ -6026,57 +6026,5 @@ align-items:center;
 
 </div>
 
-<!-- =========================================
-     주문서 연락처 자동 하이픈 입력
-========================================= -->
-<script>
-function formatPhoneNumber(value) {
-
-  // 숫자만 남김
-  let numbers = value.replace(/\D/g, "");
-
-  // 최대 11자리
-  numbers = numbers.slice(0, 11);
-
-  // 010
-  if (numbers.length <= 3) {
-    return numbers;
-  }
-
-  // 010-0000
-  if (numbers.length <= 7) {
-    return numbers.slice(0, 3) + "-" +
-           numbers.slice(3);
-  }
-
-  // 010-0000-0000
-  return numbers.slice(0, 3) + "-" +
-         numbers.slice(3, 7) + "-" +
-         numbers.slice(7, 11);
-}
-
-
-// 주문자 연락처
-const customerPhone =
-  document.getElementById("orderCustomerPhone");
-
-if (customerPhone) {
-  customerPhone.addEventListener("input", function () {
-    this.value = formatPhoneNumber(this.value);
-  });
-}
-
-
-// 받는 사람 연락처
-const receiverPhone =
-  document.getElementById("orderReceiverPhone");
-
-if (receiverPhone) {
-  receiverPhone.addEventListener("input", function () {
-    this.value = formatPhoneNumber(this.value);
-  });
-}
-</script>
-
 </body>
 </html>

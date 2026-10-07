@@ -5820,69 +5820,68 @@ align-items:center;
 
 </div>
 
+<!-- ================= 배송 주소 ================= -->
 
-        <div class="order-two-column">
+<div class="order-field">
 
-  <div class="order-field">
+  <label>
+    배송지 주소 <span>*</span>
+  </label>
 
-    <label>
-      우편번호
-    </label>
+  <div style="
+    display:flex;
+    gap:8px;
+    align-items:center;
+  ">
 
     <input
       id="orderZipcode"
       type="text"
-      placeholder="우편번호">
+      placeholder="우편번호"
+      readonly
+      style="flex:1;">
 
-  </div>
-
-
-  <div class="order-field">
-
-    <label>
-      주문조회 비밀번호 <span>*</span>
-    </label>
-
-    <input
-      id="orderPassword"
-      type="password"
-      name="order-password-new"
-      autocomplete="new-password"
-      value=""
-      placeholder="중요 ! 필수 입력사항입니다."
-      required>
+    <button
+      type="button"
+      onclick="searchReceiverAddress()"
+      style="
+        height:46px;
+        padding:0 16px;
+        border:0;
+        border-radius:8px;
+        background:#87CEEB;
+        color:#fff;
+        font-weight:600;
+        cursor:pointer;
+        white-space:nowrap;
+      ">
+      주소 검색
+    </button>
 
   </div>
 
 </div>
 
 
-        <div class="order-field">
+<div class="order-field">
 
-          <label>
-            주소 <span>*</span>
-          </label>
+  <input
+    id="orderAddress"
+    type="text"
+    placeholder="주소 검색 버튼을 눌러주세요"
+    readonly>
 
-          <input
-            id="orderAddress"
-            type="text"
-            placeholder="주소">
-
-        </div>
+</div>
 
 
-        <div class="order-field">
+<div class="order-field">
 
-          <label>
-            상세주소
-          </label>
+  <input
+    id="orderAddressDetail"
+    type="text"
+    placeholder="상세주소 (동/층/호수 등)">
 
-          <input
-            id="orderAddressDetail"
-            type="text"
-            placeholder="상세주소">
-
-        </div>
+</div>
 
       </div>
 
@@ -6076,6 +6075,60 @@ if (receiverPhone) {
     this.value = formatPhoneNumber(this.value);
   });
 }
+</script>
+
+<!-- =========================================
+     카카오 우편번호 주소 검색
+     API KEY 필요 없음
+========================================= -->
+
+<script src="//t1.kakaocdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<script>
+
+function searchReceiverAddress() {
+
+  new kakao.Postcode({
+
+    oncomplete: function(data) {
+
+      // 사용자가 선택한 주소
+      let address = "";
+
+      if(data.userSelectedType === "R") {
+
+        // 도로명 주소
+        address = data.roadAddress;
+
+      } else {
+
+        // 지번 주소
+        address = data.jibunAddress;
+
+      }
+
+
+      // 우편번호 자동 입력
+      document.getElementById("orderZipcode").value =
+        data.zonecode;
+
+
+      // 주소 자동 입력
+      document.getElementById("orderAddress").value =
+        address;
+
+
+      // 상세주소로 이동
+      document
+        .getElementById("orderAddressDetail")
+        .focus();
+
+    }
+
+  }).open();
+
+}
+
 </script>
 
 </body>

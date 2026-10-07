@@ -6075,6 +6075,17 @@ if (receiverPhone) {
     this.value = formatPhoneNumber(this.value);
   });
 }
+
+// 게시판 글쓰기 연락처
+const postPhone =
+  document.getElementById("userPostPhone");
+
+if (postPhone) {
+  postPhone.addEventListener("input", function () {
+    this.value = formatPhoneNumber(this.value);
+  });
+}
+
 </script>
 
 <!-- =========================================

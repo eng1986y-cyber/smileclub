@@ -2478,6 +2478,44 @@ button:hover{
   border-color:#C9A227 !important;
 }
 
+/* ========================================
+   게시판 글쓰기 작성자 정보
+   PC : 2칸
+   모바일 : 1칸
+======================================== */
+
+.write-info-row{
+  display:flex;
+  gap:12px;
+  width:100%;
+}
+
+.write-info-field{
+  flex:1;
+  min-width:0;
+}
+
+
+/* 기존 input 스타일과 간격 충돌 방지 */
+.write-info-field input{
+  width:100%;
+}
+
+
+/* 모바일에서는 한 칸씩 */
+@media(max-width:768px){
+
+  .write-info-row{
+    flex-direction:column;
+    gap:0;
+  }
+
+  .write-info-field{
+    width:100%;
+  }
+
+}
+
 </style>
 <link rel="canonical" href="https://yb365.info/smileclub/">
 
@@ -2669,33 +2707,66 @@ button:hover{
         <option value="불편신고">불편신고</option>
       </select>
 
-<label>작성자 이름</label>
-<input
-  id="userPostAuthorName"
-  type="text"
-  maxlength="30"
-  placeholder="이름을 입력하세요">
+<!-- PC에서는 2칸씩 / 모바일에서는 1칸씩 -->
 
-<label>별명</label>
-<input
-  id="userPostNickname"
-  type="text"
-  maxlength="30"
-  placeholder="별명을 입력하세요">
+<div class="write-info-row">
 
-<label>회사명</label>
-<input
-  id="userPostCompany"
-  type="text"
-  maxlength="50"
-  placeholder="회사명을 입력하세요">
+  <div class="write-info-field">
 
-<label>연락처</label>
-<input
-  id="userPostPhone"
-  type="tel"
-  maxlength="20"
-  placeholder="010-0000-0000">
+    <label>작성자 이름</label>
+
+    <input
+      id="userPostAuthorName"
+      type="text"
+      maxlength="30"
+      placeholder="이름을 입력하세요">
+
+  </div>
+
+
+  <div class="write-info-field">
+
+    <label>별명</label>
+
+    <input
+      id="userPostNickname"
+      type="text"
+      maxlength="30"
+      placeholder="별명을 입력하세요">
+
+  </div>
+
+</div>
+
+
+<div class="write-info-row">
+
+  <div class="write-info-field">
+
+    <label>회사명</label>
+
+    <input
+      id="userPostCompany"
+      type="text"
+      maxlength="50"
+      placeholder="회사명을 입력하세요">
+
+  </div>
+
+
+  <div class="write-info-field">
+
+    <label>연락처</label>
+
+    <input
+      id="userPostPhone"
+      type="tel"
+      maxlength="20"
+      placeholder="010-0000-0000">
+
+  </div>
+
+</div>
 
       <label>제목</label>
       <input id="userPostTitle" placeholder="제목을 입력하세요">

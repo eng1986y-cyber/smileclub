@@ -6160,56 +6160,228 @@ if (postPhone) {
 </script>
 
 <!-- =========================================
-     카카오 우편번호 주소 검색
-     API KEY 필요 없음
+     YB365 도로명주소 팝업 API
 ========================================= -->
-
-<script src="//t1.kakaocdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
 
+/* =========================================
+   도로명주소 검색 버튼
+========================================= */
+
 function searchReceiverAddress() {
 
-  new kakao.Postcode({
+  /*
+    주소검색 팝업 열기
+  */
 
-    oncomplete: function(data) {
+  const width = 570;
+  const height = 650;
 
-      // 사용자가 선택한 주소
-      let address = "";
+  const left =
+    (window.screen.width - width) / 2;
 
-      if(data.userSelectedType === "R") {
-
-        // 도로명 주소
-        address = data.roadAddress;
-
-      } else {
-
-        // 지번 주소
-        address = data.jibunAddress;
-
-      }
+  const top =
+    (window.screen.height - height) / 2;
 
 
-      // 우편번호 자동 입력
-      document.getElementById("orderZipcode").value =
-        data.zonecode;
+  const popup =
+    window.open(
+      "/smileclub/jusoPopup",
+      "jusoPopup",
+      "width=" + width +
+      ",height=" + height +
+      ",left=" + left +
+      ",top=" + top +
+      ",scrollbars=yes,resizable=yes"
+    );
 
 
-      // 주소 자동 입력
-      document.getElementById("orderAddress").value =
-        address;
+  /*
+    팝업 차단 확인
+  */
+
+  if(!popup) {
+
+    alert(
+      "주소검색 팝업이 차단되었습니다.\n\n" +
+      "브라우저의 팝업 차단을 해제해주세요."
+    );
+
+    return;
+
+  }
+
+}
 
 
-      // 상세주소로 이동
-      document
-        .getElementById("orderAddressDetail")
-        .focus();
+/* =========================================
+   도로명주소 검색 결과 받기
+========================================= */
+
+function jusoCallBack(
+  roadFullAddr,
+  zipNo
+) {
+
+  /*
+    우편번호
+  */
+
+  const zipcode =
+    document.getElementById(
+      "orderZipcode"
+    );
+
+
+  /*
+    주소
+  */
+
+  const address =
+    document.getElementById(
+      "orderAddress"
+    );
+
+
+  /*
+    상세주소
+  */
+
+  const addressDetail =
+    document.getElementById(
+      "orderAddressDetail"
+    );
+
+
+  /*
+    우편번호 입력
+  */
+
+  if(zipcode) {
+
+    zipcode.value =
+      zipNo || "";
+
+  }
+
+
+  /*
+    주소 입력
+  */
+
+  if(address) {
+
+    address.value =
+      roadFullAddr || "";
+
+  }
+
+
+  /*
+    상세주소 입력칸으로 이동
+  */
+
+  if(addressDetail) {
+
+    addressDetail.focus();
+
+  }
+
+}
+
+
+/* =========================================
+   postMessage 보조 처리
+========================================= */
+
+window.addEventListener(
+  "message",
+  function(event) {
+
+    /*
+      같은 사이트에서 온 메시지만 처리
+    */
+
+    if(
+      event.origin !==
+      window.location.origin
+    ) {
+
+      return;
 
     }
 
-  }).open();
 
-}
+    const data =
+      event.data;
+
+
+    if(
+      !data ||
+      data.type !==
+      "YB365_JUSO_RESULT"
+    ) {
+
+      return;
+
+    }
+
+
+    /*
+      우편번호
+    */
+
+    const zipcode =
+      document.getElementById(
+        "orderZipcode"
+      );
+
+
+    /*
+      주소
+    */
+
+    const address =
+      document.getElementById(
+        "orderAddress"
+      );
+
+
+    /*
+      상세주소
+    */
+
+    const addressDetail =
+      document.getElementById(
+        "orderAddressDetail"
+      );
+
+
+    if(zipcode) {
+
+      zipcode.value =
+        data.zipNo || "";
+
+    }
+
+
+    if(address) {
+
+      address.value =
+        data.roadFullAddr || "";
+
+    }
+
+
+    if(addressDetail) {
+
+      addressDetail.focus();
+
+    }
+
+  }
+);
 
 </script>
 

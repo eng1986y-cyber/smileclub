@@ -1450,6 +1450,34 @@ textarea{
 
 }
 
+
+
+/* 1688 / VVIC 상품 URL 가져오기 */
+.product-import-panel{
+  border:1px solid #d9e4ec;
+  border-radius:12px;
+  padding:16px;
+  margin:0 0 18px;
+  background:#f7fbff;
+}
+.product-import-panel h3{margin:0 0 8px;font-size:18px;}
+.product-import-panel p{margin:0 0 12px;color:#536575;font-size:13px;line-height:1.6;}
+.product-import-row{display:flex;gap:8px;align-items:stretch;}
+.product-import-row input{flex:1;min-width:0;margin:0;}
+.product-import-row button,.product-import-actions button{
+  border:0;border-radius:7px;padding:10px 14px;cursor:pointer;font-weight:700;white-space:nowrap;
+}
+.product-import-fetch{background:#1677c8;color:#fff;}
+.product-import-add{background:#17834a;color:#fff;}
+.product-import-cancel{background:#e8edf2;color:#263746;}
+#productImportStatus{margin-top:10px;font-size:13px;line-height:1.5;white-space:pre-wrap;}
+#productImportPreview{display:none;margin-top:14px;padding:12px;border:1px solid #dce5ec;border-radius:9px;background:#fff;}
+.product-import-preview-grid{display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;align-items:start;}
+#productImportImage{width:100px;height:100px;object-fit:contain;background:#f4f6f8;border-radius:6px;}
+#productImportPreview input{width:100%;box-sizing:border-box;margin:0 0 8px;}
+.product-import-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+@media(max-width:700px){.product-import-row{flex-direction:column}.product-import-row button{width:100%}.product-import-preview-grid{grid-template-columns:76px minmax(0,1fr)}#productImportImage{width:76px;height:76px}}
+
 </style>
 
 </head>
@@ -1743,6 +1771,35 @@ style="height:123px; resize:none;"></textarea>
 <!-- ================== 정방형 광고 ================== -->
 
 <div class="section">
+
+<div class="product-import-panel">
+  <h3>1688 / VVIC 상품 URL 가져오기</h3>
+  <p>1688 또는 VVIC 상품 상세페이지 주소를 붙여넣고 정보를 가져오세요. 사이트 접근 제한에 따라 일부 정보는 자동으로 불러오지 못할 수 있으며, 가져온 정보는 등록 전에 수정할 수 있습니다.</p>
+  <div class="product-import-row">
+    <input id="productImportUrl" type="url" placeholder="1688 또는 VVIC 상품 상세페이지 URL">
+    <button type="button" class="product-import-fetch" id="productImportFetchBtn" onclick="fetchProductFromUrl()">상품정보 가져오기</button>
+  </div>
+  <div id="productImportStatus" role="status" aria-live="polite"></div>
+  <div id="productImportPreview">
+    <div class="product-import-preview-grid">
+      <img id="productImportImage" alt="상품 이미지 미리보기" src="" onerror="this.style.visibility='hidden'">
+      <div>
+        <label for="productImportTitle">상품명</label>
+        <input id="productImportTitle" type="text" placeholder="상품명">
+        <label for="productImportImageUrl">상품 이미지 URL</label>
+        <input id="productImportImageUrl" type="url" placeholder="이미지 URL">
+        <label for="productImportPrice">상품가격</label>
+        <input id="productImportPrice" type="text" inputmode="decimal" placeholder="상품가격 (선택)">
+        <label for="productImportDetailUrl">상품상세 이미지 링크 (선택)</label>
+        <input id="productImportDetailUrl" type="url" placeholder="상품 상세페이지 URL">
+      </div>
+    </div>
+    <div class="product-import-actions">
+      <button type="button" class="product-import-add" onclick="addImportedProductCard()">상품 카드에 추가</button>
+      <button type="button" class="product-import-cancel" onclick="clearProductImport()">초기화</button>
+    </div>
+  </div>
+</div>
 
 <div class="ad-header">
 <div class="ad-title">추천상품 관리 ( 400x400px )</div>
@@ -2074,6 +2131,120 @@ function addTextAd(
 
 }
 
+/* =====================================================
+   1688 / VVIC 상품 URL 가져오기
+   Supabase Edge Function: import-product-from-url 필요
+===================================================== */
+
+async function fetchProductFromUrl(){
+  const urlInput = document.getElementById("productImportUrl");
+  const status = document.getElementById("productImportStatus");
+  const fetchButton = document.getElementById("productImportFetchBtn");
+  const url = (urlInput?.value || "").trim();
+
+  if(!url){
+    status.textContent = "먼저 1688 또는 VVIC 상품 URL을 입력하세요.";
+    return;
+  }
+
+  let parsed;
+  try{ parsed = new URL(url); }
+  catch(e){ status.textContent = "올바른 상품 URL을 입력하세요."; return; }
+
+  const host = parsed.hostname.toLowerCase();
+  if(!(host === "1688.com" || host.endsWith(".1688.com") || host === "vvic.com" || host.endsWith(".vvic.com"))){
+    status.textContent = "1688.com 또는 vvic.com 상품 상세페이지 주소만 입력할 수 있습니다.";
+    return;
+  }
+
+  if(typeof supabaseClient === "undefined" || !supabaseClient.functions){
+    status.textContent = "Supabase 연결을 확인할 수 없습니다. 관리자페이지의 supabase.js 설정을 확인하세요.";
+    return;
+  }
+
+  fetchButton.disabled = true;
+  fetchButton.textContent = "가져오는 중...";
+  status.textContent = "상품 페이지에서 정보를 가져오고 있습니다. 잠시 기다려 주세요.";
+
+  try{
+    const {data, error} = await supabaseClient.functions.invoke(
+      "import-product-from-url",
+      {body:{url}}
+    );
+
+    if(error) throw error;
+    if(!data || !data.success){
+      throw new Error(data?.message || "상품 정보를 가져오지 못했습니다.");
+    }
+
+    document.getElementById("productImportTitle").value = data.title || "";
+    document.getElementById("productImportImageUrl").value = data.image_url || "";
+    document.getElementById("productImportPrice").value = data.price || "";
+    document.getElementById("productImportDetailUrl").value = url;
+
+    const preview = document.getElementById("productImportPreview");
+    const image = document.getElementById("productImportImage");
+    image.style.visibility = data.image_url ? "visible" : "hidden";
+    image.src = data.image_url || "";
+    preview.style.display = "block";
+
+    const missing = [];
+    if(!data.title) missing.push("상품명");
+    if(!data.image_url) missing.push("상품 이미지");
+    status.textContent = missing.length
+      ? "일부 정보만 가져왔습니다. " + missing.join(", ") + "는 직접 입력해 주세요."
+      : "상품 정보를 가져왔습니다. 내용을 확인하고 필요하면 수정한 뒤 상품 카드에 추가하세요.";
+  }catch(error){
+    console.error("1688/VVIC 상품 가져오기 오류:", error);
+    status.textContent = "자동으로 가져오지 못했습니다. 해당 사이트가 외부 접근을 차단했거나 로그인이 필요할 수 있습니다.\n" + (error?.message || "알 수 없는 오류") + "\n상품 URL을 확인하고 다시 시도해 주세요.";
+  }finally{
+    fetchButton.disabled = false;
+    fetchButton.textContent = "상품정보 가져오기";
+  }
+}
+
+function addImportedProductCard(){
+  const title = document.getElementById("productImportTitle").value.trim();
+  const image = document.getElementById("productImportImageUrl").value.trim();
+  const price = document.getElementById("productImportPrice").value.trim();
+  const url = document.getElementById("productImportDetailUrl").value.trim() || document.getElementById("productImportUrl").value.trim();
+
+  if(!title){
+    alert("상품명을 입력하세요.");
+    return;
+  }
+  if(!image){
+    alert("상품 이미지 URL을 입력해야 상품 카드로 추가할 수 있습니다.");
+    return;
+  }
+
+  addSquareAd(title, image, url, price, url);
+  document.getElementById("productImportStatus").textContent = "상품 카드에 추가했습니다. 아래 상품 목록을 확인한 뒤 기존 ‘저장하기’ 버튼을 눌러 저장하세요.";
+  document.getElementById("productImportPreview").style.display = "none";
+  document.getElementById("productImportUrl").value = "";
+}
+
+function clearProductImport(){
+  document.getElementById("productImportUrl").value = "";
+  document.getElementById("productImportTitle").value = "";
+  document.getElementById("productImportImageUrl").value = "";
+  document.getElementById("productImportPrice").value = "";
+  document.getElementById("productImportDetailUrl").value = "";
+  document.getElementById("productImportImage").removeAttribute("src");
+  document.getElementById("productImportImage").style.visibility = "hidden";
+  document.getElementById("productImportPreview").style.display = "none";
+  document.getElementById("productImportStatus").textContent = "";
+}
+
+function escapeInputValue(value){
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 function addSquareAd(
   main="",
   img="",
@@ -2086,11 +2257,11 @@ function addSquareAd(
   const card = createCard(`
 
       <input
-        value="${main}"
+        value="${escapeInputValue(main)}"
         placeholder="메인 명칭">
 
       <input
-        value="${img}"
+        value="${escapeInputValue(img)}"
         placeholder="이미지 URL">
 
       <input
@@ -2099,16 +2270,16 @@ function addSquareAd(
         onchange="uploadImage(this)">
 
       <input
-        value="${link}"
+        value="${escapeInputValue(link)}"
         placeholder="클릭 링크">
 
       <input
-        value="${price}"
+        value="${escapeInputValue(price)}"
         placeholder="상품가격"
         inputmode="decimal">
 
       <input
-        value="${detail}"
+        value="${escapeInputValue(detail)}"
         placeholder="상품상세 이미지 링크">
 
     `, id);
@@ -2231,21 +2402,21 @@ ads.forEach(ad=>{
 if(ad.type==="square"){
 
 const card = createCard(`
-    <input value="${ad.main_title || ""}" placeholder="메인 명칭">
+    <input value="${escapeInputValue(ad.main_title || "")}" placeholder="메인 명칭">
 
-    <input value="${ad.image_url || ""}" placeholder="이미지 URL">
+    <input value="${escapeInputValue(ad.image_url || "")}" placeholder="이미지 URL">
 
     <input type="file" accept="image/*"
       onchange="uploadImage(this)">
 
-    <input value="${ad.link_url || ""}" placeholder="클릭 링크">
+    <input value="${escapeInputValue(ad.link_url || "")}" placeholder="클릭 링크">
 
     <input
-      value="${ad.product_price || ""}"
+      value="${escapeInputValue(ad.product_price || "")}"
       placeholder="상품가격"
       inputmode="decimal">
 
-    <input value="${ad.detail_url || ""}" placeholder="상품상세 이미지 링크">
+    <input value="${escapeInputValue(ad.detail_url || "")}" placeholder="상품상세 이미지 링크">
   `, ad.id);
 
   squareCards.push(card);

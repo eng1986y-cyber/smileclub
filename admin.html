@@ -2137,80 +2137,52 @@ function addTextAd(
 ===================================================== */
 
 async function fetchProductFromUrl(){
-  const urlInput = document.getElementById("productImportUrl");
-  const status = document.getElementById("productImportStatus");
-  const fetchButton = document.getElementById("productImportFetchBtn");
-  const url = (urlInput?.value || "").trim();
-
-  if(!url){
-    status.textContent = "먼저 1688 또는 VVIC 상품 URL을 입력하세요.";
-    urlInput?.focus();
-    return;
-  }
-
-  let parsed;
-  try{ parsed = new URL(url); }
-  catch(e){ status.textContent = "올바른 상품 URL을 입력하세요."; return; }
-
-  const host = parsed.hostname.toLowerCase().replace(/^www\./, "");
-  const is1688 = host === "1688.com" || host.endsWith(".1688.com");
-  const isVvic = host === "vvic.com" || host.endsWith(".vvic.com");
-  if(!is1688 && !isVvic){
-    status.textContent = "1688.com 또는 vvic.com 상품 상세페이지 주소만 입력할 수 있습니다.";
-    return;
-  }
-
-  if(typeof supabaseClient === "undefined" || !supabaseClient.functions){
-    status.textContent = "Supabase 연결을 확인할 수 없습니다. 관리자페이지의 Supabase 설정을 확인하세요.";
-    return;
-  }
-
-  fetchButton.disabled = true;
-  fetchButton.textContent = "가져오는 중...";
-  status.textContent = "상품명, 메인 이미지, 가격 정보를 가져오고 있습니다. 잠시 기다려 주세요.";
-
+  const urlInput=document.getElementById("productImportUrl");
+  const status=document.getElementById("productImportStatus");
+  const fetchButton=document.getElementById("productImportFetchBtn");
+  const url=(urlInput?.value||"").trim();
+  if(!url){status.textContent="먼저 1688 또는 VVIC 상품 URL을 입력하세요.";urlInput?.focus();return;}
+  let parsed;try{parsed=new URL(url);}catch{status.textContent="올바른 상품 URL을 입력하세요.";return;}
+  const host=parsed.hostname.toLowerCase().replace(/^www\./,"");
+  const is1688=host==="1688.com"||host.endsWith(".1688.com");
+  const isVvic=host==="vvic.com"||host.endsWith(".vvic.com");
+  if(!is1688&&!isVvic){status.textContent="1688.com 또는 vvic.com 상품 상세페이지 주소만 입력할 수 있습니다.";return;}
+  if(typeof supabaseClient==="undefined"||!supabaseClient.functions){status.textContent="Supabase 연결을 확인할 수 없습니다.";return;}
+  fetchButton.disabled=true;fetchButton.textContent="수집 중...";
+  status.textContent="상품명, 대표 이미지, 가격 및 추가 상품정보를 수집하고 있습니다.";
   try{
-    const {data: response, error} = await supabaseClient.functions.invoke(
-      "import-product-from-url",
-      {body:{url}}
-    );
-    if(error) throw error;
-    if(!response || response.success === false){
-      throw new Error(response?.message || "상품 정보를 가져오지 못했습니다.");
-    }
-
-    // Edge Function 버전별 응답 키 차이를 허용
-    const data = response.product || response.data || response;
-    const title = data.title || data.product_name || data.name || "";
-    const imageUrl = data.image_url || data.main_image_url || data.main_image || data.image || "";
-    const price = data.price ?? data.product_price ?? data.sale_price ?? "";
-    const detailUrl = data.detail_url || data.product_url || data.url || url;
-
-    document.getElementById("productImportTitle").value = title;
-    document.getElementById("productImportImageUrl").value = imageUrl;
-    document.getElementById("productImportPrice").value = price;
-    document.getElementById("productImportDetailUrl").value = detailUrl;
-
-    const preview = document.getElementById("productImportPreview");
-    const image = document.getElementById("productImportImage");
-    image.style.visibility = imageUrl ? "visible" : "hidden";
-    image.src = imageUrl || "";
-    preview.style.display = "block";
-
-    const missing = [];
-    if(!title) missing.push("상품명");
-    if(!imageUrl) missing.push("상품 메인이미지");
-    if(price === "" || price === null) missing.push("상품가격");
-    status.textContent = missing.length
-      ? "일부 정보만 가져왔습니다. " + missing.join(", ") + " 항목은 직접 입력하거나 수정해 주세요. 상품 상세페이지 URL은 입력한 원본 주소로 저장됩니다."
-      : "상품명, 메인 이미지, 가격, 상세페이지 URL을 가져왔습니다. 내용을 확인한 뒤 상품 카드에 추가하세요.";
+    const {data:response,error}=await supabaseClient.functions.invoke("import-product-from-url",{body:{url}});
+    if(error)throw error;
+    if(!response||response.success===false)throw new Error(response?.message||"상품 정보를 가져오지 못했습니다.");
+    const data=response.product||response.data||response;
+    const title=data.title||data.product_name||data.name||"";
+    const images=Array.isArray(data.image_urls)?data.image_urls:[];
+    const imageUrl=data.image_url||data.index_img_url||data.main_image_url||data.main_image||data.image||images[0]||"";
+    const price=data.price??data.product_price??data.sale_price??"";
+    const detailUrl=data.detail_url||data.product_url||data.source_url||url;
+    document.getElementById("productImportTitle").value=title;
+    document.getElementById("productImportImageUrl").value=imageUrl;
+    document.getElementById("productImportPrice").value=price;
+    document.getElementById("productImportDetailUrl").value=detailUrl;
+    const preview=document.getElementById("productImportPreview");
+    const image=document.getElementById("productImportImage");
+    image.style.visibility=imageUrl?"visible":"hidden";image.src=imageUrl||"";preview.style.display="block";
+    const extra=[];
+    if(data.product_id)extra.push("상품 ID: "+data.product_id);
+    if(data.article_number)extra.push("상품번호: "+data.article_number);
+    if(data.color)extra.push("색상: "+data.color);
+    if(data.size)extra.push("사이즈: "+data.size);
+    if(data.delivery_time)extra.push("배송: "+data.delivery_time);
+    if(data.minimum_order)extra.push("최소주문: "+data.minimum_order);
+    if(Array.isArray(data.image_urls)&&data.image_urls.length)extra.push("이미지 "+data.image_urls.length+"장 확인");
+    if(Array.isArray(data.description_images)&&data.description_images.length)extra.push("상세 이미지 "+data.description_images.length+"장 확인");
+    const missing=[];if(!title)missing.push("상품명");if(!imageUrl)missing.push("대표 이미지");if(price===""||price===null)missing.push("가격");
+    status.textContent=(missing.length?"일부 정보만 수집했습니다. 미확인 항목: "+missing.join(", "):"상품정보 수집 완료!")+
+      (extra.length?"\n"+extra.join(" / "):"")+"\n등록 전에 내용을 확인한 뒤 [상품 카드에 추가]를 눌러주세요.";
   }catch(error){
-    console.error("1688/VVIC 상품 가져오기 오류:", error);
-    status.textContent = "상품 정보를 자동으로 가져오지 못했습니다. 사이트 로그인, 접근 제한 또는 Edge Function 설정을 확인해 주세요.\n" + (error?.message || "알 수 없는 오류");
-  }finally{
-    fetchButton.disabled = false;
-    fetchButton.textContent = "상품정보 가져오기";
-  }
+    console.error("1688/VVIC 상품 가져오기 오류:",error);
+    status.textContent="상품정보 수집 실패: "+(error?.message||"알 수 없는 오류");
+  }finally{fetchButton.disabled=false;fetchButton.textContent="상품정보 가져오기";}
 }
 
 function addImportedProductCard(){
